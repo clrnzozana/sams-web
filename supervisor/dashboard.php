@@ -216,13 +216,12 @@ function h(?string $value): string
     <link rel="stylesheet" href="../assets/css/sams-shell.css" />
     <link rel="stylesheet" href="../assets/css/sams-theme-admin.css" />
     <link rel="stylesheet" href="../assets/css/supervisor-notifications.css" />
-    <link rel="stylesheet" href="../assets/css/sams-dark-mode.css?v=20260926" />
     <link rel="stylesheet" href="../assets/css/notifications-shell.css?v=20260922" />
     <style>
         * { box-sizing: border-box; }
         body { margin: 0; font-family: Inter, Arial, sans-serif; background: #f4f6fa; color: var(--color-heading); }
         .hero {
-            background: linear-gradient(125deg, #0f4cd6 0%, #205ee6 58%, #3c7dff 100%);
+            background: #003087;
             border-radius: 18px;
             padding: 22px;
             color: #fff;
@@ -291,7 +290,7 @@ function h(?string $value): string
         .workload { display: grid; gap: 10px; }
         .bar-row { display: grid; grid-template-columns: 82px 1fr 44px; align-items: center; gap: 8px; }
         .bar-track { height: 10px; border-radius: 999px; background: #e7edf8; overflow: hidden; }
-        .bar-fill { height: 100%; background: linear-gradient(90deg, #155dfc 0%, #4f8dff 100%); }
+        .bar-fill { height: 100%; background: #003087; }
 
         .ann-panel .panel__title-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
         .ann-icon {
@@ -334,7 +333,7 @@ function h(?string $value): string
 <div class="shell">
     <aside class="sidebar">
         <div class="sidebar__brand">
-            <div class="sidebar__logo"><span class="sidebar__logo-text">NU</span></div>
+            <div class="sidebar__logo"><img src="../assets/logo.png" alt="" aria-hidden="true"></div>
             <div>
                 <div class="sidebar__brand-name">SA System</div>
                 <div class="sidebar__brand-sub">Supervisor</div>
@@ -594,6 +593,5 @@ function h(?string $value): string
 })();
 </script>
 <script src="../assets/js/admin-notifications.js?v=20260922"></script>
-<script src="../assets/js/sams-theme.js?v=20260926"></script>
 </body>
 </html>

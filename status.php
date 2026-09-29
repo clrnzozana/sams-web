@@ -13,16 +13,16 @@ $course         = (string) ($submission['course'] ?? 'BSIT');
 $year_level     = (string) ($submission['year_level'] ?? '3rd Year');
 $date_submitted = (string) ($submission['date_submitted'] ?? date('F j, Y'));
 $status         = strtoupper((string) ($submission['status'] ?? 'PENDING'));
-$status_title   = '⏳ Application Under Review';
+$status_title   = 'Application Under Review';
 $status_sub     = 'Your application is currently being reviewed by Miss Zai. This typically takes 1-3 business days.';
 $showAvailabilityCta = !empty($submission['success']);
 
 if ($status === 'DRAFT') {
-    $status_title = '📝 Application Saved as Draft';
+    $status_title = 'Application Saved as Draft';
     $status_sub = (string) ($submission['message'] ?? 'Your application has been saved as a draft. Please complete your weekly time availability to submit your application.');
     $showAvailabilityCta = true;
 } elseif (!empty($submission['success'])) {
-    $status_title = '✅ Application Submitted Successfully';
+    $status_title = 'Application Submitted Successfully';
     $status_sub = (string) ($submission['message'] ?? 'Your application has been submitted and is now in the review queue.');
 }
 ?>

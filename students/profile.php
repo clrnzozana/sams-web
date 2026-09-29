@@ -276,23 +276,11 @@ $dashboardTitle = $studentName !== '' ? $studentName . ' | Profile' : 'My Profil
             --clr-alert:            #FB2C36;
             --clr-blue-light:       #DBEAFE;
 
-            /* Gradients */
-            --grad-navy-v:          linear-gradient(180deg,
-                                        #003087 0%,#00328B 10%,#00358E 20%,#003792 30%,
-                                        #003995 40%,#003B99 50%,#003E9C 60%,#0040A0 70%,
-                                        #0042A4 80%,#0045A7 90%,#0047AB 100%);
-            --grad-navy-h:          linear-gradient(90deg,
-                                        #003087 0%,#00328B 10%,#00358E 20%,#003792 30%,
-                                        #003995 40%,#003B99 50%,#003E9C 60%,#0040A0 70%,
-                                        #0042A4 80%,#0045A7 90%,#0047AB 100%);
-            --grad-navy-135:        linear-gradient(135deg,
-                                        #003087 0%,#00328B 10%,#00358E 20%,#003792 30%,
-                                        #003995 40%,#003B99 50%,#003E9C 60%,#0040A0 70%,
-                                        #0042A4 80%,#0045A7 90%,#0047AB 100%);
-            --grad-navy-diag:       linear-gradient(155.57deg,
-                                        #003087 0%,#00328B 10%,#00358E 20%,#003792 30%,
-                                        #003995 40%,#003B99 50%,#003E9C 60%,#0040A0 70%,
-                                        #0042A4 80%,#0045A7 90%,#0047AB 100%);
+            /* Flat palette */
+            --grad-navy-v:          #003087;
+            --grad-navy-h:          #003087;
+            --grad-navy-135:        #003087;
+            --grad-navy-diag:       #003087;
 
             /* Shadows */
             --shadow-sm:    0 1px 3px rgba(0,0,0,.10), 0 1px 2px rgba(0,0,0,.10);
@@ -333,7 +321,7 @@ $dashboardTitle = $studentName !== '' ? $studentName . ' | Profile' : 'My Profil
         html { font-size: 16px; }
         body {
             font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
-            background: linear-gradient(136.4deg, #EFF6FF 0%, #FFFFFF 50%, #FFFBEB 100%);
+            background: #f4f7fb;
             min-height: 100vh;
             display: flex;
         }
@@ -429,12 +417,14 @@ $dashboardTitle = $studentName !== '' ? $studentName . ' | Profile' : 'My Profil
             height: 48px;
             padding-left: var(--sp-16);
             border-radius: var(--radius-md);
-            transition: background 0.15s;
+            transition: background 0.15s ease, transform 0.15s ease;
+            border: 1px solid rgba(255,255,255,0.08);
         }
         .nav__link:hover { background: rgba(255,255,255,.10); }
         .nav__link--active {
-            background: var(--clr-white);
-            box-shadow: var(--shadow-md);
+            background: #003087;
+            box-shadow: none;
+            border-color: rgba(255,255,255,.14);
         }
 
         .nav__icon { width: 20px; height: 20px; flex-shrink: 0; }
@@ -447,7 +437,7 @@ $dashboardTitle = $studentName !== '' ? $studentName . ' | Profile' : 'My Profil
             line-height: 24px;
             white-space: nowrap;
         }
-        .nav__link--active .nav__label { color: var(--clr-navy); }
+        .nav__link--active .nav__label { color: #ffffff; }
 
         .sidebar__footer {
             border-top: 1px solid rgba(255,255,255,.20);
@@ -740,8 +730,8 @@ $dashboardTitle = $studentName !== '' ? $studentName . ' | Profile' : 'My Profil
             align-items: center;
         }
 
-        .avatar-stat--blue { background: linear-gradient(148.09deg, #EFF6FF 0%, #EEF2FF 100%); }
-        .avatar-stat--gold { background: linear-gradient(148.09deg, #FFFBEB 0%, #FFF7ED 100%); }
+        .avatar-stat--blue { background: #EEF5FF; }
+        .avatar-stat--gold { background: #FFF6DD; }
 
         .avatar-stat__value {
             font-size: var(--fs-2xl);
@@ -1142,7 +1132,6 @@ $dashboardTitle = $studentName !== '' ? $studentName . ' | Profile' : 'My Profil
         }
     </style>
 <link rel="stylesheet" href="../assets/css/notifications-shell.css?v=20260922" />
-<link rel="stylesheet" href="../assets/css/sams-dark-mode.css?v=20260926" />
 </head>
 <body>
 
@@ -1150,13 +1139,15 @@ $dashboardTitle = $studentName !== '' ? $studentName . ' | Profile' : 'My Profil
 
 <div class="app">
 
- 
+    <!-- ================================================================
+         SIDEBAR
+    ================================================================ -->
     <aside class="sidebar" id="sidebar" role="navigation" aria-label="Student portal navigation">
 
         <div class="sidebar__header">
             <div class="sidebar__brand">
                 <div class="sidebar__logo" aria-hidden="true">
-                    <span class="sidebar__logo-text">NU</span>
+                    <img src="../assets/logo.png" alt="" aria-hidden="true">
                 </div>
                 <div class="sidebar__brand-info">
                     <span class="sidebar__app-name">SAMS</span>
@@ -1604,7 +1595,6 @@ $dashboardTitle = $studentName !== '' ? $studentName . ' | Profile' : 'My Profil
 })();
 </script>
 <script src="../assets/js/student-notifications.js?v=20260922"></script>
-<script src="../assets/js/sams-theme.js?v=20260926"></script>
 
 </body>
 </html>

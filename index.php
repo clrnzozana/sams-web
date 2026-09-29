@@ -137,17 +137,24 @@
       text-decoration: none;
     }
     .nav__logo {
-      width: 48px;
-      height: 48px;
-      border-radius: var(--radius-md);
-      background: var(--grad-primary-135);
+      width: 32px;
+      height: 32px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: var(--font-2xl);
-      font-weight: 900;
-      color: var(--color-white);
+      overflow: hidden;
       flex-shrink: 0;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+    }
+    .nav__logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      background: transparent;
     }
     .nav__brand-text {}
     .nav__brand-name {
@@ -578,15 +585,22 @@
     .footer__logo {
       width: 48px;
       height: 48px;
-      border-radius: var(--radius-md);
-      background: var(--color-gold);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: var(--font-2xl);
-      font-weight: 900;
-      color: var(--color-primary);
+      overflow: hidden;
       flex-shrink: 0;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+    }
+    .footer__logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      background: transparent;
     }
     .footer__brand-name {
       font-size: var(--font-lg);
@@ -700,7 +714,9 @@
       <nav class="nav__inner" aria-label="Main navigation">
         <!-- Brand -->
         <a class="nav__brand" href="index.php" aria-label="SAMS Home">
-          <div class="nav__logo" aria-hidden="true">NU</div>
+          <div class="nav__logo" aria-hidden="true">
+            <img src="assets/logo.png" alt="SAMS logo" />
+          </div>
           <div class="nav__brand-text">
             <div class="nav__brand-name">SAMS</div>
             <div class="nav__brand-sub">Student Assistant Management System</div>
@@ -964,7 +980,9 @@
         <!-- Brand column -->
         <div>
           <div class="footer__brand">
-            <div class="footer__logo" aria-hidden="true">NU</div>
+            <div class="footer__logo" aria-hidden="true">
+              <img src="assets/logo.png" alt="SAMS logo" />
+            </div>
             <div>
               <div class="footer__brand-name">SAMS</div>
               <div class="footer__brand-sub">Student Assistant Management</div>

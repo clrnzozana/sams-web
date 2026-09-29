@@ -383,17 +383,17 @@ try {
       --color-sidebar-start:   #003087;
       --color-sidebar-end:     #0047ab;
 
-      /* Gradients */
-      --grad-sidebar:          linear-gradient(180deg, #003087 0%, #0047ab 100%);
-      --grad-primary-135:      linear-gradient(135deg, #003087 0%, #0047ab 100%);
-      --grad-gold:             linear-gradient(135deg, #ffb81c 0%, #ffa500 100%);
-      --grad-green:            linear-gradient(135deg, #00c950 0%, #00a63e 100%);
-      --grad-purple:           linear-gradient(135deg, #ad46ff 0%, #9810fa 100%);
-      --grad-page:             linear-gradient(135deg, #eff6ff 0%, #ffffff 50%, #fffbeb 100%);
-      --grad-blue-card:        linear-gradient(141deg, #eff6ff 0%, #dbeafe 100%);
-      --grad-green-card:       linear-gradient(141deg, #f0fdf4 0%, #dcfce7 100%);
-      --grad-purple-card:      linear-gradient(141deg, #faf5ff 0%, #f3e8ff 100%);
-      --grad-tips:             linear-gradient(147deg, #003087 0%, #0047ab 100%);
+      /* Flat palette */
+      --grad-sidebar:          #003087;
+      --grad-primary-135:      #003087;
+      --grad-gold:             #ffb81c;
+      --grad-green:            #10b981;
+      --grad-purple:           #8b5cf6;
+      --grad-page:             #f4f7fb;
+      --grad-blue-card:        #edf4ff;
+      --grad-green-card:       #edfaf3;
+      --grad-purple-card:      #f4f0ff;
+      --grad-tips:             #003087;
 
       /* Shadows */
       --shadow-card:           0 10px 15px 0 rgba(0,0,0,.10), 0 4px 6px 0 rgba(0,0,0,.10);
@@ -512,15 +512,17 @@ try {
       font-weight: 700;
       color: var(--color-white);
       cursor: pointer;
-      transition: background .15s;
+      transition: background .15s ease, transform .15s ease;
+      border: 1px solid rgba(255,255,255,0.08);
     }
     .nav-item:hover { background: rgba(255,255,255,.10); }
     .nav-item--active {
-      background: var(--color-white);
-      color: var(--color-primary);
-      box-shadow: var(--shadow-card);
+      background: #003087;
+      color: #ffffff;
+      box-shadow: none;
+      border-color: rgba(255,255,255,.14);
     }
-    .nav-item--active:hover { background: var(--color-white); }
+    .nav-item--active:hover { background: #003087; }
     .nav-item__icon { width: 20px; height: 20px; flex-shrink: 0; }
 
     /* Sidebar footer */
@@ -988,9 +990,9 @@ try {
       transition: opacity .15s;
     }
     .quick-action:hover { opacity: .88; }
-    .quick-action--green  { background: var(--grad-green-card);  border-color: #b9f8cf; }
-    .quick-action--blue   { background: var(--grad-blue-card);   border-color: var(--color-blue-pale); }
-    .quick-action--purple { background: var(--grad-purple-card); border-color: #e9d4ff; }
+    .quick-action--green  { background: #edfaf3; border-color: #cfeedb; }
+    .quick-action--blue   { background: #edf4ff; border-color: #dfeaff; }
+    .quick-action--purple { background: #f4f0ff; border-color: #e7dbff; }
     .quick-action__icon {
       width: 56px; height: 56px;
       border-radius: var(--radius-lg);
@@ -1192,7 +1194,6 @@ try {
   </style>
   <link rel="stylesheet" href="../assets/css/sams-shell.css" />
 <link rel="stylesheet" href="../assets/css/notifications-shell.css?v=20260922" />
-<link rel="stylesheet" href="../assets/css/sams-dark-mode.css?v=20260926" />
 </head>
 <body>
 
@@ -1205,7 +1206,7 @@ try {
 
     <!-- Brand -->
     <div class="sidebar__brand">
-      <div class="sidebar__logo" aria-hidden="true">NU</div>
+      <div class="sidebar__logo" aria-hidden="true"><img src="../assets/logo.png" alt="" aria-hidden="true"></div>
       <div>
         <div class="sidebar__brand-name">SAMS</div>
         <div class="sidebar__brand-sub">Student Assistant Management</div>
@@ -2143,7 +2144,6 @@ try {
   }());
 </script>
 <script src="../assets/js/student-notifications.js?v=20260922"></script>
-<script src="../assets/js/sams-theme.js?v=20260926"></script>
 
 </body>
 </html>

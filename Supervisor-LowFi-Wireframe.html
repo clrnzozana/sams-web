@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SAMS Supervisor — Full Portal Wireframe (Low-Fi)</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: Helvetica, Arial, sans-serif; background:#eaeaea; color:#333; }
+  .shell { display:flex; min-height:100vh; }
+  .sidebar { width:200px; background:#f4f4f4; border-right:1px solid #999; flex-shrink:0; }
+  .sidebar-logo { padding:16px 14px; border-bottom:1px solid #ccc; font-size:12px; }
+  .sidebar-logo .b { font-weight:bold; display:block; font-size:13px; }
+  .nav-item { padding:10px 14px; font-size:11.5px; color:#555; border-left:3px solid transparent; cursor:pointer; border-bottom:1px solid #e5e5e5; }
+  .nav-item.active { background:#fff; border-left-color:#333; font-weight:bold; color:#222; }
+  .nav-item.signout { color:#999; margin-top:6px; }
+  .main { flex:1; display:flex; flex-direction:column; }
+  .topbar { height:48px; border-bottom:1px solid #999; display:flex; align-items:center; justify-content:space-between; padding:0 20px; background:#fff; }
+  .topbar-title { font-size:13px; font-weight:bold; color:#333; }
+  .topbar-right { display:flex; align-items:center; gap:14px; font-size:10.5px; color:#888; }
+  .bell { width:22px; height:22px; border:1px dashed #999; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:9px; }
+  .content { padding:20px; flex:1; }
+  .page { display:none; }
+  .page.active { display:block; }
+  h2.ptitle { font-size:16px; margin:0 0 4px 0; color:#222; }
+  p.psub { font-size:11px; color:#999; margin:0 0 18px 0; }
+  .row { display:flex; gap:12px; margin-bottom:14px; flex-wrap:wrap; }
+  .box { border:1px dashed #aaa; background:#fafafa; border-radius:5px; padding:12px; font-size:10.5px; color:#999; }
+  .stat-box { flex:1; min-width:130px; }
+  .stat-box .lbl { font-size:9.5px; color:#aaa; text-transform:uppercase; }
+  .stat-box .val { font-size:16px; font-weight:bold; color:#666; margin-top:4px; }
+  .panel { border:1px solid #ccc; border-radius:5px; padding:14px; margin-bottom:14px; background:#fff; }
+  .panel-title { font-size:11.5px; font-weight:bold; color:#444; margin-bottom:10px; }
+  table.wtable { width:100%; border-collapse:collapse; font-size:10.5px; }
+  table.wtable th { text-align:left; border-bottom:1px solid #ccc; padding:6px 8px; color:#777; font-size:9.5px; text-transform:uppercase; }
+  table.wtable td { border-bottom:1px solid #eee; padding:7px 8px; color:#999; }
+  .btn { display:inline-block; border:1px solid #999; border-radius:3px; padding:6px 12px; font-size:10.5px; color:#555; background:#fff; margin-right:8px; }
+  .btn.dark { background:#444; color:#fff; border-color:#444; }
+  .split { display:flex; gap:14px; }
+  .split .left { flex:2; }
+  .split .right { flex:1; }
+  .grid-block { border:1px dashed #bbb; border-radius:5px; height:180px; display:flex; align-items:center; justify-content:center; color:#aaa; font-size:11px; background:#fafafa; }
+  .badge { display:inline-block; border:1px solid #bbb; border-radius:10px; padding:2px 8px; font-size:9px; color:#888; }
+  .badge.attn { border-color:#c99; color:#a55; }
+  .stars { font-size:10px; color:#bbb; }
+  .wire-note { text-align:center; font-size:11px; color:#999; padding:14px; }
+</style>
+</head>
+<body>
+
+<div class="shell" id="shell-view">
+  <div class="sidebar">
+    <div class="sidebar-logo"><span class="b">Supervisor Portal</span>National University — Lipa</div>
+    <div class="nav-item active" data-p="dashboard">Dashboard</div>
+    <div class="nav-item" data-p="students">Students</div>
+    <div class="nav-item" data-p="attendance">Attendance</div>
+    <div class="nav-item" data-p="evaluation">Evaluation</div>
+    <div class="nav-item" data-p="reports">Reports</div>
+    <div class="nav-item" data-p="announcements">Announcements</div>
+    <div class="nav-item signout">Logout</div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title" id="topbar-title">Dashboard</div>
+      <div class="topbar-right"><div class="bell">●</div><div>[ Logged in as Supervisor ]</div></div>
+    </div>
+
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <div class="page active" id="page-dashboard">
+        <h2 class="ptitle">Dashboard</h2>
+        <p class="psub">Overview of your office's student assistants.</p>
+        <div class="row">
+          <div class="box stat-box"><div class="lbl">Active SAs</div><div class="val">[ N ]</div></div>
+          <div class="box stat-box"><div class="lbl">On Duty Today</div><div class="val">[ N ]</div></div>
+          <div class="box stat-box"><div class="lbl">Pending Evaluations</div><div class="val">[ N ]</div></div>
+        </div>
+        <div class="split">
+          <div class="left">
+            <div class="panel"><div class="panel-title">Weekly Timeline</div><div class="grid-block">[ Week-view of office duty coverage ]</div></div>
+            <div class="panel"><div class="panel-title">Weekly Workload</div><div class="box">[ Hours distribution across assigned SAs ]</div></div>
+          </div>
+          <div class="right">
+            <div class="panel"><div class="panel-title">Needs Attention</div><div class="box">[ Late/absent flags, unconfirmed arrivals ] <span class="badge attn">Attention</span></div></div>
+            <div class="panel"><div class="panel-title">Announcements</div><div class="box">[ Latest SDAO announcements preview ]</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STUDENTS -->
+      <div class="page" id="page-students">
+        <h2 class="ptitle">Students</h2>
+        <p class="psub">Roster of student assistants assigned to your office.</p>
+        <div class="row"><div class="box" style="flex:2;">[ Search students ]</div><div class="box" style="flex:1;">[ Filter: Assigned / Unassigned ]</div></div>
+        <div class="split">
+          <div class="left">
+            <div class="panel"><div class="panel-title">Student Roster</div>
+              <table class="wtable">
+                <tr><th>Name</th><th>Student ID</th><th>Schedule</th><th>Attendance</th><th>Eval Status</th></tr>
+                <tr><td>[ Name ]</td><td>[ ID ]</td><td>[ Days/Times ]</td><td>[ Summary ]</td><td>[ Status ]</td></tr>
+              </table>
+            </div>
+          </div>
+          <div class="right">
+            <div class="panel"><div class="panel-title">Student Profile</div>
+              <div class="box" style="margin-bottom:8px;">[ Selected student basic info ]</div>
+              <div class="panel-title" style="margin-top:10px;">Accepted Schedules</div>
+              <div class="box" style="margin-bottom:8px;">[ List ]</div>
+              <div class="panel-title">Absent Schedules (No Log)</div>
+              <div class="box" style="margin-bottom:8px;">[ List ]</div>
+              <div class="panel-title">Recent Attendance Logs</div>
+              <div class="box">[ List ]</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ATTENDANCE -->
+      <div class="page" id="page-attendance">
+        <h2 class="ptitle">Attendance</h2>
+        <p class="psub">Attendance log scoped to your office's student assistants.</p>
+        <div class="panel"><div class="panel-title">Today's Attendance Log</div>
+          <table class="wtable">
+            <tr><th>Student</th><th>Time In</th><th>Time Out</th><th>Status</th><th>Confirm Arrival</th></tr>
+            <tr><td>[ Name ]</td><td>[ Time ]</td><td>[ Time ]</td><td>[ Active/Late/Absent ]</td><td><span class="btn">Confirm</span></td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- EVALUATION -->
+      <div class="page" id="page-evaluation">
+        <h2 class="ptitle">Evaluation</h2>
+        <p class="psub">Submit evaluations during the SDAO-opened evaluation period.</p>
+        <div class="panel"><div class="panel-title">Evaluation Guide</div><div class="box">[ 5-criteria rubric: Punctuality, Work Quality, Attitude, Attendance, Productivity ]</div></div>
+        <div class="panel"><div class="panel-title">Students to Evaluate</div>
+          <table class="wtable">
+            <tr><th>Student</th><th>Punctuality</th><th>Work Quality</th><th>Attitude</th><th>Attendance</th><th>Productivity</th><th>Comments</th></tr>
+            <tr><td>[ Name ]</td><td class="stars">[1-5]</td><td class="stars">[1-5]</td><td class="stars">[1-5]</td><td class="stars">[1-5]</td><td class="stars">[1-5]</td><td>[ textarea ]</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- REPORTS -->
+      <div class="page" id="page-reports">
+        <h2 class="ptitle">Reports</h2>
+        <p class="psub">Generate daily attendance and duty reports for your office.</p>
+        <div class="row"><div class="box">[ Reports tabs: Daily / Weekly / Monthly ]</div></div>
+        <div class="panel"><div class="panel-title">Reports Summary</div><div class="box">[ Report preview + per-student report link ]</div></div>
+      </div>
+
+      <!-- ANNOUNCEMENTS -->
+      <div class="page" id="page-announcements">
+        <h2 class="ptitle">Announcements</h2>
+        <p class="psub">SDAO announcements relevant to your office.</p>
+        <div class="panel"><div class="panel-title">Announcements</div><div class="box">[ List of published announcements, read-only for supervisors ]</div></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="wire-note">Low-fidelity wireframe — layout &amp; structure only, matches real section headings from the supervisor PHP files (Weekly Timeline, Weekly Workload, Needs Attention, Accepted/Absent Schedules, Today's Attendance Log).</div>
+
+<script>
+  document.querySelectorAll('.nav-item[data-p]').forEach(item => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      item.classList.add('active');
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + item.dataset.p).classList.add('active');
+      document.getElementById('topbar-title').textContent = item.textContent;
+    });
+  });
+</script>
+
+</body>
+</html>

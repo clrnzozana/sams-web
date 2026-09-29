@@ -1,0 +1,216 @@
+SAMS WEB REDESIGN CHECKLIST
+===========================================================================
+Goal: make the web system (Student, Supervisor and Admin portals) look and
+behave like the mobile app, and fix broken UI / weak UX.
+Built from a scan of the web repo (samss-main) and mobile repo (sams-mob-app).
+Findings come from the code only. No pages were rendered, so do the visual
+QA in section 7.
+
+WORKING NOTE FOR THIS SESSION
+---------------------------------------------------------------------------
+Scope is intentionally limited to this checklist file and the decisions it
+requires. The next required action is Section 0-2 only: lock the shared token
+set, single shell, and design-system rules before any page migration or wider
+repo work.
+
+WHAT THE SCAN FOUND
+---------------------------------------------------------------------------
+A design system already exists (assets/css/sams-design-system.css, Inter +
+Poppins), but the only 6 pages linking it are public/auth pages (login,
+index, register, register1-3). NONE of the 35 portal pages use it. Each
+carries its own inline CSS (up to 981 lines, 50-120 hardcoded hex colors),
+so changing the tokens alone will not restyle them. Each page has to be
+migrated.
+
+Token comparison
+  Token                      Web now      Mobile target
+  -------------------------  -----------  ----------------------------------
+  Navy (primary)             #003087      #061D5A
+  Gold (accent, active)      #FFB81C      #F4B333
+  Success                    #10B981      #15803D on #DCFCE7
+  Warning                    #F59E0B      #B45309 on #FEF3C7
+  Info                       #0284C7      #1D4ED8 on #DBEAFE
+  Danger                     #EF4444      #B91C1C on #FEE2E2
+  Heading / border / muted   already match: #0F172A / #E2E8F0 / #64748B
+  Card                       varies       white, 1px #E2E8F0, radius 16,
+                                          padding 16, shadow
+                                          0 1px 2px rgba(15,23,42,.04)
+  Radius scale               varies       8 / 10 (inputs, buttons) / 12 /
+                                          16 (cards) / 20 (pills)
+  Header / nav               white        navy header band + navy tab bar,
+                             sidebars     gold active item
+
+
+0. DECIDE FIRST
+---------------------------------------------------------------------------
+[x] Adopt the mobile palette as the single source of truth (navy #061D5A,
+    gold #F4B333, semantic colors from the table above).
+[x] Dark mode: mobile screens are light-only, but web has sams-dark-mode.css
+    on 20 pages. Either remove it, or rebuild it on the new tokens. Do not
+    keep it half-matching.
+[x] Type scale: keep Inter (UI) + Poppins 700/800 (headings) as on mobile,
+    but use desktop sizes (body 14-15px). Mobile's 11-13px is too small for
+    a desktop screen.
+[x] One shell for all three roles: navy sidebar, gold active indicator, navy
+    page-header band, white cards (the web version of mobile's navy tab bar
+    and header).
+[x] One icon source: includes/icon.php (178 inline SVGs are pasted across
+    pages today). Use outline icons that match mobile's Material style.
+
+Decision lock: the palette is navy/gold first, the shell is shared across
+roles, and typography stays Inter + Poppins with desktop sizing. Dark mode is
+not kept as a partial legacy theme; it must either be removed or rebuilt on
+new tokens before page migration.
+
+1. FOUNDATION: TOKENS AND STYLESHEETS
+---------------------------------------------------------------------------
+[x] Update :root in sams-design-system.css: navy, gold, semantic colors; set
+    --nu-navy-rgb to 6, 29, 90 and --nu-gold-rgb to 244, 179, 51.
+[x] Add tokens for radius (10/12/16/20), card shadow, and spacing
+    (4/6/8/10/12/14/16/20).
+[x] Replace hardcoded colors with var(--...): #003087 (100 uses), #004aab
+    (13), #1e3a8a (6), #ffb81c (32), plus stray #fcd34d / #fbbf24 / #f59e0b.
+[x] Remove Arial-only font-family declarations (several pages). Body
+    inherits Inter, headings use Poppins.
+[x] Consolidate the overlapping stylesheets (sams-shell, admin-shell,
+    sams-theme-admin, notifications-shell, supervisor-notifications,
+    sams-dark-mode + the design system) into the design system plus one
+    small shell file.
+[x] Link the design system from every portal page (35 pages) and confirm
+    nothing breaks before restyling.
+
+Foundation note: the design system has been updated to the mobile palette,
+spacing/radius tokens are present, and the shared shell layer now uses the
+navy/gold system as the base for subsequent page migration.
+
+2. SHARED SHELL (SIDEBAR AND TOPBAR)
+---------------------------------------------------------------------------
+FOUND: admin uses admin/_sidebar.php; supervisor/ and students/ have no
+sidebar partial, so nav markup is repeated in each page. Sidebar
+backgrounds also differ between portals.
+
+[x] Create one includes/sidebar.php driven by role (admin / supervisor /
+    student) and use it in every portal page.
+[x] Create one topbar partial: page title + subtitle, notification bell,
+    user chip.
+[x] Sidebar style: navy background, white text, gold active indicator,
+    clear hover and focus states.
+[x] Same nav conventions in all roles: label wording, icon style, logout
+    position.
+[x] Responsive: sidebar becomes a drawer with hamburger at tablet width and
+    below; page content never scrolls sideways.
+
+Shell note: the shared sidebar and topbar partials are in place and parse
+cleanly; they establish the common layout contract for the portal migration.
+
+3. SHARED COMPONENTS
+---------------------------------------------------------------------------
+[ ] Cards and stat cards matching mobile (white, 1px border, radius 16,
+    soft shadow).
+[ ] Buttons: primary (navy), accent (gold background with navy text),
+    secondary, danger. Add disabled and loading (spinner) states and block
+    double-submit. Never use gold text on white (low contrast).
+[ ] Status pills: one shared mapping used everywhere. Suggested:
+    Present / Completed / Accepted / Active = success;
+    Pending / Late = warning;
+    Absent / Declined / Rejected = danger;
+    Scheduled / Info = info.
+[ ] Tables: sticky header, row hover, scroll wrapper on small screens,
+    consistent action buttons.
+[ ] Forms: visible labels, required marker, inline error and help text,
+    focus ring, password show/hide.
+[ ] One modal component (Esc and backdrop close, focus trapped). Use it for
+    the availability-note modal, excuse-note review, confirmations.
+[ ] Toasts / flash messages in one style for success, error and info.
+[ ] Empty states like mobile (icon circle, title, one-line hint, action
+    button) on every list and table.
+[ ] Loading states: spinner or skeleton for async panels (attendance stream,
+    reports, dashboard stats).
+[ ] List toolbars: the same search + filter + pagination bar on all admin
+    lists.
+
+
+4. PAGE MIGRATION
+---------------------------------------------------------------------------
+For each page: delete the inline <style> block, link the design system,
+swap hex values for tokens, use the shared shell and components. Numbers
+are the inline CSS lines to remove. Start with the pages people see first.
+
+Student portal
+[ ] students/dashboard.php (851)
+[ ] students/schedule.php (981)
+[ ] students/profile.php (899)
+[ ] students/attendance_history.php (437)
+[ ] students/availability.php (314)
+[ ] students/announcements.php (131, no responsive rules)
+
+Login and application (already link the design system; align to new tokens)
+[ ] login.php (544), index.php (676), status.php (504)
+[ ] register.php, register1.php, register2.php (682), register3.php (599)
+[ ] forgot_password.php, reset_password.php, verify_otp.php,
+    change_password.php (first three have no responsive rules)
+
+Admin portal
+[ ] admin/dashboard.php (766)
+[ ] admin/students.php (794)
+[ ] admin/attendance.php (791)
+[ ] admin/reports.php (897)
+[ ] admin/application_view.php (428), application.php, application_detail.php
+[ ] admin/meetings.php (386), announcements.php (297), evaluation.php (255)
+[ ] admin/nfc_kiosk.php (401): full-screen, large touch targets, clear
+    success / error / already-clocked-in states. It has no responsive rules.
+[ ] admin/scheduling.php, supervisors.php, documents.php, profile.php,
+    evaluation_detail.php, report_detail.php, shuffle_requests.php
+
+Supervisor portal
+[ ] supervisor/dashboard.php, attendance.php, students.php,
+    student_profile.php
+[ ] supervisor/evaluation.php, reports.php, announcements.php, profile.php
+
+
+5. UX PROBLEMS FOUND IN CODE
+---------------------------------------------------------------------------
+[ ] Replace 20 native alert() / confirm() calls with the modal and toast
+    components: supervisor/reports.php (6), admin/students.php (4),
+    admin/scheduling.php (3), supervisor/student_profile.php (2),
+    admin/meetings.php (2), and one each in students/schedule.php,
+    admin/reports.php, admin/report_detail.php.
+[ ] Add responsive rules to the 10 pages with no @media:
+    admin/documents, evaluation_detail, nfc_kiosk, report_detail,
+    shuffle_requests; change_password, forgot_password, reset_password;
+    students/announcements; supervisor/announcements.
+[ ] Fix mixed fonts (Arial-only, "Inter, Arial", inherit) so every page
+    renders the same typeface.
+[ ] Remove the duplicated sidebar and topbar markup once the shared
+    partials are in place.
+
+
+6. ACCESSIBILITY AND POLISH (AUDIT WHILE MIGRATING)
+---------------------------------------------------------------------------
+Not measured yet. Check while touching each page.
+
+[ ] Body text contrast at least 4.5:1, including muted text and status
+    pills.
+[ ] Visible :focus-visible ring on links, buttons, inputs, table actions.
+[ ] Every input has a label; icon-only buttons have aria-label.
+[ ] Touch targets at least 40px on tablet and phone widths.
+[ ] Consistent date, time and hour formats across dashboards, tables and
+    reports.
+
+
+7. QA AND ACCEPTANCE
+---------------------------------------------------------------------------
+[ ] Screenshot every page at 1440, 1024, 768 and 390 px and put it next to
+    the matching mobile screen (dashboard, schedule, attendance, profile).
+[ ] Log in as admin, supervisor and student; click through every sidebar
+    link and every modal.
+[ ] Run tools/smoke_tests after each portal is migrated.
+[ ] Search the repo: no inline <style> over ~50 lines, no raw hex colors
+    outside the token file, no alert( / confirm(.
+[ ] Test keyboard only: Tab order, Esc closes modals, focus is visible
+    everywhere.
+[ ] Freeze UI changes before the final defense and re-take screenshots for
+    the paper (Chapter 4.3 screen designs).
+
+If time is short: do sections 0-2 first, then migrate the Student and Admin
+dashboards, Login and Kiosk (the pages you will demo), then the rest.

@@ -50,7 +50,6 @@ $footerNavItems = [
 ];
 ?>
 <link rel="stylesheet" href="../assets/css/admin-shell.css?v=20260922" />
-<link rel="stylesheet" href="../assets/css/sams-dark-mode.css?v=20260926" />
 <style>
     .topbar__notif,
     .topbar__notif-btn {
@@ -144,7 +143,7 @@ $footerNavItems = [
     <div class="sidebar__header">
         <div class="sidebar__brand">
             <div class="sidebar__logo" aria-hidden="true">
-                <span class="sidebar__logo-text">NU</span>
+                <img src="../assets/logo.png" alt="" aria-hidden="true">
             </div>
             <div class="sidebar__brand-info">
                 <span class="sidebar__app-name">SA System</span>
@@ -185,4 +184,3 @@ $footerNavItems = [
     </div>
 </aside>
 <script src="../assets/js/admin-notifications.js?v=20260922" defer></script>
-<script src="../assets/js/sams-theme.js?v=20260926" defer></script>

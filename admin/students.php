@@ -196,8 +196,8 @@ function sams_html(string $value): string
       --color-apps-badge-bg:  #dbeafe;
       --color-apps-badge-txt: #155dfc;
 
-      --grad-brand:   linear-gradient(135deg, #155dfc 0%, #9810fa 100%);
-      --grad-navy:    linear-gradient(180deg, #1e3a8a 0%, #1e40af 100%);
+      --grad-brand:   #003087;
+      --grad-navy:    #003087;
 
       --shadow-card:  0 1px 3px 0 rgba(0,0,0,.10), 0 1px 2px 0 rgba(0,0,0,.06);
 

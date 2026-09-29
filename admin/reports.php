@@ -422,8 +422,8 @@ if (!empty($attendance_data)) {
 
             --clr-grey-bar:      #4A5565;
 
-            --grad-brand:        linear-gradient(135deg, #155DFC 0%, #9810FA 100%);
-            --grad-blue-panel:   linear-gradient(169.04deg, #155DFC 0%, #1447E6 100%);
+            --grad-brand:        #003087;
+            --grad-blue-panel:   #003087;
 
             --shadow-sm: 0 1px 3px rgba(0,0,0,.10), 0 1px 2px rgba(0,0,0,.10);
 
@@ -1673,7 +1673,10 @@ if (!empty($attendance_data)) {
 
             <!-- Printable Duty Hours Reports Panel -->
             <div class="print-panel" role="region" aria-label="Printable Duty Hours Reports">
-                <h2 class="print-panel__title">📄 Printable Duty Hours Reports</h2>
+                <h2 class="print-panel__title" style="display:flex; align-items:center; gap:8px;">
+                    <svg viewBox="0 0 20 20" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6.5 2.5h5.5l4 4V15a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 15V4A1.5 1.5 0 0 1 6.5 2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 2.5v4h4M7 10.5h6M7 13.5h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    Printable Duty Hours Reports
+                </h2>
                 <p class="print-panel__desc">Generate detailed reports for documentation and evaluation purposes</p>
                 <div class="print-cards">
                     <div class="print-card">

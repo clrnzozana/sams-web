@@ -319,7 +319,7 @@ $adminRole = (string) ($currentUser['role'] ?? 'SDAO Head');
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            background: #003087;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -407,7 +407,7 @@ $adminRole = (string) ($currentUser['role'] ?? 'SDAO Head');
             </section>
 
             <?php if (!empty($_GET['created'])): ?>
-                <div class="page-alert page-alert--success">✓ Announcement published successfully and visible to users in real time.</div>
+                <div class="page-alert page-alert--success">Announcement published successfully and visible to users in real time.</div>
             <?php endif; ?>
 
             <?php if (!empty($_POST) && empty($_GET['created'])): ?>

@@ -283,11 +283,11 @@ if (!empty($studentSchedules)) {
 
       /* Sidebar */
       --sidebar-w:           288px;
-      --grad-sidebar:        linear-gradient(180deg, #003087 0%, #0047ab 100%);
-      --grad-primary-135:    linear-gradient(135deg, #003087 0%, #0047ab 100%);
-      --grad-primary-126:    linear-gradient(126deg, #003087 0%, #0047ab 100%);
-      --grad-gold:           linear-gradient(135deg, #ffb81c 0%, #ffa500 100%);
-      --grad-page:           linear-gradient(133deg, #eff6ff 0%, #ffffff 50%, #fffbeb 100%);
+      --grad-sidebar:        #003087;
+      --grad-primary-135:    #003087;
+      --grad-primary-126:    #003087;
+      --grad-gold:           #ffb81c;
+      --grad-page:           #f4f7fb;
 
       /* Shadows */
       --shadow-sidebar:      0 25px 50px 0 rgba(0,0,0,.25);
@@ -400,15 +400,17 @@ if (!empty($studentSchedules)) {
       font-size: var(--font-base);
       font-weight: 700;
       color: var(--color-white);
-      transition: background .15s;
+      transition: background .15s ease, transform .15s ease;
+      border: 1px solid rgba(255,255,255,0.08);
     }
     .nav-item:hover { background: rgba(255,255,255,.10); }
     .nav-item--active {
-      background: var(--color-white);
-      color: var(--color-primary);
-      box-shadow: var(--shadow-card);
+      background: #003087;
+      color: #ffffff;
+      box-shadow: none;
+      border-color: rgba(255,255,255,.14);
     }
-    .nav-item--active:hover { background: var(--color-white); }
+    .nav-item--active:hover { background: #003087; }
     .nav-item__icon { width: 20px; height: 20px; flex-shrink: 0; }
 
     .sidebar__footer {
@@ -606,7 +608,7 @@ if (!empty($studentSchedules)) {
       height: 48px;
       padding: 0 var(--space-6);
       border-radius: var(--radius-md);
-      background: var(--grad-primary-135);
+      background: var(--color-primary);
       border: none;
       font-size: var(--font-base);
       font-weight: 700;
@@ -646,8 +648,8 @@ if (!empty($studentSchedules)) {
     }
     .stat-mini__icon img { width: 28px; height: 28px; }
     .stat-mini__icon svg { width: 28px; height: 28px; }
-    .stat-mini__icon--blue { background: var(--grad-primary-135); }
-    .stat-mini__icon--gold { background: var(--grad-gold); }
+    .stat-mini__icon--blue { background: var(--color-primary); }
+    .stat-mini__icon--gold { background: var(--color-gold); }
     .stat-mini__label { font-size: var(--font-sm); font-weight: 700; color: var(--color-muted); }
     .stat-mini__value { font-size: var(--font-3xl); font-weight: 900; color: var(--color-dark); line-height: 1.2; }
 
@@ -1117,7 +1119,7 @@ if (!empty($studentSchedules)) {
     }
 
     .schedule-list__action-btn--accept {
-      background: var(--grad-primary-135);
+      background: var(--color-primary);
       color: var(--color-white);
     }
 
@@ -1148,7 +1150,7 @@ if (!empty($studentSchedules)) {
     .guidelines {
       border: 2px solid var(--color-blue-pale);
       border-radius: var(--radius-lg);
-      background: linear-gradient(168deg, #eff6ff 0%, #eee2ff 100%);
+      background: #edf4ff;
       padding: 34px;
     }
     .guidelines__heading {
@@ -1235,17 +1237,18 @@ if (!empty($studentSchedules)) {
     }
   </style>
 <link rel="stylesheet" href="../assets/css/notifications-shell.css?v=20260922" />
-<link rel="stylesheet" href="../assets/css/sams-dark-mode.css?v=20260926" />
 </head>
 <body>
 
 <div class="app">
 
-
+  <!-- ============================================
+       SIDEBAR
+  ============================================= -->
   <aside class="sidebar" id="sidebar" aria-label="Student navigation">
 
     <div class="sidebar__brand">
-      <div class="sidebar__logo" aria-hidden="true">NU</div>
+      <div class="sidebar__logo" aria-hidden="true"><img src="../assets/logo.png" alt="" aria-hidden="true"></div>
       <div>
         <div class="sidebar__brand-name">SAMS</div>
         <div class="sidebar__brand-sub">Student Assistant Management</div>
@@ -1497,7 +1500,7 @@ if (!empty($studentSchedules)) {
                             <span class="cal-event__loc"><?php echo htmlspecialchars($event['office_name'], ENT_QUOTES, 'UTF-8'); ?></span>
                           </div>
                         </div>
-                        <div class="cal-event__recur"><?php echo htmlspecialchars(match($event['status']) { 'deployed' => '🚀', 'accepted' => '✓', default => '🔄' }, ENT_QUOTES, 'UTF-8'); ?></div>
+                        <div class="cal-event__recur"><?php echo htmlspecialchars(match($event['status']) { 'deployed' => 'Live', 'accepted' => 'Accepted', default => 'Pending' }, ENT_QUOTES, 'UTF-8'); ?></div>
                       </div>
                     <?php endforeach; ?>
                   <?php endif; ?>
@@ -1570,9 +1573,9 @@ if (!empty($studentSchedules)) {
               <table class="schedule-list__table">
                   <thead class="schedule-list__thead">
                     <tr>
-                      <th class="schedule-list__cell">📅 Date & Time</th>
-                      <th class="schedule-list__cell">🏢 Office</th>
-                      <th class="schedule-list__cell">⏱️ Hours</th>
+                      <th class="schedule-list__cell">Date & Time</th>
+                      <th class="schedule-list__cell">Office</th>
+                      <th class="schedule-list__cell">Hours</th>
                       <th class="schedule-list__cell">Status</th>
                       <th class="schedule-list__cell schedule-list__cell--last">Actions</th>
                     </tr>
@@ -1644,10 +1647,10 @@ if (!empty($studentSchedules)) {
                             default => '#d97706',
                           };
                           $statusIcon = match((string) ($s['status'] ?? 'pending')) {
-                            'deployed' => '🚀',
-                            'accepted' => '✓',
-                            'declined' => '✕',
-                            default => '⏳',
+                            'deployed' => 'Live',
+                            'accepted' => 'Accepted',
+                            'declined' => 'Declined',
+                            default => 'Pending',
                           };
                           $statusLabel = match((string) ($s['status'] ?? 'pending')) {
                             'deployed' => 'Deployed',
@@ -1679,13 +1682,13 @@ if (!empty($studentSchedules)) {
                                 <input type="hidden" name="_csrf" value="<?= htmlspecialchars(sams_csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
                                 <input type="hidden" name="schedule_id" value="<?= (int) ($s['id'] ?? 0) ?>">
                                 <input type="hidden" name="status" value="accepted">
-                                <button type="submit" class="schedule-list__action-btn schedule-list__action-btn--accept">✓ Accept</button>
+                                <button type="submit" class="schedule-list__action-btn schedule-list__action-btn--accept">Accept</button>
                               </form>
                               <form method="POST" action="respond_schedule.php" class="schedule-response-form" style="display:inline-block;">
                                 <input type="hidden" name="_csrf" value="<?= htmlspecialchars(sams_csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
                                 <input type="hidden" name="schedule_id" value="<?= (int) ($s['id'] ?? 0) ?>">
                                 <input type="hidden" name="status" value="declined">
-                                <button type="submit" class="schedule-list__action-btn schedule-list__action-btn--decline">✕ Decline</button>
+                                <button type="submit" class="schedule-list__action-btn schedule-list__action-btn--decline">Decline</button>
                               </form>
                             </div>
                           <?php else: ?>
@@ -1707,32 +1710,32 @@ if (!empty($studentSchedules)) {
             <path d="M4 6h16v10H5.8L4 18V6Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="none" />
             <path d="M8 9h8M8 12h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
           </svg>
-          <h2 id="guidelines-heading">Schedule Guidelines 📋</h2>
+          <h2 id="guidelines-heading">Schedule Guidelines</h2>
         </div>
         <div class="guidelines__grid">
           <div class="guideline-item">
-            <span class="guideline-item__emoji" aria-hidden="true">⏰</span>
+            <span class="guideline-item__emoji" aria-hidden="true"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="7.5" stroke="currentColor" stroke-width="1.8"/><path d="M12 8.2V12l2.6 1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
             <div>
               <div class="guideline-item__title">Be Punctual</div>
               <div class="guideline-item__desc">Arrive 5-10 minutes before your scheduled time</div>
             </div>
           </div>
           <div class="guideline-item">
-            <span class="guideline-item__emoji" aria-hidden="true">📞</span>
+            <span class="guideline-item__emoji" aria-hidden="true"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 6.8A2.8 2.8 0 0 1 6.8 4h10.4A2.8 2.8 0 0 1 20 6.8v7.4A2.8 2.8 0 0 1 17.2 17H12l-4 3v-3H6.8A2.8 2.8 0 0 1 4 14.2V6.8Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 9.2h8M8 12.5h5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
             <div>
               <div class="guideline-item__title">Communication</div>
               <div class="guideline-item__desc">Notify Miss Zai if you need to reschedule</div>
             </div>
           </div>
           <div class="guideline-item">
-            <span class="guideline-item__emoji" aria-hidden="true">📷</span>
+            <span class="guideline-item__emoji" aria-hidden="true"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 8.5A5 5 0 0 1 17 8.5V11a2 2 0 0 1-2 2h-2.5v3.5a2.5 2.5 0 0 1-5 0V13H7a2 2 0 0 1-2-2V8.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M10.2 15.5h3.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
             <div>
               <div class="guideline-item__title">Attendance</div>
               <div class="guideline-item__desc">Always scan QR code when checking in/out</div>
             </div>
           </div>
           <div class="guideline-item">
-            <span class="guideline-item__emoji" aria-hidden="true">✅</span>
+            <span class="guideline-item__emoji" aria-hidden="true"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.5 12.5 9.5 16.5 18.5 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
             <div>
               <div class="guideline-item__title">Complete Tasks</div>
               <div class="guideline-item__desc">Finish all assigned duties during your shift</div>
@@ -1841,7 +1844,6 @@ if (!empty($studentSchedules)) {
 }());
 </script>
 <script src="../assets/js/student-notifications.js?v=20260922"></script>
-<script src="../assets/js/sams-theme.js?v=20260926"></script>
 
 </body>
 </html>

@@ -143,7 +143,6 @@ function h(?string $value): string
     <link rel="stylesheet" href="../assets/css/sams-shell.css" />
     <link rel="stylesheet" href="../assets/css/sams-theme-admin.css" />
     <link rel="stylesheet" href="../assets/css/supervisor-notifications.css" />
-    <link rel="stylesheet" href="../assets/css/sams-dark-mode.css?v=20260926" />
     <link rel="stylesheet" href="../assets/css/notifications-shell.css?v=20260922" />
     <style>
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -152,7 +151,8 @@ function h(?string $value): string
         .shell{display:flex;width:100%;min-height:100vh}
         .sidebar{width:var(--sidebar-width);min-height:100vh;background:var(--color-white);border-right:1px solid var(--color-border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto}
         .sidebar__brand{display:flex;align-items:center;gap:12px;padding:24px 24px 20px;border-bottom:1px solid var(--color-border)}
-        .sidebar__logo{width:40px;height:40px;background:var(--gradient-brand);border-radius:var(--radius-icon);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .sidebar__logo{width:40px;height:40px;background:transparent;border:none;border-radius:0;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
+        .sidebar__logo img{display:block;width:100%;height:100%;object-fit:contain;background:transparent}
         .sidebar__logo-text{font-size:18px;font-weight:700;color:var(--color-white)}
         .sidebar__brand-name{font-size:var(--font-base);font-weight:700;color:var(--color-heading)}
         .sidebar__brand-sub{font-size:var(--font-xs);color:var(--color-body)}
@@ -199,7 +199,7 @@ function h(?string $value): string
 <div class="shell">
     <aside class="sidebar">
         <div class="sidebar__brand">
-            <div class="sidebar__logo"><span class="sidebar__logo-text">NU</span></div>
+            <div class="sidebar__logo"><img src="../assets/logo.png" alt="" aria-hidden="true"></div>
             <div>
                 <div class="sidebar__brand-name">SA System</div>
                 <div class="sidebar__brand-sub">Supervisor</div>
@@ -251,7 +251,7 @@ function h(?string $value): string
             </div>
         </header>
 
-        <script src="../assets/js/admin-notifications.js?v=20260922"></script><script src="../assets/js/sams-theme.js?v=20260926"></script>
+        <script src="../assets/js/admin-notifications.js?v=20260922"></script>
 
         <section class="page">
             <?php if ($shuffleFlash !== ''): ?><div class="card" style="padding:14px;font-weight:700;color:#155dfc;"><?php echo h($shuffleFlash); ?></div><?php endif; ?>

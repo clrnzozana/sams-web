@@ -278,7 +278,7 @@ function sams_eval_badge_class(float $score): string
       width: 40px;
       height: 40px;
       border-radius: var(--radius-sm);
-      background: linear-gradient(135deg, #155DFC 0%, #9810FA 100%);
+      background: #003087;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -340,7 +340,7 @@ function sams_eval_badge_class(float $score): string
     .topbar__user-info { text-align: right; }
     .topbar__user-name { font-size: var(--fs-sm); color: var(--clr-text-primary); }
     .topbar__user-role { font-size: var(--fs-xs); color: var(--clr-text-muted); }
-    .topbar__avatar { width: 36px; height: 36px; border-radius: var(--radius-pill); background: linear-gradient(135deg, #155DFC 0%, #9810FA 100%); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .topbar__avatar { width: 36px; height: 36px; border-radius: var(--radius-pill); background: #003087; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 
     .content {
       padding: 24px 32px 32px;

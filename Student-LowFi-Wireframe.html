@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SAMS Student — Full Portal Wireframe (Low-Fi)</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: Helvetica, Arial, sans-serif; background:#eaeaea; color:#333; }
+  .shell { display:flex; min-height:100vh; }
+  .sidebar { width:200px; background:#f4f4f4; border-right:1px solid #999; flex-shrink:0; }
+  .sidebar-logo { padding:16px 14px; border-bottom:1px solid #ccc; font-size:12px; }
+  .sidebar-logo .b { font-weight:bold; display:block; font-size:13px; }
+  .nav-item { padding:10px 14px; font-size:11.5px; color:#555; border-left:3px solid transparent; cursor:pointer; border-bottom:1px solid #e5e5e5; }
+  .nav-item.active { background:#fff; border-left-color:#333; font-weight:bold; color:#222; }
+  .nav-item.signout { color:#999; margin-top:6px; }
+  .main { flex:1; display:flex; flex-direction:column; }
+  .topbar { height:48px; border-bottom:1px solid #999; display:flex; align-items:center; justify-content:space-between; padding:0 20px; background:#fff; }
+  .topbar-title { font-size:13px; font-weight:bold; color:#333; }
+  .topbar-right { display:flex; align-items:center; gap:14px; font-size:10.5px; color:#888; }
+  .bell { width:22px; height:22px; border:1px dashed #999; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:9px; }
+  .content { padding:20px; flex:1; }
+  .page { display:none; }
+  .page.active { display:block; }
+  h2.ptitle { font-size:16px; margin:0 0 4px 0; color:#222; }
+  p.psub { font-size:11px; color:#999; margin:0 0 18px 0; }
+  .row { display:flex; gap:12px; margin-bottom:14px; flex-wrap:wrap; }
+  .box { border:1px dashed #aaa; background:#fafafa; border-radius:5px; padding:12px; font-size:10.5px; color:#999; }
+  .stat-box { flex:1; min-width:130px; }
+  .stat-box .lbl { font-size:9.5px; color:#aaa; text-transform:uppercase; }
+  .stat-box .val { font-size:16px; font-weight:bold; color:#666; margin-top:4px; }
+  .panel { border:1px solid #ccc; border-radius:5px; padding:14px; margin-bottom:14px; background:#fff; }
+  .panel-title { font-size:11.5px; font-weight:bold; color:#444; margin-bottom:10px; }
+  table.wtable { width:100%; border-collapse:collapse; font-size:10.5px; }
+  table.wtable th { text-align:left; border-bottom:1px solid #ccc; padding:6px 8px; color:#777; font-size:9.5px; text-transform:uppercase; }
+  table.wtable td { border-bottom:1px solid #eee; padding:7px 8px; color:#999; }
+  .btn { display:inline-block; border:1px solid #999; border-radius:3px; padding:6px 12px; font-size:10.5px; color:#555; background:#fff; margin-right:8px; }
+  .btn.dark { background:#444; color:#fff; border-color:#444; }
+  .btn.accept { border-color:#8a8; color:#585; }
+  .btn.decline { border-color:#a88; color:#855; }
+  .split { display:flex; gap:14px; }
+  .split .left { flex:2; }
+  .split .right { flex:1; }
+  .tabs { display:flex; gap:6px; margin-bottom:14px; }
+  .tab { border:1px solid #bbb; border-radius:14px; padding:5px 14px; font-size:10px; color:#666; background:#fff; }
+  .tab.active { background:#444; color:#fff; border-color:#444; }
+  .grid-block { border:1px dashed #bbb; border-radius:5px; height:200px; display:flex; align-items:center; justify-content:center; color:#aaa; font-size:11px; background:#fafafa; }
+  .badge { display:inline-block; border:1px solid #bbb; border-radius:10px; padding:2px 8px; font-size:9px; color:#888; }
+  .authpage { display:none; min-height:100vh; background:#fff; align-items:center; justify-content:center; }
+  .authpage.active { display:flex; }
+  .authbox { display:flex; border:1px solid #999; border-radius:6px; overflow:hidden; max-width:820px; width:100%; margin:20px; }
+  .authbrand { width:42%; border-right:1px dashed #aaa; padding:36px; }
+  .authform { width:58%; padding:40px 50px; }
+  .anno { font-size:10px; color:#aaa; text-transform:uppercase; margin-bottom:10px; }
+  .input-box { border:1px dashed #aaa; background:#fafafa; height:36px; border-radius:3px; display:flex; align-items:center; padding:0 10px; font-size:10.5px; color:#aaa; margin-bottom:14px; }
+  .field-label { font-size:10.5px; color:#666; margin-bottom:5px; }
+  .wire-note { text-align:center; font-size:11px; color:#999; padding:14px; }
+  .topcorner { position:fixed; top:10px; right:14px; font-size:10px; color:#888; background:#fff; border:1px solid #999; border-radius:4px; padding:5px 10px; cursor:pointer; z-index:10; }
+</style>
+</head>
+<body>
+
+<div class="topcorner" onclick="toggleAuth()">Toggle Login/Landing view ↔ Shell view</div>
+
+<div class="authpage active" id="auth-view">
+  <div class="authbox">
+    <div class="authbrand">
+      <div class="anno">Brand / Info Panel</div>
+      <div style="font-size:20px; font-weight:bold; margin-bottom:10px;">[ Welcome to SAMS ]</div>
+      <div class="box">[ NU Lipa · SDAO badge, program description, feature highlights — matches real index.php/login.php content ]</div>
+    </div>
+    <div class="authform">
+      <div class="anno">Login Form</div>
+      <div style="font-size:18px; font-weight:bold; margin-bottom:16px;">Login</div>
+      <div class="field-label">Email</div>
+      <div class="input-box">[ Email Input ]</div>
+      <div class="field-label">Password</div>
+      <div class="input-box">[ Password Input ]</div>
+      <div class="btn dark" onclick="toggleAuth()">Log In →</div>
+    </div>
+  </div>
+</div>
+
+<div class="shell" id="shell-view" style="display:none;">
+  <div class="sidebar">
+    <div class="sidebar-logo"><span class="b">Student Portal</span>National University — Lipa</div>
+    <div class="nav-item active" data-p="dashboard">Dashboard</div>
+    <div class="nav-item" data-p="schedule">My Schedule</div>
+    <div class="nav-item" data-p="dutyhour">Duty-Hour Report</div>
+    <div class="nav-item" data-p="profile">Profile</div>
+    <div class="nav-item signout">Logout</div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title" id="topbar-title">Dashboard</div>
+      <div class="topbar-right"><div class="bell">●</div><div>[ Logged in as Student ]</div></div>
+    </div>
+
+    <div class="content">
+
+      <div class="page active" id="page-dashboard">
+        <h2 class="ptitle">Welcome back, [Student Name]!</h2>
+        <p class="psub">Here's what's happening with your duties today.</p>
+        <div class="panel">
+          <div class="panel-title">Assignment Overview</div>
+          <div class="row">
+            <div class="box stat-box"><div class="lbl">Current Assignment</div><div class="val">[ Office ]</div></div>
+            <div class="box stat-box"><div class="lbl">Hours Summary</div><div class="val">[ N hrs ]</div></div>
+            <div class="box stat-box"><div class="lbl">Notifications</div><div class="val">[ N items ]</div></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="box stat-box"><div class="lbl">Total Hours</div><div class="val">[ N ]</div></div>
+          <div class="box stat-box"><div class="lbl">Upcoming Duties</div><div class="val">[ N ]</div></div>
+          <div class="box stat-box"><div class="lbl">Accepted Duties</div><div class="val">[ N ]</div></div>
+          <div class="box stat-box"><div class="lbl">Pending Responses</div><div class="val">[ N ]</div></div>
+        </div>
+        <div class="split">
+          <div class="left">
+            <div class="panel"><div class="panel-title">Today's Schedule</div><div class="box">[ Today's duty, or "No Duty Today 🎉" empty state ]</div></div>
+          </div>
+          <div class="right">
+            <div class="panel"><div class="panel-title">Quick Actions</div><div class="box">[ View Schedule / My Profile shortcuts ]</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="page" id="page-schedule">
+        <h2 class="ptitle">My Duty Schedule</h2>
+        <p class="psub">View and manage your weekly duty schedule.</p>
+        <div class="tabs"><div class="tab active">Calendar</div><div class="tab">List</div></div>
+        <div class="row">
+          <div class="box stat-box"><div class="lbl">Total Hours This Week</div><div class="val">[ N hrs ]</div></div>
+          <div class="box stat-box"><div class="lbl">Scheduled Days</div><div class="val">[ N ]</div></div>
+        </div>
+        <div class="split">
+          <div class="left">
+            <div class="panel"><div class="panel-title">Calendar Time Grid (Mon–Sat, 7AM–9PM)</div><div class="grid-block">[ Weekly grid with color-coded Pending/Accepted/Deployed blocks ]</div></div>
+          </div>
+          <div class="right">
+            <div class="panel"><div class="panel-title">Upcoming Schedules</div>
+              <div class="box" style="margin-bottom:8px;">[ Day, time, office ] <span class="badge">Deployed</span></div>
+              <div class="box">[ Day, time, office ] <span class="badge">Pending</span> <span class="btn accept">Accept</span><span class="btn decline">Decline</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="page" id="page-dutyhour">
+        <h2 class="ptitle">Duty-Hour Report</h2>
+        <p class="psub">Rendered hours and attendance summary. Evaluation data intentionally excluded.</p>
+        <div class="row">
+          <div class="box stat-box"><div class="lbl">Rendered Hours</div><div class="val">[ N hrs ]</div></div>
+          <div class="box stat-box"><div class="lbl">Active (Present)</div><div class="val">[ N ]</div></div>
+          <div class="box stat-box"><div class="lbl">Late</div><div class="val">[ N ]</div></div>
+          <div class="box stat-box"><div class="lbl">Absent</div><div class="val">[ N ]</div></div>
+        </div>
+        <div class="panel"><div class="panel-title">Attendance Summary</div><div class="box">[ Current term / Latest log / Total records ]</div></div>
+        <div class="panel"><div class="panel-title">Recent Attendance Logs</div>
+          <table class="wtable">
+            <tr><th>Date</th><th>Time In</th><th>Time Out</th><th>Status</th></tr>
+            <tr><td>[ Date ]</td><td>[ Time ]</td><td>[ Time ]</td><td>[ Status ]</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="page" id="page-profile">
+        <h2 class="ptitle">My Profile</h2>
+        <p class="psub">Manage your personal information and account settings.</p>
+        <div class="split">
+          <div class="left" style="flex:1;">
+            <div class="panel">
+              <div class="box" style="text-align:center; padding:20px;">[ Avatar ]<br><br>[ Name ]<br>[ Student ID ]<br><span class="badge">Active Student Assistant</span></div>
+              <div class="row" style="margin-top:10px;"><div class="box stat-box">[ Total Duty Hours ]</div><div class="box stat-box">[ Accepted Duties ]</div></div>
+              <div class="btn dark" style="width:100%; text-align:center; margin-top:10px;">View Profile</div>
+              <div class="btn" style="width:100%; text-align:center; margin-top:6px;">Change Password</div>
+            </div>
+          </div>
+          <div class="right" style="flex:2;">
+            <div class="panel"><div class="panel-title">Personal Information</div><div class="box">[ Full Name / Student ID / Email / Contact ]</div></div>
+            <div class="panel"><div class="panel-title">Academic Information</div><div class="box">[ Program / Year Level / Date Joined / Status ]</div></div>
+            <div class="panel"><div class="panel-title">Skills &amp; Qualifications</div><div class="box">[ Assigned Office / Application Status / Skills tags ]</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="wire-note">Low-fidelity wireframe — layout &amp; structure only, matches the real sidebar nav (Dashboard, My Schedule, Duty-Hour Report, Profile) and section headings from the actual student PHP files.</div>
+
+<script>
+  document.querySelectorAll('.nav-item[data-p]').forEach(item => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      item.classList.add('active');
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + item.dataset.p).classList.add('active');
+      document.getElementById('topbar-title').textContent = item.textContent;
+    });
+  });
+  function toggleAuth() {
+    const auth = document.getElementById('auth-view');
+    const shell = document.getElementById('shell-view');
+    if (auth.classList.contains('active')) {
+      auth.classList.remove('active'); auth.style.display = 'none';
+      shell.style.display = 'flex';
+    } else {
+      shell.style.display = 'none';
+      auth.classList.add('active'); auth.style.display = 'flex';
+    }
+  }
+</script>
+
+</body>
+</html>

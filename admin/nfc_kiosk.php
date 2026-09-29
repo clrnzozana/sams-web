@@ -45,11 +45,11 @@ $currentDateLabel = date('l, F j, Y');
             --clr-red:              #fb2c36;
             --clr-red-bg:           #fee2e2;
 
-            /* Gradients */
-            --grad-navy:            linear-gradient(135deg, #003087 0%, #0047ab 100%);
-            --grad-kiosk:           linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            --grad-gold:            linear-gradient(135deg, #ffb81c 0%, #ffa500 100%);
-            --grad-card:            linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            /* Flat brand colours */
+            --grad-navy:            #003087;
+            --grad-kiosk:           #0f172a;
+            --grad-gold:            #ffb81c;
+            --grad-card:            #ffffff;
 
             /* Shadows & Border Radii */
             --shadow-kiosk:         0 20px 40px rgba(0, 0, 0, 0.3);
@@ -65,7 +65,7 @@ $currentDateLabel = date('l, F j, Y');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--grad-kiosk);
+            background: #0f172a;
             color: var(--clr-white);
             height: 100vh;
             overflow: hidden;
@@ -95,15 +95,21 @@ $currentDateLabel = date('l, F j, Y');
         .kiosk-logo {
             width: 42px;
             height: 42px;
-            background: var(--clr-white);
-            border-radius: 10px;
+            background: transparent;
+            border: none;
+            border-radius: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 900;
-            font-size: 20px;
-            color: var(--clr-navy);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            box-shadow: none;
+        }
+        .kiosk-logo img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: transparent;
         }
         .kiosk-title {
             display: flex;
@@ -216,7 +222,7 @@ $currentDateLabel = date('l, F j, Y');
             font-weight: 900;
             letter-spacing: -0.02em;
             margin-bottom: 8px;
-            background: linear-gradient(90deg, #ffffff 0%, #ffd573 100%);
+            background: #ffb81c;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -428,7 +434,9 @@ $currentDateLabel = date('l, F j, Y');
     <!-- Header bar -->
     <header class="kiosk-header">
         <div class="kiosk-brand">
-            <div class="kiosk-logo" aria-hidden="true">NU</div>
+            <div class="kiosk-logo" aria-hidden="true">
+                <img src="../assets/logo.png" alt="SAMS logo" />
+            </div>
             <div class="kiosk-title">
                 <h1>SAMS Kiosk</h1>
                 <p>NFC/RFID Attendance Station</p>

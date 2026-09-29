@@ -2,21 +2,40 @@
 @import url('sams-design-system.css');
 
 :root {
-  --sams-shell-brand-size: 40px;
+  --sams-shell-brand-size: 28px;
   --sams-shell-brand-radius: 10px;
-  --sams-shell-brand-gap: 12px;
-  --sams-shell-brand-padding-y: 24px;
-  --sams-shell-brand-padding-x: 24px;
+  --sams-shell-brand-gap: 10px;
+  --sams-shell-brand-padding-y: 18px;
+  --sams-shell-brand-padding-x: 18px;
   --sams-shell-topbar-height: 89px;
   --sams-shell-topbar-padding-x: 32px;
+}
+
+.sidebar {
+  background: var(--sidebar-bg);
+  color: var(--color-white);
 }
 
 .sidebar__brand {
   display: flex;
   align-items: center;
   gap: var(--sams-shell-brand-gap);
-  padding: var(--sams-shell-brand-padding-y) var(--sams-shell-brand-padding-x) 20px;
-  border-bottom: 1px solid var(--color-border, rgba(0, 0, 0, 0.08));
+  width: 100%;
+  min-width: 0;
+  padding: var(--sams-shell-brand-padding-y) var(--sams-shell-brand-padding-x) 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.sidebar__brand-info {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.sidebar__brand-info span {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .sidebar__logo {
@@ -28,12 +47,115 @@
   justify-content: center;
   flex-shrink: 0;
   line-height: 1;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.sidebar--student .sidebar__logo,
+.sidebar--supervisor .sidebar__logo {
+  width: 34px;
+  height: 34px;
+}
+
+.sidebar__logo img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
 }
 
 .sidebar__logo-text {
   font-size: 18px;
   font-weight: 700;
   line-height: 1;
+}
+
+.nav-item__icon,
+.nav__icon,
+.sidebar__nav-icon,
+.sidebar__nav-link svg,
+.nav-item svg,
+.nav__link svg {
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: currentColor;
+}
+
+.nav-item__icon svg,
+.nav__icon svg,
+.sidebar__nav-icon svg,
+.sidebar__nav-link svg,
+.nav-item svg,
+.nav__link svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.nav-item,
+.nav__link,
+.sidebar__nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 0 16px;
+  border-radius: 10px;
+  color: #ffffff;
+  text-decoration: none;
+  background: transparent;
+  border: 1px solid transparent;
+  transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease, border-color 0.18s ease;
+  white-space: nowrap;
+}
+
+.nav-item:hover,
+.nav__link:hover,
+.sidebar__nav-link:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.14);
+  transform: translateX(1px);
+}
+
+.nav-item--active,
+.nav__link--active,
+.sidebar__nav-link--active {
+  background: var(--nu-gold) !important;
+  color: var(--nu-navy) !important;
+  border-color: rgba(6, 29, 90, 0.12);
+  box-shadow: none;
+}
+
+.nav-item--active:hover,
+.nav__link--active:hover,
+.sidebar__nav-link--active:hover {
+  background: #003087 !important;
+  color: #ffffff !important;
+}
+
+.nav-item--active .nav-item__icon,
+.nav__link--active .nav__icon,
+.sidebar__nav-link--active .sidebar__nav-icon,
+.sidebar__nav-link--active svg,
+.nav-item--active svg,
+.nav__link--active svg {
+  color: var(--nu-navy) !important;
+  stroke: currentColor !important;
+  fill: none !important;
+}
+
+.nav-item--active .nav__label,
+.nav__link--active .nav__label,
+.sidebar__nav-link--active .nav__label,
+.sidebar__nav-link--active .sidebar__nav-label,
+.nav-item--active span,
+.nav__link--active span,
+.sidebar__nav-link--active span {
+  color: var(--nu-navy) !important;
 }
 
 .sidebar__brand-name {
@@ -52,6 +174,9 @@
   min-height: var(--sams-shell-topbar-height);
   padding-left: var(--sams-shell-topbar-padding-x);
   padding-right: var(--sams-shell-topbar-padding-x);
+  background: linear-gradient(90deg, var(--nu-navy) 0%, var(--nu-navy) 100%);
+  color: var(--color-white);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .topbar__heading {
@@ -64,12 +189,14 @@
   font-size: 18px;
   font-weight: 700;
   line-height: 1.2;
+  color: var(--color-white);
 }
 
 .topbar__subtitle,
 .topbar__sub {
   font-size: 14px;
   line-height: 1.4;
+  color: rgba(255, 255, 255, 0.82);
 }
 
 .card {

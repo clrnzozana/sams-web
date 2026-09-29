@@ -821,7 +821,7 @@ if (!function_exists('meeting_block_style')) {
             <div class="sidebar__header">
                 <div class="sidebar__brand">
                     <div class="sidebar__logo" aria-hidden="true">
-                        <span class="sidebar__logo-text">NU</span>
+                        <img src="../assets/logo.png" alt="" aria-hidden="true">
                     </div>
                     <div class="sidebar__brand-info">
                         <span class="sidebar__app-name">SA System</span>

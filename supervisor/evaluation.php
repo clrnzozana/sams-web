@@ -195,7 +195,6 @@ if ($activeTerm && $officeName !== '') {
   <link rel="stylesheet" href="../assets/css/sams-shell.css" />
   <link rel="stylesheet" href="../assets/css/sams-theme-admin.css" />
   <link rel="stylesheet" href="../assets/css/supervisor-notifications.css" />
-  <link rel="stylesheet" href="../assets/css/sams-dark-mode.css?v=20260926" />
   <link rel="stylesheet" href="../assets/css/notifications-shell.css?v=20260922" />
   <style>
     /* Reuse admin design system for consistent shell */
@@ -205,7 +204,8 @@ if ($activeTerm && $officeName !== '') {
     .shell { display: flex; width: 100%; min-height: 100vh; }
     .sidebar { width: var(--sidebar-width); min-height: 100vh; background: var(--color-white); border-right: 1px solid var(--color-border); display: flex; flex-direction: column; }
     .sidebar__brand { display:flex; align-items:center; gap:12px; padding:24px 24px 20px; border-bottom:1px solid var(--color-border); }
-    .sidebar__logo { width:40px; height:40px; background:var(--gradient-brand); border-radius:var(--radius-icon); display:flex; align-items:center; justify-content:center; }
+    .sidebar__logo { width:40px; height:40px; background:transparent; border:none; border-radius:0; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+    .sidebar__logo img { display:block; width:100%; height:100%; object-fit:contain; background:transparent; }
     .sidebar__logo-text{font-size:18px;font-weight:700;color:var(--color-white);} .sidebar__brand-name{font-size:var(--font-base);font-weight:700}
     .sidebar__brand-sub{font-size:var(--font-xs);color:var(--color-body)}
     .sidebar__nav{flex:1;padding:16px;display:flex;flex-direction:column;gap:4px;overflow-y:auto}
@@ -265,7 +265,7 @@ if ($activeTerm && $officeName !== '') {
 <div class="shell">
   <aside class="sidebar">
     <div class="sidebar__brand">
-      <div class="sidebar__logo"><span class="sidebar__logo-text">NU</span></div>
+      <div class="sidebar__logo"><img src="../assets/logo.png" alt="" aria-hidden="true"></div>
       <div>
         <div class="sidebar__brand-name">SA System</div>
         <div class="sidebar__brand-sub">Supervisor</div>
@@ -441,6 +441,6 @@ if ($activeTerm && $officeName !== '') {
         </main>
     </div>
 </div>
-    <script src="../assets/js/admin-notifications.js?v=20260922"></script><script src="../assets/js/sams-theme.js?v=20260926"></script>
+    <script src="../assets/js/admin-notifications.js?v=20260922"></script>
 </body>
 </html>

@@ -583,7 +583,7 @@ $pendingApplications = (int) $applicationCounts['pending'];
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      background: #003087;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1299,8 +1299,9 @@ $pendingApplications = (int) $applicationCounts['pending'];
       ">
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
           <div>
-            <h3 style="font-size: 15px; font-weight: 700; color: #111827; display: flex; align-items: center; gap: 6px;">
-              🔍 Skill-based Recommendation Filter
+            <h3 style="font-size: 15px; font-weight: 700; color: #111827; display: flex; align-items: center; gap: 8px;">
+              <svg viewBox="0 0 20 20" width="15" height="15" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="8.5" cy="8.5" r="4.75" stroke="currentColor" stroke-width="1.6"/><path d="M12.5 12.5L17 17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              Skill-based Recommendation Filter
             </h3>
             <div style="font-size: 12px; color: #6b7280; margin-top: 2px;">
               Select skills to filter applications and dynamically prioritize top candidates for Miss Zai.
@@ -1314,9 +1315,10 @@ $pendingApplications = (int) $applicationCounts['pending'];
               text-decoration: none;
               display: inline-flex;
               align-items: center;
-              gap: 4px;
+              gap: 6px;
             ">
-              ✕ Clear Filter
+              <svg viewBox="0 0 20 20" width="14" height="14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              Clear Filter
             </a>
           <?php endif; ?>
         </div>
@@ -1934,7 +1936,7 @@ $pendingApplications = (int) $applicationCounts['pending'];
       fileLink.target = '_blank';
 
       fileLink.textContent =
-        '📄 Open ' +
+        'Open ' +
         (doc.original_filename || 'Document');
 
       fileLink.style.display = 'inline-block';

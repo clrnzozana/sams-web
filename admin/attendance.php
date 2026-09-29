@@ -212,9 +212,9 @@ $currentDateLabel = date('l, F j, Y');
             --clr-grey-bg:        #F3F4F6;
             --clr-blue-dot:       #2B7FFF;
 
-            /* Gradients */
-            --grad-brand:         linear-gradient(135deg, #155DFC 0%, #9810FA 100%);
-            --grad-green-panel:   linear-gradient(155.38deg, #00A63E 0%, #008236 100%);
+            /* Flat brand colours */
+            --grad-brand:         #003087;
+            --grad-green-panel:   #00A63E;
 
             /* Status badge colors */
             --clr-status-completed-bg:   #DCFCE7;
@@ -1177,7 +1177,10 @@ $currentDateLabel = date('l, F j, Y');
 
                 <!-- Dual-Layer Security Panel -->
                 <div class="security-panel" role="region" aria-label="Dual-Layer Security">
-                    <h2 class="security-panel__title">🔒 Dual-Layer Security</h2>
+                    <h2 class="security-panel__title" style="display:flex; align-items:center; gap:8px;">
+                        <svg viewBox="0 0 20 20" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10 2.5 15.5 4v4.3c0 3.3-1.9 6.3-5.5 8.5-3.6-2.2-5.5-5.2-5.5-8.5V4L10 2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M7.8 10.2l1.3 1.3 3.2-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        Dual-Layer Security
+                    </h2>
                     <p class="security-panel__desc">All attendance logs verified with QR Code + PIN/OTP validation</p>
                     <div class="security-stats">
                         <div class="security-stat">

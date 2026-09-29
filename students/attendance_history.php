@@ -280,9 +280,9 @@ function h(?string $value): string
 			--color-sidebar-end: #0047ab;
 
 			/* Gradients */
-			--grad-sidebar: linear-gradient(180deg, #003087 0%, #0047ab 100%);
-			--grad-primary-135: linear-gradient(135deg, #003087 0%, #0047ab 100%);
-			--grad-page: linear-gradient(135deg, #eff6ff 0%, #ffffff 50%, #fffbeb 100%);
+			--grad-sidebar: #003087;
+			--grad-primary-135: #003087;
+			--grad-page: #f4f7fb;
 
 			/* Shadows */
 			--shadow-card: 0 10px 15px 0 rgba(0,0,0,.10), 0 4px 6px 0 rgba(0,0,0,.10);
@@ -393,15 +393,17 @@ function h(?string $value): string
 			font-weight: 700;
 			color: var(--color-white);
 			cursor: pointer;
-			transition: background .15s;
+			transition: background .15s ease, transform .15s ease;
+			border: 1px solid rgba(255,255,255,0.08);
 		}
 		.nav-item:hover { background: rgba(255,255,255,.10); }
 		.nav-item--active {
-			background: var(--color-white);
-			color: var(--color-primary);
-			box-shadow: var(--shadow-card);
+			background: #003087;
+			color: #ffffff;
+			box-shadow: none;
+			border-color: rgba(255,255,255,.14);
 		}
-		.nav-item--active:hover { background: var(--color-white); }
+		.nav-item--active:hover { background: #003087; }
 		.nav-item__icon { width: 20px; height: 20px; flex-shrink: 0; }
 
 		/* Sidebar footer */
@@ -684,13 +686,12 @@ function h(?string $value): string
 		}
 	</style>
 	<link rel="stylesheet" href="../assets/css/sams-shell.css" />
-<link rel="stylesheet" href="../assets/css/sams-dark-mode.css?v=20260926" />
 </head>
 <body>
 	<div class="layout">
 		<aside class="sidebar">
 			<div class="sidebar__brand">
-				<div class="sidebar__logo">NU</div>
+				<div class="sidebar__logo"><img src="../assets/logo.png" alt="" aria-hidden="true"></div>
 				<div>
 					<div class="sidebar__brand-name">SAMS</div>
 					<div class="sidebar__brand-sub">Student Assistant Management</div>
@@ -743,36 +744,36 @@ function h(?string $value): string
 			<div class="content">
 				<!-- Overview Card (Hero) -->
 				<section class="overview-card">
-					<div class="overview-card__eyebrow">📊 Individual duty-hour report</div>
+					<div class="overview-card__eyebrow">Individual duty-hour report</div>
 					<h2 class="overview-card__title"><?php echo h($studentName); ?></h2>
 					<p class="overview-card__desc">This web report shows your rendered duty hours for the term and an attendance summary limited to Active, Late, and Absent counts. Evaluation data is intentionally excluded from the student portal.</p>
 					<div class="overview-card__chips">
-						<span class="overview-card__chip">📈 Rendered hours</span>
-						<span class="overview-card__chip">📋 Attendance summary</span>
-						<span class="overview-card__chip">🔒 No evaluation data</span>
-						<span class="overview-card__chip">📅 <?php echo h($reportTermLabel); ?></span>
+						<span class="overview-card__chip">Rendered hours</span>
+						<span class="overview-card__chip">Attendance summary</span>
+						<span class="overview-card__chip">No evaluation data</span>
+						<span class="overview-card__chip"><?php echo h($reportTermLabel); ?></span>
 					</div>
 				</section>
 
 				<!-- Metrics Grid -->
 				<section class="overview-grid">
 					<div class="metric metric--primary">
-						<div class="metric__label">📌 Rendered Hours</div>
+						<div class="metric__label">Rendered Hours</div>
 						<div class="metric__value"><?php echo h(sams_report_hours_label($renderedHours)); ?></div>
 						<div class="metric__sub">Total rendered time from your attendance logs.</div>
 					</div>
 					<div class="metric metric--green">
-						<div class="metric__label">✓ Active (Present)</div>
+						<div class="metric__label">Active (Present)</div>
 						<div class="metric__value"><?php echo (int) $summary['active']; ?></div>
 						<div class="metric__sub">Successfully clocked in on time.</div>
 					</div>
 					<div class="metric metric--yellow">
-						<div class="metric__label">⏰ Late</div>
+						<div class="metric__label">Late</div>
 						<div class="metric__value"><?php echo (int) $summary['late']; ?></div>
 						<div class="metric__sub">Clocked in after grace period.</div>
 					</div>
 					<div class="metric metric--red">
-						<div class="metric__label">✗ Absent</div>
+						<div class="metric__label">Absent</div>
 						<div class="metric__value"><?php echo (int) $summary['absent']; ?></div>
 						<div class="metric__sub">No clock-in by schedule end.</div>
 					</div>
@@ -836,7 +837,6 @@ function h(?string $value): string
 			</div>
 		</main>
 	</div>
-<script src="../assets/js/sams-theme.js?v=20260926"></script>
 </body>
 <!-- SAMS Student Portal Attendance History -->
 </html>
