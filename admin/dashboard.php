@@ -78,6 +78,7 @@ $alerts = [];
 if ($pendingApplications > 0) {
     $alerts[] = [
         'tone' => 'warn',
+        'icon' => 'clipboard-list',
         'title' => $pendingApplications . ' applications awaiting review',
         'body' => 'Review pending applications from this week',
     ];
@@ -93,6 +94,7 @@ $heroLatestSubmitted = !empty($heroLatestApplication['submitted_at'])
 if ($monthlyHours > 0) {
     $alerts[] = [
         'tone' => 'succ',
+        'icon' => 'clock',
         'title' => 'Live monthly hours updated',
         'body' => 'Current month total is ' . number_format($monthlyHours, 1) . ' hours',
     ];
@@ -100,6 +102,7 @@ if ($monthlyHours > 0) {
 if ($avgRating > 0) {
     $alerts[] = [
         'tone' => 'info',
+        'icon' => 'star-outline',
         'title' => 'Current evaluation average ' . number_format($avgRating, 1) . '/5',
         'body' => 'Supervisor ratings are reflected from live records',
     ];
@@ -146,10 +149,10 @@ function sams_admin_dashboard_attendance_dot(string $status): string
         ============================================= */
         :root {
             /* Brand */
-            --color-primary:         #003087;
-            --color-primary-dark:    #00205b;
-            --color-purple:          #ffb81c;
-            --gradient-brand:        #003087;
+            --color-primary:         #155dfc;
+            --color-primary-dark:    #1447e6;
+            --color-purple:          #9810fa;
+            --gradient-brand:        linear-gradient(135deg, #155dfc 0%, #9810fa 100%);
 
             /* Neutral */
             --color-heading:         #101828;
@@ -359,6 +362,7 @@ function sams_admin_dashboard_attendance_dot(string $status): string
             background: var(--gradient-brand);
             border-radius: var(--radius-badge);
             display: flex; align-items: center; justify-content: center;
+            color: var(--color-white);
             flex-shrink: 0;
         }
         .topbar__avatar svg { width: 20px; height: 20px; }
@@ -397,20 +401,22 @@ function sams_admin_dashboard_attendance_dot(string $status): string
             content: '';
             position: absolute;
             inset: 0;
-            background: rgba(0, 48, 135, 0.02);
+            background:
+                radial-gradient(circle at 18% 8%, rgba(21, 93, 252, 0.08), transparent 0 22%),
+                radial-gradient(circle at 92% 12%, rgba(152, 16, 250, 0.07), transparent 0 20%);
             pointer-events: none;
             z-index: -1;
         }
 
         .hero {
-            background: #003087;
+            background: linear-gradient(135deg, #0f4cd6 0%, #205ee6 54%, #3c7dff 100%);
             color: #fff;
             border-radius: 22px;
             padding: 28px;
             display: grid;
             grid-template-columns: minmax(0, 1.35fr) minmax(320px, .85fr);
             gap: 20px;
-            box-shadow: 0 12px 22px rgba(0, 48, 135, 0.12);
+            box-shadow: 0 20px 40px rgba(15, 76, 214, 0.18);
             overflow: hidden;
             position: relative;
             animation: dashboardFadeIn .45s ease both;
@@ -686,10 +692,11 @@ function sams_admin_dashboard_attendance_dot(string $status): string
         .stat-card__top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; }
         .stat-card__icon-wrap {
             width: 48px; height: 48px;
-            background: #fff7d6;
+            background: linear-gradient(180deg, #eff4ff 0%, #f8fbff 100%);
             border-radius: 14px;
             display: flex; align-items: center; justify-content: center;
-            border: 1px solid #f4d77d;
+            border: 1px solid #dbe6ff;
+            color: #4a5565;
         }
         .stat-card__icon-wrap svg { width: 24px; height: 24px; }
         .stat-card__trend { font-size: var(--font-sm); font-weight: 400; color: var(--color-green-up); line-height: var(--lh-sm); }
@@ -740,7 +747,7 @@ function sams_admin_dashboard_attendance_dot(string $status): string
             width: 8px;
             height: 8px;
             border-radius: 999px;
-            background: #ffb81c;
+            background: linear-gradient(135deg, #155dfc 0%, #9810fa 100%);
         }
 
         .section-note {
@@ -764,7 +771,7 @@ function sams_admin_dashboard_attendance_dot(string $status): string
         .app-row:hover { background: var(--color-bg-app); }
         .app-row__avatar {
             width: 40px; height: 40px;
-            background: #003087;
+            background: var(--gradient-brand);
             border-radius: var(--radius-badge);
             display: flex; align-items: center; justify-content: center;
             font-size: var(--font-base); font-weight: 700; color: var(--color-white);
@@ -799,7 +806,15 @@ function sams_admin_dashboard_attendance_dot(string $status): string
             text-decoration: none; transition: background .15s; cursor: pointer;
         }
         .qa-btn:hover { background: var(--color-border); }
-        .qa-btn__emoji { font-size: 24px; line-height: 1; flex-shrink: 0; width: 33px; }
+        .qa-btn__icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 24px;
+            width: 24px;
+            height: 24px;
+        }
+        .qa-btn__icon svg { display: block; width: 20px; height: 20px; }
 
         .meeting-list { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; }
         .meeting-item {
@@ -931,21 +946,14 @@ function sams_admin_dashboard_attendance_dot(string $status): string
             <div class="topbar__right">
                 <span id="connectivity-badge" style="font-size:12px;font-weight:700;padding:6px 10px;border-radius:9999px;background:#fef3c6;color:#a65f00;">Checking...</span>
                 <div class="topbar__notif-btn" role="button" aria-label="Notifications" tabindex="0">
-                    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                        <path d="M15 6.67A5 5 0 0 0 5 6.67C5 12.5 2.5 14.17 2.5 14.17h15S15 12.5 15 6.67Z" stroke="#364153" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M11.44 17.5a1.67 1.67 0 0 1-2.88 0" stroke="#364153" stroke-width="1.5" stroke-linecap="round"/>
-                    </svg>
+                    <?= sams_icon('bell', '') ?>
                     <span class="topbar__notif-dot" aria-hidden="true"></span>
                 </div>
                 <div class="topbar__user-info" aria-label="Logged in user">
                     <div class="topbar__user-name"><?= htmlspecialchars($admin_name) ?></div>
                     <div class="topbar__user-role"><?= htmlspecialchars($admin_role) ?></div>
                 </div>
-                <div class="topbar__avatar" aria-hidden="true">
-                    <svg viewBox="0 0 20 20" fill="none">
-                        <path d="M10 10a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM17.5 17.5c0-4.14-3.36-7.5-7.5-7.5S2.5 13.36 2.5 17.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-                    </svg>
-                </div>
+                <div class="topbar__avatar" aria-hidden="true"><?= sams_icon('user-round', '') ?></div>
             </div>
         </header>
 
@@ -1016,11 +1024,7 @@ function sams_admin_dashboard_attendance_dot(string $status): string
                 <div class="stat-card" role="listitem">
                     <div class="stat-card__top">
                         <div class="stat-card__icon-wrap" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none">
-                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="#4a5565" stroke-width="1.5" stroke-linecap="round"/>
-                                <circle cx="9" cy="7" r="4" stroke="#4a5565" stroke-width="1.5"/>
-                                <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="#4a5565" stroke-width="1.5" stroke-linecap="round"/>
-                            </svg>
+                            <?= sams_icon('users-round', '') ?>
                         </div>
                         <span class="stat-card__trend" aria-label="Trending up">↑</span>
                     </div>
@@ -1032,10 +1036,7 @@ function sams_admin_dashboard_attendance_dot(string $status): string
                 <div class="stat-card" role="listitem">
                     <div class="stat-card__top">
                         <div class="stat-card__icon-wrap" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8L14 2Z" stroke="#4a5565" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="#4a5565" stroke-width="1.5" stroke-linecap="round"/>
-                            </svg>
+                            <?= sams_icon('file-clock', '') ?>
                         </div>
                     </div>
                     <div class="stat-card__value" id="metric-pending-applications"><?= (int) $pendingApplications ?></div>
@@ -1046,10 +1047,7 @@ function sams_admin_dashboard_attendance_dot(string $status): string
                 <div class="stat-card" role="listitem">
                     <div class="stat-card__top">
                         <div class="stat-card__icon-wrap" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none">
-                                <circle cx="12" cy="12" r="9" stroke="#4a5565" stroke-width="1.5"/>
-                                <path d="M12 7v5l3 3" stroke="#4a5565" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
+                            <?= sams_icon('clock', '') ?>
                         </div>
                         <span class="stat-card__trend" aria-label="Trending up">↑</span>
                     </div>
@@ -1061,10 +1059,7 @@ function sams_admin_dashboard_attendance_dot(string $status): string
                 <div class="stat-card" role="listitem">
                     <div class="stat-card__top">
                         <div class="stat-card__icon-wrap" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none">
-                                <path d="M22 7L13.5 15.5L8.5 10.5L2 17" stroke="#4a5565" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M16 7h6v6" stroke="#4a5565" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
+                            <?= sams_icon('star-outline', '') ?>
                         </div>
                         <span class="stat-card__trend" aria-label="Trending up">↑</span>
                     </div>
@@ -1106,12 +1101,12 @@ function sams_admin_dashboard_attendance_dot(string $status): string
                     <h2 class="card__title" id="qa-heading" style="margin-bottom:8px;">Quick Actions</h2>
                     <p class="section-note">Jump straight into the highest-value admin tasks without hunting through the sidebar.</p>
                     <div class="qa-list">
-                        <a href="applications.php" class="qa-btn"><span class="qa-btn__emoji" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 4.5h7l4 4V18a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6.5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 4.5v4h4M8.5 12h7M8.5 15.5h7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span> Review Applications</a>
-                        <a href="scheduling.php"   class="qa-btn"><span class="qa-btn__emoji" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="M8 3.5V7M16 3.5V7M3.5 10.5H20.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span> Create Schedule</a>
-                        <a href="meetings.php"     class="qa-btn"><span class="qa-btn__emoji" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="M8 3.5V7M16 3.5V7M3.5 10.5H20.5M9 14.5h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span> Manage Meetings</a>
-                        <a href="supervisors.php"  class="qa-btn"><span class="qa-btn__emoji" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="3.4" stroke="currentColor" stroke-width="1.8"/><path d="M5 18.5c1.1-2.7 3.7-4.2 7-4.2 3.3 0 5.9 1.5 7 4.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span> Manage Supervisors</a>
-                        <a href="reports.php"      class="qa-btn"><span class="qa-btn__emoji" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 18.5v-6M12 18.5V7M18 18.5v-10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M4 18.5h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span> Generate Reports</a>
-                        <a href="evaluation.php"   class="qa-btn"><span class="qa-btn__emoji" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.5 18.5h11M8.5 15.5l2.2-5.2 2.3 4.2 1.7-3 2.3 4.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 7.5h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span> Evaluate Students</a>
+                        <a href="applications.php" class="qa-btn"><span class="qa-btn__icon" aria-hidden="true"><?= sams_icon('clipboard-list', '') ?></span> Review Applications</a>
+                        <a href="scheduling.php"   class="qa-btn"><span class="qa-btn__icon" aria-hidden="true"><?= sams_icon('calendar-days', '') ?></span> Create Schedule</a>
+                        <a href="meetings.php"     class="qa-btn"><span class="qa-btn__icon" aria-hidden="true"><?= sams_icon('calendar-clock', '') ?></span> Manage Meetings</a>
+                        <a href="supervisors.php"  class="qa-btn"><span class="qa-btn__icon" aria-hidden="true"><?= sams_icon('users-round', '') ?></span> Manage Supervisors</a>
+                        <a href="reports.php"      class="qa-btn"><span class="qa-btn__icon" aria-hidden="true"><?= sams_icon('file-text', '') ?></span> Generate Reports</a>
+                        <a href="evaluation.php"   class="qa-btn"><span class="qa-btn__icon" aria-hidden="true"><?= sams_icon('pen-line', '') ?></span> Evaluate Students</a>
                     </div>
 
                     <h3 style="margin:20px 0 10px;font-size:14px;color:#4a5565;">Upcoming Meetings</h3>
@@ -1169,9 +1164,7 @@ function sams_admin_dashboard_attendance_dot(string $status): string
                     <div class="alert-list">
                         <?php foreach ($alerts as $alert): ?>
                         <div class="alert-item alert-item--<?= htmlspecialchars((string) ($alert['tone'] ?? 'info')) ?>" role="status">
-                            <svg class="alert-item__icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                                <circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/>
-                            </svg>
+                            <?= sams_icon((string) ($alert['icon'] ?? 'info'), 'alert-item__icon') ?>
                             <div>
                                 <div class="alert-item__title"><?= htmlspecialchars((string) ($alert['title'] ?? 'Live alert')) ?></div>
                                 <div class="alert-item__body"><?= htmlspecialchars((string) ($alert['body'] ?? '')) ?></div>

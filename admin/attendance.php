@@ -11,6 +11,7 @@ if (!$currentUser || (($currentUser['role'] ?? null) !== 'admin')) {
 $admin_name = (string) ($currentUser['name'] ?? 'SAMS Admin');
 
 $pdo = sams_pdo();
+$attendanceMonthSummary = sams_attendance_month_summary($pdo);
 
 $applicationBadgeCount = (int) $pdo->query("SELECT COUNT(*) FROM applications WHERE status = 'pending'")->fetchColumn();
 
@@ -34,21 +35,6 @@ function sams_admin_attendance_dot(string $status): string
     };
 }
 
-function sams_admin_attendance_duration_label(?string $timeIn, ?string $timeOut): string
-{
-    if (empty($timeIn)) {
-        return '-';
-    }
-
-    $start = strtotime($timeIn);
-    $end = !empty($timeOut) ? strtotime($timeOut) : false;
-    if ($start && $end && $end > $start) {
-        return number_format(($end - $start) / 3600, 1) . 'h';
-    }
-
-    return '-';
-}
-
 $todayRows = [];
 if ($activeTermId > 0) {
     $todayRowsStmt = $pdo->prepare(
@@ -64,13 +50,14 @@ if ($activeTermId > 0) {
              FROM attendance_logs al2
              WHERE al2.application_id = ds.application_id
                AND al2.duty_id = ds.duty_id
+               AND DATE(al2.created_at) = CURDATE()
              ORDER BY al2.log_id DESC
              LIMIT 1
          )
          WHERE ds.day_of_week = :day
            AND ds.status = "deployed"
            AND ds.term_id = :term_id
-         ORDER BY ds.start_time ASC, al.log_id DESC'
+         ORDER BY ds.start_time ASC'
     );
     $todayRowsStmt->execute([
         'day' => $currentDay,
@@ -124,13 +111,15 @@ foreach ($todayRows as $row) {
         'dot' => sams_admin_attendance_dot($status),
         'name' => sams_admin_attendance_display_name($row),
         'office' => $officeName,
+        'schedule_start' => (string) ($row['start_time'] ?? ''),
         'time_in' => $timeIn ? date('g:i A', strtotime($timeIn)) : '-',
         'time_out' => $timeOut ? date('g:i A', strtotime($timeOut)) : ($timeIn ? 'In Progress' : '-'),
-        'duration' => sams_admin_attendance_duration_label($timeIn, $timeOut),
+        'duration' => sams_attendance_duration_label($timeIn, $timeOut),
         'method' => !empty($timeIn) ? 'Live DB' : '-',
         'status' => match ($status) {
             'present', 'completed' => 'Present',
             'late' => 'Late',
+            'active' => 'Active',
             default => 'Absent',
         },
     ];
@@ -212,9 +201,9 @@ $currentDateLabel = date('l, F j, Y');
             --clr-grey-bg:        #F3F4F6;
             --clr-blue-dot:       #2B7FFF;
 
-            /* Flat brand colours */
-            --grad-brand:         #003087;
-            --grad-green-panel:   #00A63E;
+            /* Gradients */
+            --grad-brand:         linear-gradient(135deg, #155DFC 0%, #9810FA 100%);
+            --grad-green-panel:   linear-gradient(155.38deg, #00A63E 0%, #008236 100%);
 
             /* Status badge colors */
             --clr-status-completed-bg:   #DCFCE7;
@@ -589,6 +578,7 @@ $currentDateLabel = date('l, F j, Y');
             transition: border-color 0.15s;
         }
         .filter-select:focus { border-color: var(--clr-blue); }
+        .filter-results { color: var(--clr-text-muted); font-size: 13px; }
 
         /* Export Button */
         .btn-export {
@@ -1037,15 +1027,22 @@ $currentDateLabel = date('l, F j, Y');
                         >
                     </div>
                     <!-- Filter -->
-                    <select class="filter-select" aria-label="Filter by period" id="filterSelect">
-                        <option value="today">Today</option>
-                        <option value="yesterday">Yesterday</option>
-                        <option value="week">This Week</option>
-                        <option value="month">This Month</option>
+                    <select class="filter-select" aria-label="Filter attendance by status" id="attendanceStatusFilter">
+                        <option value="all">All statuses</option>
+                        <option value="present">Present</option>
+                        <option value="late">Late</option>
+                        <option value="active">Active</option>
+                        <option value="absent">Absent</option>
+                    </select>
+                    <select class="filter-select" aria-label="Filter by scheduled shift" id="scheduleShiftFilter">
+                        <option value="all">All schedules</option>
+                        <option value="morning">Morning</option>
+                        <option value="afternoon">Afternoon</option>
                     </select>
                 </div>
+                <div id="attendance-results-count" class="filter-results" aria-live="polite"></div>
                 <!-- Export -->
-                <button class="btn-export" type="button">
+                <button class="btn-export" type="button" data-export-table="#attendance-log-table" data-export-name="sams-attendance" aria-label="Export attendance report">
                     <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M8 2v8M8 10L5 7M8 10l3-3" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M2 11v2a1 1 0 001 1h10a1 1 0 001-1v-2" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
@@ -1078,9 +1075,9 @@ $currentDateLabel = date('l, F j, Y');
                                 <path d="M3 17l4-8 4 5 3-3 3 2" stroke="#155DFC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                         </div>
-                        <span class="stat-card__pct">+5%</span>
+                        <span class="stat-card__pct">Live</span>
                     </div>
-                    <div class="stat-card__value" id="metric-avg-hours">3.2h</div>
+                    <div class="stat-card__value" id="metric-avg-hours"><?= htmlspecialchars(sams_attendance_format_duration((int) $attendanceMonthSummary['average_seconds_per_day']), ENT_QUOTES, 'UTF-8') ?></div>
                     <div class="stat-card__label">Avg. Hours/Day</div>
                 </div>
                 <!-- Active Now -->
@@ -1107,9 +1104,9 @@ $currentDateLabel = date('l, F j, Y');
                                 <path d="M2 9h16" stroke="#F54900" stroke-width="1.2"/>
                             </svg>
                         </div>
-                        <span class="stat-card__pct">+12%</span>
+                        <span class="stat-card__pct">Live</span>
                     </div>
-                    <div class="stat-card__value" id="metric-month-hours">1,842h</div>
+                    <div class="stat-card__value" id="metric-month-hours"><?= htmlspecialchars(sams_attendance_format_duration((int) $attendanceMonthSummary['rendered_seconds']), ENT_QUOTES, 'UTF-8') ?></div>
                     <div class="stat-card__label">This Month</div>
                 </div>
             </div>
@@ -1121,7 +1118,7 @@ $currentDateLabel = date('l, F j, Y');
                     <p class="table-card__date"><?php echo htmlspecialchars($currentDateLabel, ENT_QUOTES, 'UTF-8'); ?></p>
                 </div>
                 <div class="att-table-wrap">
-                    <table class="att-table" aria-label="Today's attendance log">
+                    <table class="att-table" id="attendance-log-table" aria-label="Today's attendance log">
                         <colgroup>
                             <col class="col-sa">
                             <col class="col-office">
@@ -1144,7 +1141,7 @@ $currentDateLabel = date('l, F j, Y');
                         </thead>
                         <tbody id="attendanceTableBody">
                             <?php foreach ($attendance_rows as $row): ?>
-                            <tr>
+                            <tr data-schedule-start="<?= htmlspecialchars((string) ($row['schedule_start'] ?? ''), ENT_QUOTES, 'UTF-8') ?>" data-status="<?= htmlspecialchars(strtolower((string) ($row['status'] ?? '')), ENT_QUOTES, 'UTF-8') ?>">
                                 <td>
                                     <div class="att-name">
                                         <span class="att-dot att-dot--<?= htmlspecialchars($row['dot']) ?>" aria-hidden="true"></span>
@@ -1160,8 +1157,8 @@ $currentDateLabel = date('l, F j, Y');
                                     <?php
                                     $st = strtolower($row['status']);
                                     $cls = 'att-status--scheduled';
-                                    if ($st === 'completed') $cls = 'att-status--completed';
-                                    elseif ($st === 'active') $cls = 'att-status--active';
+                                    if ($st === 'present' || $st === 'completed') $cls = 'att-status--completed';
+                                    elseif ($st === 'late' || $st === 'active') $cls = 'att-status--active';
                                     ?>
                                     <span class="att-status <?= $cls ?>"><?= htmlspecialchars($row['status']) ?></span>
                                 </td>
@@ -1177,10 +1174,7 @@ $currentDateLabel = date('l, F j, Y');
 
                 <!-- Dual-Layer Security Panel -->
                 <div class="security-panel" role="region" aria-label="Dual-Layer Security">
-                    <h2 class="security-panel__title" style="display:flex; align-items:center; gap:8px;">
-                        <svg viewBox="0 0 20 20" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10 2.5 15.5 4v4.3c0 3.3-1.9 6.3-5.5 8.5-3.6-2.2-5.5-5.2-5.5-8.5V4L10 2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M7.8 10.2l1.3 1.3 3.2-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        Dual-Layer Security
-                    </h2>
+                    <h2 class="security-panel__title"><?= sams_icon('lock', '') ?> Dual-Layer Security</h2>
                     <p class="security-panel__desc">All attendance logs verified with QR Code + PIN/OTP validation</p>
                     <div class="security-stats">
                         <div class="security-stat">
@@ -1257,18 +1251,77 @@ $currentDateLabel = date('l, F j, Y');
     /* ---- Live search filter ---- */
     var searchInput = document.getElementById('searchInput');
     var tableBody   = document.getElementById('attendanceTableBody');
+    var shiftFilter = document.getElementById('scheduleShiftFilter');
+    var statusFilter = document.getElementById('attendanceStatusFilter');
+    var resultsCount = document.getElementById('attendance-results-count');
+    var attendanceFilterStorageKey = 'sams-admin-attendance-filters';
+
+    try {
+        var savedAttendanceFilters = JSON.parse(sessionStorage.getItem(attendanceFilterStorageKey) || '{}');
+        if (searchInput && typeof savedAttendanceFilters.query === 'string') searchInput.value = savedAttendanceFilters.query;
+        if (shiftFilter && ['all', 'morning', 'afternoon'].indexOf(savedAttendanceFilters.shift) !== -1) shiftFilter.value = savedAttendanceFilters.shift;
+        if (statusFilter && ['all', 'present', 'late', 'active', 'absent'].indexOf(savedAttendanceFilters.status) !== -1) statusFilter.value = savedAttendanceFilters.status;
+    } catch (error) {}
+
+    function schedulePeriod(startTime) {
+        var match = String(startTime || '').trim().match(/^(\d{1,2}):\d{2}(?::\d{2})?\s*(AM|PM)?$/i);
+        if (!match) return 'unknown';
+
+        var hour = parseInt(match[1], 10);
+        var meridiem = (match[2] || '').toUpperCase();
+        if (meridiem === 'PM' && hour < 12) hour += 12;
+        if (meridiem === 'AM' && hour === 12) hour = 0;
+        return hour < 12 ? 'morning' : 'afternoon';
+    }
+
+    function applyAttendanceFilters() {
+        if (!tableBody) return;
+
+        var query = searchInput ? searchInput.value.trim().toLowerCase() : '';
+        var selectedShift = shiftFilter ? shiftFilter.value : 'all';
+        var selectedStatus = statusFilter ? statusFilter.value : 'all';
+        var rows = Array.prototype.slice.call(tableBody.querySelectorAll('tr'));
+        var dataRows = rows.filter(function (row) { return !row.querySelector('td[colspan]'); });
+        var visibleCount = 0;
+
+        tableBody.querySelectorAll('[data-filter-empty]').forEach(function (row) { row.remove(); });
+        dataRows.forEach(function (row) {
+            var name = row.querySelector('.att-name');
+            var matchesSearch = !query || (name && name.textContent.toLowerCase().indexOf(query) !== -1);
+            var matchesShift = selectedShift === 'all' || schedulePeriod(row.getAttribute('data-schedule-start')) === selectedShift;
+            var status = (row.getAttribute('data-status') || (row.querySelector('.att-status') && row.querySelector('.att-status').textContent) || '').trim().toLowerCase();
+            var matchesStatus = selectedStatus === 'all' || status === selectedStatus;
+            row.style.display = matchesSearch && matchesShift && matchesStatus ? '' : 'none';
+            if (matchesSearch && matchesShift && matchesStatus) visibleCount++;
+        });
+
+        if (dataRows.length > 0 && visibleCount === 0) {
+            var emptyRow = document.createElement('tr');
+            emptyRow.setAttribute('data-filter-empty', 'true');
+            var emptyCell = document.createElement('td');
+            emptyCell.colSpan = 7;
+            emptyCell.textContent = 'No attendance records match these filters.';
+            emptyRow.appendChild(emptyCell);
+            tableBody.appendChild(emptyRow);
+        }
+        if (resultsCount) resultsCount.textContent = 'Showing ' + visibleCount + ' of ' + dataRows.length + ' attendance records';
+        try {
+            sessionStorage.setItem(attendanceFilterStorageKey, JSON.stringify({
+                query: query,
+                shift: selectedShift,
+                status: selectedStatus
+            }));
+        } catch (error) {}
+    }
 
     if (searchInput && tableBody) {
         searchInput.addEventListener('input', function () {
-            var q = this.value.trim().toLowerCase();
-            var rows = tableBody.querySelectorAll('tr');
-            rows.forEach(function (row) {
-                var name = row.querySelector('.att-name');
-                var text = name ? name.textContent.toLowerCase() : '';
-                row.style.display = (!q || text.indexOf(q) !== -1) ? '' : 'none';
-            });
+            applyAttendanceFilters();
         });
     }
+    if (shiftFilter) shiftFilter.addEventListener('change', applyAttendanceFilters);
+    if (statusFilter) statusFilter.addEventListener('change', applyAttendanceFilters);
+    window.applyAttendanceFilters = applyAttendanceFilters;
 
 })();
 </script>
@@ -1282,6 +1335,8 @@ $currentDateLabel = date('l, F j, Y');
     var tableBody = document.getElementById('attendanceTableBody');
     var metricOnTime = document.getElementById('metric-on-time');
     var metricActive = document.getElementById('metric-active-now');
+    var metricAverageHours = document.getElementById('metric-avg-hours');
+    var metricMonthHours = document.getElementById('metric-month-hours');
     var officeBars = document.getElementById('officeBars');
     var securityVerified = document.getElementById('security-verified');
     var securityAccuracy = document.getElementById('security-accuracy');
@@ -1298,6 +1353,7 @@ $currentDateLabel = date('l, F j, Y');
         var office = r.office_name || '-';
         var timeIn = r.time_in || '-';
         var timeOut = r.time_out || (r.time_in ? 'In Progress' : '-');
+        var scheduleStart = r.start_time || r.schedule_start || '';
         var status = r.status || 'Scheduled';
         var dotCls = dotClassForStatus(status);
 
@@ -1305,12 +1361,12 @@ $currentDateLabel = date('l, F j, Y');
         if ((status || '').toLowerCase() === 'completed') statusCls = 'att-status--completed';
         else if ((status || '').toLowerCase() === 'active' || (status || '').toLowerCase() === 'late') statusCls = 'att-status--active';
 
-        var html = '<tr>' +
+        var html = '<tr data-schedule-start="' + escapeHtml(scheduleStart) + '">' +
             '<td><div class="att-name"><span class="att-dot ' + dotCls + '" aria-hidden="true"></span>' + escapeHtml(name) + '</div></td>' +
             '<td>' + escapeHtml(office) + '</td>' +
             '<td>' + escapeHtml(timeIn) + '</td>' +
             '<td>' + escapeHtml(timeOut) + '</td>' +
-            '<td><span class="att-duration">-</span></td>' +
+            '<td><span class="att-duration">' + escapeHtml(r.duration || '-') + '</span></td>' +
             '<td><span class="att-method">-</span></td>' +
             '<td><span class="att-status ' + statusCls + '">' + escapeHtml(status) + '</span></td>' +
             '</tr>';
@@ -1362,11 +1418,14 @@ $currentDateLabel = date('l, F j, Y');
 
                 if (metricActive) metricActive.textContent = String(active_now);
                 if (metricOnTime) metricOnTime.textContent = (completed_today + '/' + total_schedules);
+                if (metricAverageHours) metricAverageHours.textContent = metrics.average_hours_per_day || '0 min';
+                if (metricMonthHours) metricMonthHours.textContent = metrics.month_hours || '0 min';
 
                 // Table rows
                 if (tableBody && Array.isArray(data.today_rows)) {
                     var rowsHtml = data.today_rows.map(renderRow).join('');
                     tableBody.innerHTML = rowsHtml || '<tr><td colspan="7">No attendance records for today.</td></tr>';
+                    if (window.applyAttendanceFilters) window.applyAttendanceFilters();
                 }
 
                 // Offices
@@ -1404,6 +1463,7 @@ $currentDateLabel = date('l, F j, Y');
                     if (payload.today_rows && tableBody) {
                         var rowsHtml = (payload.today_rows || []).map(renderRow).join('');
                         tableBody.innerHTML = rowsHtml || '<tr><td colspan="7">No attendance records for today.</td></tr>';
+                        if (window.applyAttendanceFilters) window.applyAttendanceFilters();
                     }
                     if (payload.offices && Array.isArray(payload.offices)) updateOfficeBars(payload.offices);
                 } catch (err) {
@@ -1420,6 +1480,7 @@ $currentDateLabel = date('l, F j, Y');
 </script>
 
 <script src="../assets/js/admin-notifications.js?v=20260922"></script>
+<script src="../assets/js/table-export.js" defer></script>
 
 </body>
 </html>

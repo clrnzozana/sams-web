@@ -278,7 +278,7 @@ function sams_eval_badge_class(float $score): string
       width: 40px;
       height: 40px;
       border-radius: var(--radius-sm);
-      background: #003087;
+      background: linear-gradient(135deg, #155DFC 0%, #9810FA 100%);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -340,7 +340,7 @@ function sams_eval_badge_class(float $score): string
     .topbar__user-info { text-align: right; }
     .topbar__user-name { font-size: var(--fs-sm); color: var(--clr-text-primary); }
     .topbar__user-role { font-size: var(--fs-xs); color: var(--clr-text-muted); }
-    .topbar__avatar { width: 36px; height: 36px; border-radius: var(--radius-pill); background: #003087; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .topbar__avatar { width: 36px; height: 36px; border-radius: var(--radius-pill); background: linear-gradient(135deg, #155DFC 0%, #9810FA 100%); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 
     .content {
       padding: 24px 32px 32px;
@@ -496,7 +496,7 @@ function sams_eval_badge_class(float $score): string
                 <?php endforeach; ?>
               </select>
             </form>
-            <button class="btn-primary" type="button"><?php echo sams_icon('download',''); ?> Export Report</button>
+            <button class="btn-primary" type="button" data-export-table="#evaluation-table" data-export-name="sams-evaluations"><?php echo sams_icon('download',''); ?> Export Report</button>
             <form method="post" style="display:inline-block;margin-left:12px;">
               <input type="hidden" name="toggle_evaluations" value="1" />
               <input type="hidden" name="value" value="<?php echo $evaluationsEnabled ? '0' : '1'; ?>" />
@@ -552,7 +552,7 @@ function sams_eval_badge_class(float $score): string
             <div class="empty-state">No evaluations have been submitted for this term yet.</div>
           <?php else: ?>
             <div class="table-wrap">
-              <table aria-label="Evaluation review list">
+              <table id="evaluation-table" aria-label="Evaluation review list">
                 <thead>
                   <tr>
                     <th>Student</th>
@@ -596,5 +596,6 @@ function sams_eval_badge_class(float $score): string
     </main>
   </div>
   <script src="../assets/js/admin-notifications.js?v=20260922"></script>
+  <script src="../assets/js/table-export.js" defer></script>
 </body>
 </html>

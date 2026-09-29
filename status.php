@@ -13,15 +13,18 @@ $course         = (string) ($submission['course'] ?? 'BSIT');
 $year_level     = (string) ($submission['year_level'] ?? '3rd Year');
 $date_submitted = (string) ($submission['date_submitted'] ?? date('F j, Y'));
 $status         = strtoupper((string) ($submission['status'] ?? 'PENDING'));
+$status_icon    = 'hourglass';
 $status_title   = 'Application Under Review';
 $status_sub     = 'Your application is currently being reviewed by Miss Zai. This typically takes 1-3 business days.';
 $showAvailabilityCta = !empty($submission['success']);
 
 if ($status === 'DRAFT') {
+    $status_icon = 'file-text';
     $status_title = 'Application Saved as Draft';
     $status_sub = (string) ($submission['message'] ?? 'Your application has been saved as a draft. Please complete your weekly time availability to submit your application.');
     $showAvailabilityCta = true;
 } elseif (!empty($submission['success'])) {
+    $status_icon = 'circle-check';
     $status_title = 'Application Submitted Successfully';
     $status_sub = (string) ($submission['message'] ?? 'Your application has been submitted and is now in the review queue.');
 }
@@ -570,7 +573,7 @@ if ($status === 'DRAFT') {
                         <path d="M24 13V24L30 30" stroke="#e17100" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </div>
-                <h2 class="status-card__state-title" id="status-state-title"><?= htmlspecialchars($status_title) ?></h2>
+                <h2 class="status-card__state-title" id="status-state-title"><?= sams_icon($status_icon, '') ?> <?= htmlspecialchars($status_title) ?></h2>
                 <p class="status-card__state-sub" id="status-state-sub">
                     <?= htmlspecialchars($status_sub) ?>
                 </p>
@@ -678,7 +681,7 @@ if ($status === 'DRAFT') {
                         </svg>
                     </div>
                     <div class="next-step__info">
-                        <p class="next-step__title">Step 1: Application Submitted ✅</p>
+                        <p class="next-step__title">Step 1: Application Submitted <?= sams_icon('circle-check', '') ?></p>
                         <p class="next-step__desc">Your application has been successfully submitted and is now in the review queue.</p>
                     </div>
                 </li>
@@ -692,7 +695,7 @@ if ($status === 'DRAFT') {
                         </svg>
                     </div>
                     <div class="next-step__info">
-                        <p class="next-step__title">Step 2: Under Review ⏳</p>
+                        <p class="next-step__title">Step 2: Under Review <?= sams_icon('hourglass', '') ?></p>
                         <p class="next-step__desc">Miss Zai is currently reviewing your application and documents. Expected: 1-3 business days.</p>
                     </div>
                 </li>

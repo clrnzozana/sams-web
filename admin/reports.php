@@ -375,6 +375,14 @@ $activeStudents = (int) $pdo->query('SELECT COUNT(*) FROM students WHERE is_enro
 $monthlyHoursTotal = (int) ($months[(int) date('n') - 1]['h'] ?? 0);
 $avgRatingStmt = $pdo->query('SELECT COALESCE(AVG((performance_rating + reliability_rating + professionalism_rating) / 3), 0) FROM evaluations WHERE performance_rating IS NOT NULL');
 $avgRating = (float) $avgRatingStmt->fetchColumn();
+$performanceSummaryStmt = $pdo->query(
+    'SELECT COUNT(*) AS evaluation_count,
+            COALESCE(AVG(performance_rating), 0) AS performance_average,
+            COALESCE(AVG(reliability_rating), 0) AS reliability_average,
+            COALESCE(AVG(professionalism_rating), 0) AS professionalism_average
+     FROM evaluations'
+);
+$performanceSummary = $performanceSummaryStmt->fetch(PDO::FETCH_ASSOC) ?: [];
 $attendanceRate = 0;
 if (!empty($attendance_data)) {
     $allTotal = array_sum(array_map(static fn($row) => (int) $row['total'], $attendance_data));
@@ -422,8 +430,8 @@ if (!empty($attendance_data)) {
 
             --clr-grey-bar:      #4A5565;
 
-            --grad-brand:        #003087;
-            --grad-blue-panel:   #003087;
+            --grad-brand:        linear-gradient(135deg, #155DFC 0%, #9810FA 100%);
+            --grad-blue-panel:   linear-gradient(169.04deg, #155DFC 0%, #1447E6 100%);
 
             --shadow-sm: 0 1px 3px rgba(0,0,0,.10), 0 1px 2px rgba(0,0,0,.10);
 
@@ -1284,6 +1292,13 @@ if (!empty($attendance_data)) {
             .print-cards { grid-template-columns: 1fr; }
             .print-panel { padding: var(--sp-16); }
         }
+
+        @media print {
+            body, .app, .main, .page-content { display: block !important; width: 100% !important; min-height: 0 !important; margin: 0 !important; padding: 0 !important; background: #ffffff !important; }
+            .sidebar, .topbar, .sidebar-overlay, .hamburger, .report-tabs, .page-header-row__actions, .print-panel { display: none !important; }
+            [hidden] { display: none !important; }
+            .table-card { box-shadow: none !important; break-inside: avoid; }
+        }
     </style>
     <link rel="stylesheet" href="../assets/css/sams-shell.css" />
 </head>
@@ -1372,12 +1387,12 @@ if (!empty($attendance_data)) {
                             <?php endforeach; ?>
                         </select>
                     </form>
-                    <button class="btn-export-all" type="button">
+                    <button class="btn-export-all" type="button" data-export-all-tables data-export-name="sams-all-reports">
                         <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M8 2v8M8 10L5 7M8 10l3-3" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M2 12v2a1 1 0 001 1h10a1 1 0 001-1v-2" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
                         </svg>
-                        Export All Reports
+                        Export Visible Tables
                     </button>
                     <button class="btn-export-all" type="button" onclick="location.reload()" style="margin-left:8px;background:#6B7280">Refresh</button>
                     <label style="display:inline-flex;align-items:center;margin-left:8px;font-size:12px;color:var(--clr-text-muted)">
@@ -1510,8 +1525,16 @@ if (!empty($attendance_data)) {
                     <div class="table-card__header">
                         <h2 class="table-card__title">Performance Report - Live Data</h2>
                     </div>
-                    <div style="padding: 32px; text-align: center; color: var(--clr-text-muted); font-size: var(--fs-sm);">
-                        Performance report data will appear here.
+                    <div class="table-wrap">
+                        <table aria-label="All-time evaluation averages">
+                            <thead><tr><th scope="col">Measure</th><th scope="col">Average score</th></tr></thead>
+                            <tbody>
+                                <tr><td>Performance</td><td><?= number_format((float) ($performanceSummary['performance_average'] ?? 0), 1) ?>/5</td></tr>
+                                <tr><td>Reliability</td><td><?= number_format((float) ($performanceSummary['reliability_average'] ?? 0), 1) ?>/5</td></tr>
+                                <tr><td>Professionalism</td><td><?= number_format((float) ($performanceSummary['professionalism_average'] ?? 0), 1) ?>/5</td></tr>
+                            </tbody>
+                        </table>
+                        <p class="table-card__header" role="status"><?= (int) ($performanceSummary['evaluation_count'] ?? 0) ?> submitted evaluation(s), all terms</p>
                     </div>
                 </div>
             </div>
@@ -1673,46 +1696,14 @@ if (!empty($attendance_data)) {
 
             <!-- Printable Duty Hours Reports Panel -->
             <div class="print-panel" role="region" aria-label="Printable Duty Hours Reports">
-                <h2 class="print-panel__title" style="display:flex; align-items:center; gap:8px;">
-                    <svg viewBox="0 0 20 20" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6.5 2.5h5.5l4 4V15a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 15V4A1.5 1.5 0 0 1 6.5 2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 2.5v4h4M7 10.5h6M7 13.5h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                    Printable Duty Hours Reports
-                </h2>
-                <p class="print-panel__desc">Generate detailed reports for documentation and evaluation purposes</p>
-                <div class="print-cards">
-                    <div class="print-card">
-                        <h3 class="print-card__title">Individual Report</h3>
-                        <p class="print-card__desc">Detailed hours per student</p>
-                        <button class="print-card__btn" type="button">
-                            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8 2v8M8 10L5 7M8 10l3-3" stroke="#155DFC" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M2 12v2a1 1 0 001 1h10a1 1 0 001-1v-2" stroke="#155DFC" stroke-width="1.3" stroke-linecap="round"/>
-                            </svg>
-                            Generate PDF
-                        </button>
-                    </div>
-                    <div class="print-card">
-                        <h3 class="print-card__title">Office Summary</h3>
-                        <p class="print-card__desc">Hours breakdown by office</p>
-                        <button class="print-card__btn" type="button">
-                            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8 2v8M8 10L5 7M8 10l3-3" stroke="#155DFC" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M2 12v2a1 1 0 001 1h10a1 1 0 001-1v-2" stroke="#155DFC" stroke-width="1.3" stroke-linecap="round"/>
-                            </svg>
-                            Generate PDF
-                        </button>
-                    </div>
-                    <div class="print-card">
-                        <h3 class="print-card__title">Period Report</h3>
-                        <p class="print-card__desc">Custom date range report</p>
-                        <button class="print-card__btn" type="button">
-                            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8 2v8M8 10L5 7M8 10l3-3" stroke="#155DFC" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M2 12v2a1 1 0 001 1h10a1 1 0 001-1v-2" stroke="#155DFC" stroke-width="1.3" stroke-linecap="round"/>
-                            </svg>
-                            Generate PDF
-                        </button>
-                    </div>
-                </div>
+                <h2 class="print-panel__title"><?= sams_icon('file-text', '') ?> Printable Duty Hours Reports</h2>
+                <p class="print-panel__desc">Print the currently selected report or save it as a PDF.</p>
+                <button class="print-card__btn" type="button" onclick="window.print()">
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M4 5V2h8v3M4 12H2V7h12v5h-2M4 10h8v4H4z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+                    </svg>
+                    Print Current Report
+                </button>
             </div>
 
         </section>
@@ -1972,6 +1963,7 @@ if (!empty($attendance_data)) {
 })();
 </script>
 <script src="../assets/js/admin-notifications.js?v=20260922"></script>
+<script src="../assets/js/table-export.js" defer></script>
 
 </body>
 </html>

@@ -141,6 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="assets/css/sams-dark-mode.css?v=20260926" />
   <title>Login – SAMS | NU Lipa</title>
   <meta name="description" content="Login to SAMS – the Student Assistant Management System for National University Lipa." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -169,9 +170,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       --color-page-bg-mid:    #ffffff;
       --color-page-bg-end:    #fffbeb;
 
-      --grad-primary:         #003087;
-      --grad-primary-134:     #003087;
-      --grad-page:            #f8fafc;
+      --grad-primary:         linear-gradient(90deg, #003087 0%, #004aab 100%);
+      --grad-primary-134:     linear-gradient(134deg, #003087 0%, #004aab 100%);
+      --grad-page:            linear-gradient(149deg, var(--color-page-bg-start) 0%, var(--color-page-bg-mid) 50%, var(--color-page-bg-end) 100%);
 
       --shadow-card:          0 25px 50px 0 rgba(0,0,0,.25);
 
@@ -269,22 +270,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     .brand-card__logo {
       width: 64px;
       height: 64px;
+      border-radius: var(--radius-lg);
+      background: var(--color-white);
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
+      font-size: var(--font-3xl);
+      font-weight: 900;
+      color: var(--color-primary);
       flex-shrink: 0;
-      background: transparent;
-      border: none;
-      border-radius: 0;
-      box-shadow: none;
-    }
-    .brand-card__logo img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
-      background: transparent;
     }
     .brand-card__title {
       font-family: var(--font-display, 'Poppins', sans-serif);
@@ -711,9 +705,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <!-- Logo row -->
         <div class="brand-card__header">
-          <div class="brand-card__logo" aria-hidden="true">
-            <img src="assets/logo.png" alt="SAMS logo" />
-          </div>
+          <div class="brand-card__logo" aria-hidden="true">NU</div>
           <div>
             <div class="brand-card__title">SAMS</div>
             <div class="brand-card__subtitle">Student Assistant Management System</div>
@@ -730,9 +722,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="brand-card__features">
 
           <div class="brand-card__feature">
-            <div class="brand-card__feature-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="M8 3.5V7M16 3.5V7M3.5 9.5H20.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-            </div>
+            <div class="brand-card__feature-icon" aria-hidden="true"><?= sams_icon('calendar-days', '') ?></div>
             <div>
               <div class="brand-card__feature-title">View Your Schedule</div>
               <div class="brand-card__feature-sub">Access your duty schedule anytime, anywhere</div>
@@ -740,9 +730,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </div>
 
           <div class="brand-card__feature">
-            <div class="brand-card__feature-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 8.5A5 5 0 0 1 17 8.5V11a2 2 0 0 1-2 2h-2.5v3.5a2.5 2.5 0 0 1-5 0V13H7a2 2 0 0 1-2-2V8.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M10.2 15.5h3.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-            </div>
+            <div class="brand-card__feature-icon" aria-hidden="true"><?= sams_icon('key', '') ?></div>
             <div>
               <div class="brand-card__feature-title">OTP Protected Login</div>
               <div class="brand-card__feature-sub">Student accounts verify login through email before access is granted</div>
@@ -750,9 +738,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </div>
 
           <div class="brand-card__feature">
-            <div class="brand-card__feature-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 4.5a7.5 7.5 0 0 1 7.5 7.5v4.1l1.7 2.9H2.8l1.7-2.9V12A7.5 7.5 0 0 1 12 4.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M10 19.5a2 2 0 0 0 4 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-            </div>
+            <div class="brand-card__feature-icon" aria-hidden="true"><?= sams_icon('bell', '') ?></div>
             <div>
               <div class="brand-card__feature-title">Stay Updated</div>
               <div class="brand-card__feature-sub">Get notifications for schedule changes</div>
@@ -1053,5 +1039,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     })();
   </script>
 
+<script src="assets/js/sams-theme.js?v=20260926"></script>
 </body>
 </html>

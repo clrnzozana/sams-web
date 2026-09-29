@@ -100,6 +100,7 @@ foreach ($reports as $reportRow) {
     <link rel="stylesheet" href="../assets/css/sams-shell.css" />
     <link rel="stylesheet" href="../assets/css/sams-theme-admin.css" />
     <link rel="stylesheet" href="../assets/css/supervisor-notifications.css" />
+    <link rel="stylesheet" href="../assets/css/sams-dark-mode.css?v=20260926" />
     <link rel="stylesheet" href="../assets/css/notifications-shell.css?v=20260922" />
     <style>
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -108,8 +109,7 @@ foreach ($reports as $reportRow) {
         .shell{display:flex;width:100%;min-height:100vh}
         .sidebar{width:var(--sidebar-width);min-height:100vh;background:var(--color-white);border-right:1px solid var(--color-border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto}
         .sidebar__brand{display:flex;align-items:center;gap:12px;padding:24px 24px 20px;border-bottom:1px solid var(--color-border)}
-        .sidebar__logo{width:40px;height:40px;background:transparent;border:none;border-radius:0;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
-        .sidebar__logo img{display:block;width:100%;height:100%;object-fit:contain;background:transparent}
+        .sidebar__logo{width:40px;height:40px;background:var(--gradient-brand);border-radius:var(--radius-icon);display:flex;align-items:center;justify-content:center;flex-shrink:0}
         .sidebar__logo-text{font-size:18px;font-weight:700;color:var(--color-white)}
         .sidebar__brand-name{font-size:var(--font-base);font-weight:700;color:var(--color-heading)}
         .sidebar__brand-sub{font-size:var(--font-xs);color:var(--color-body)}
@@ -151,43 +151,7 @@ foreach ($reports as $reportRow) {
 </head>
 <body>
     <div class="shell">
-        <aside class="sidebar">
-            <div class="sidebar__brand">
-                <div class="sidebar__logo"><img src="../assets/logo.png" alt="" aria-hidden="true"></div>
-                <div>
-                    <div class="sidebar__brand-name">SA System</div>
-                    <div class="sidebar__brand-sub">Supervisor</div>
-                </div>
-            </div>
-            <nav class="sidebar__nav" aria-label="Supervisor navigation">
-                <a href="dashboard.php" class="sidebar__nav-link">
-                    <svg class="sidebar__nav-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M2.5 7.5L10 2.5L17.5 7.5V17.5H12.5V12.5H7.5V17.5H2.5V7.5Z" stroke="#364153" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    Dashboard
-                </a>
-                <a href="attendance.php" class="sidebar__nav-link">
-                    <svg class="sidebar__nav-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M17 5L8 14.5L3.5 10" stroke="#364153" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    Attendance
-                </a>
-                <a href="evaluation.php" class="sidebar__nav-link">
-                    <svg class="sidebar__nav-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2l2 5.5H17l-4 3 1.5 5.5L10 13l-4.5 3L7 11 3 8h5L10 2Z" stroke="#364153" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    Evaluation
-                </a>
-                <a href="reports.php" class="sidebar__nav-link sidebar__nav-link--active" aria-current="page">
-                    <svg class="sidebar__nav-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="2.5" y="2.5" width="15" height="15" rx="2" stroke="white" stroke-width="1.5"/><path d="M6 14V10M10 14V7M14 14V11" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
-                    Reports
-                </a>
-                <a href="students.php" class="sidebar__nav-link">
-                    <svg class="sidebar__nav-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="6.5" r="3" stroke="#364153" stroke-width="1.5"/><path d="M3.5 17c0-3.5 2.9-6 6.5-6s6.5 2.5 6.5 6" stroke="#364153" stroke-width="1.5" stroke-linecap="round"/></svg>
-                    Students
-                </a>
-            </nav>
-            <div class="sidebar__footer">
-                <a href="logout.php" class="sidebar__nav-link">
-                    <svg class="sidebar__nav-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M13 15l5-5-5-5M18 10H8" stroke="#364153" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 17.5H3.5a.5.5 0 0 1-.5-.5V3a.5.5 0 0 1 .5-.5H8" stroke="#364153" stroke-width="1.5" stroke-linecap="round"/></svg>
-                    Sign Out
-                </a>
-            </div>
-        </aside>
+        <?php $sidebarRole = 'supervisor'; require __DIR__ . '/../includes/sidebar.php'; ?>
         <div class="main">
             <header class="topbar">
                 <div>
@@ -376,6 +340,6 @@ foreach ($reports as $reportRow) {
             function escapeHtml(s){ return String(s).replace(/[&<>"']/g, function(m){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]; }); }
         })();
     </script>
-        <script src="../assets/js/admin-notifications.js?v=20260922"></script>
+        <script src="../assets/js/admin-notifications.js?v=20260922"></script><script src="../assets/js/sams-theme.js?v=20260926"></script>
 </body>
 </html>

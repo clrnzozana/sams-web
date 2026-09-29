@@ -216,12 +216,13 @@ function h(?string $value): string
     <link rel="stylesheet" href="../assets/css/sams-shell.css" />
     <link rel="stylesheet" href="../assets/css/sams-theme-admin.css" />
     <link rel="stylesheet" href="../assets/css/supervisor-notifications.css" />
+    <link rel="stylesheet" href="../assets/css/sams-dark-mode.css?v=20260926" />
     <link rel="stylesheet" href="../assets/css/notifications-shell.css?v=20260922" />
     <style>
         * { box-sizing: border-box; }
         body { margin: 0; font-family: Inter, Arial, sans-serif; background: #f4f6fa; color: var(--color-heading); }
         .hero {
-            background: #003087;
+            background: linear-gradient(125deg, #0f4cd6 0%, #205ee6 58%, #3c7dff 100%);
             border-radius: 18px;
             padding: 22px;
             color: #fff;
@@ -290,7 +291,7 @@ function h(?string $value): string
         .workload { display: grid; gap: 10px; }
         .bar-row { display: grid; grid-template-columns: 82px 1fr 44px; align-items: center; gap: 8px; }
         .bar-track { height: 10px; border-radius: 999px; background: #e7edf8; overflow: hidden; }
-        .bar-fill { height: 100%; background: #003087; }
+        .bar-fill { height: 100%; background: linear-gradient(90deg, #155dfc 0%, #4f8dff 100%); }
 
         .ann-panel .panel__title-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
         .ann-icon {
@@ -302,6 +303,7 @@ function h(?string $value): string
             justify-content: center;
             color: #0f172a;
         }
+        .ann-icon svg { display: block; width: 56px; height: 56px; }
         .announcements-list { display: grid; gap: 12px; }
         .announcement { border-left: 3px solid transparent; border-radius: 12px; padding: 12px 14px; }
         .announcement--blue { background: #eaf1ff; border-color: #155dfc; }
@@ -331,26 +333,7 @@ function h(?string $value): string
 </head>
 <body>
 <div class="shell">
-    <aside class="sidebar">
-        <div class="sidebar__brand">
-            <div class="sidebar__logo"><img src="../assets/logo.png" alt="" aria-hidden="true"></div>
-            <div>
-                <div class="sidebar__brand-name">SA System</div>
-                <div class="sidebar__brand-sub">Supervisor</div>
-            </div>
-        </div>
-        <nav class="sidebar__nav" aria-label="Supervisor navigation">
-            <a href="dashboard.php" class="sidebar__nav-link sidebar__nav-link--active" aria-current="page">Dashboard</a>
-            <a href="attendance.php" class="sidebar__nav-link">Attendance</a>
-            <a href="evaluation.php" class="sidebar__nav-link">Evaluation</a>
-            <a href="reports.php" class="sidebar__nav-link">Reports</a>
-            <a href="students.php" class="sidebar__nav-link">Students</a>
-            <a href="announcements.php" class="sidebar__nav-link">Announcements</a>
-        </nav>
-        <div class="sidebar__footer">
-            <a href="logout.php" class="sidebar__nav-link">Sign Out</a>
-        </div>
-    </aside>
+    <?php $sidebarRole = 'supervisor'; require __DIR__ . '/../includes/sidebar.php'; ?>
 
     <div class="main">
         <header class="topbar">
@@ -360,7 +343,7 @@ function h(?string $value): string
             </div>
             <div class="topbar__right">
                 <div class="topbar__notif-btn" role="button" aria-label="Notifications" tabindex="0">
-                    <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" fill="#4A5565"/></svg>
+                    <?= sams_icon('bell', '') ?>
                     <span class="topbar__notif-dot" aria-hidden="true" style="display:none"></span>
                 </div>
                     <a href="profile.php" class="logout-warning"><?php echo h($supervisorName); ?></a>
@@ -489,10 +472,7 @@ function h(?string $value): string
                     <section class="panel ann-panel">
                         <div class="panel__title-wrap">
                             <div class="ann-icon" aria-hidden="true">
-                                <svg width="56" height="56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M4 6h16v10H7l-3 3V6Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-                                    <path d="M8 9h8M8 12h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-                                </svg>
+                                <?= sams_icon('megaphone', '') ?>
                             </div>
                             <h2 class="panel__title" style="margin:0">Announcements</h2>
                         </div>
@@ -593,5 +573,6 @@ function h(?string $value): string
 })();
 </script>
 <script src="../assets/js/admin-notifications.js?v=20260922"></script>
+<script src="../assets/js/sams-theme.js?v=20260926"></script>
 </body>
 </html>

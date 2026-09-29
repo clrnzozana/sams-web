@@ -27,13 +27,21 @@ function h(?string $s): string { return htmlspecialchars((string)$s, ENT_QUOTES,
   <style>
     body{font-family:Inter,Arial,Helvetica,sans-serif;background:var(--color-bg-app)}
     .container{max-width:900px;margin:36px auto;padding:0 16px}
+    .supervisor-nav{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 22px}
+    .supervisor-nav a{display:inline-flex;align-items:center;min-height:40px;padding:0 12px;border-radius:10px;color:#364153;font-size:14px;font-weight:600;text-decoration:none}
+    .supervisor-nav a:hover{background:#f3f7ff;color:#0f3fb8}
+    .supervisor-nav a[aria-current="page"]{background:#003087;color:#fff}
     .ann{background:#fff;border:1px solid var(--color-border);padding:16px;border-radius:10px;margin-bottom:12px}
     .ann h3{margin:0 0 6px}
     .ann .meta{color:#6b7280;font-size:13px;margin-bottom:8px}
   </style>
+<link rel="stylesheet" href="../assets/css/sams-dark-mode.css?v=20260926" />
 </head>
 <body>
-  <div class="container">
+  <div class="shell">
+    <?php $sidebarRole = 'supervisor'; require __DIR__ . '/../includes/sidebar.php'; ?>
+    <main class="main">
+      <div class="container">
     <h1>Announcements</h1>
     <?php if (empty($announcements)): ?>
       <p>No announcements at this time.</p>
@@ -46,7 +54,10 @@ function h(?string $s): string { return htmlspecialchars((string)$s, ENT_QUOTES,
         </article>
       <?php endforeach; ?>
     <?php endif; ?>
+      </div>
+    </main>
   </div>
   <script src="../assets/js/admin-notifications.js?v=20260922"></script>
+<script src="../assets/js/sams-theme.js?v=20260926"></script>
 </body>
 </html>

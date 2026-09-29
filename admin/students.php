@@ -196,8 +196,8 @@ function sams_html(string $value): string
       --color-apps-badge-bg:  #dbeafe;
       --color-apps-badge-txt: #155dfc;
 
-      --grad-brand:   #003087;
-      --grad-navy:    #003087;
+      --grad-brand:   linear-gradient(135deg, #155dfc 0%, #9810fa 100%);
+      --grad-navy:    linear-gradient(180deg, #1e3a8a 0%, #1e40af 100%);
 
       --shadow-card:  0 1px 3px 0 rgba(0,0,0,.10), 0 1px 2px 0 rgba(0,0,0,.06);
 
@@ -1045,16 +1045,17 @@ function sams_html(string $value): string
           <button class="filter-btn filter-btn--inactive" data-filter="active"   aria-pressed="false">Active <span class="filter-btn__count"><?php echo (int) $activeStudents; ?></span></button>
           <button class="filter-btn filter-btn--inactive" data-filter="inactive" aria-pressed="false">Inactive <span class="filter-btn__count"><?php echo (int) $inactiveStudents; ?></span></button>
         </div>
-        <a class="btn-export" href="#" aria-label="Export student list">
+        <div id="student-results-count" aria-live="polite" style="margin:8px 0;color:var(--color-muted);font-size:13px;"></div>
+        <button type="button" class="btn-export" data-export-table="#students-table" data-export-name="sams-students" aria-label="Export student list">
           <svg class="btn-export__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
           Export List
-        </a>
+        </button>
       </div>
 
       <!-- ---- Table ---- -->
       <div class="table-card">
         <div class="table-wrap">
-          <table aria-label="Student assistants table">
+          <table id="students-table" aria-label="Student assistants table">
             <thead>
               <tr>
                 <th scope="col">Student</th>
@@ -1098,7 +1099,7 @@ function sams_html(string $value): string
                 <td><span class="hours"><?php echo sams_html($hours); ?></span></td>
                 <td>
                   <div class="rating">
-                    <span class="rating__star">★</span>
+                    <span class="rating__star"><?= sams_icon('star-outline', '') ?></span>
                     <span class="rating__val"><?php echo sams_html($rating); ?></span>
                   </div>
                 </td>
@@ -1111,6 +1112,9 @@ function sams_html(string $value): string
                 </td>
               </tr>
               <?php endforeach; ?>
+              <?php if (empty($students)): ?>
+              <tr data-empty-state="true"><td colspan="8" style="padding:32px;text-align:center;color:var(--color-muted);">No student assistants found.</td></tr>
+              <?php endif; ?>
 
             </tbody>
           </table>
@@ -1133,11 +1137,58 @@ function sams_html(string $value): string
 
     /* ---- Filter buttons ---- */
     var filterBtns = document.querySelectorAll('.filter-btn');
-    var rows       = document.querySelectorAll('#table-body tr');
+    var tableBody  = document.getElementById('table-body');
+    var rows       = tableBody ? Array.prototype.slice.call(tableBody.querySelectorAll('tr[data-status]')) : [];
+    var searchInput = document.getElementById('search-input');
+    var resultsCount = document.getElementById('student-results-count');
+    var activeFilter = 'all';
+    var activeQuery = '';
+    var filterStorageKey = 'sams-admin-students-filters';
+
+    try {
+      var savedFilters = JSON.parse(sessionStorage.getItem(filterStorageKey) || '{}');
+      if (filterBtns.length && Array.prototype.some.call(filterBtns, function (btn) { return btn.getAttribute('data-filter') === savedFilters.status; })) {
+        activeFilter = savedFilters.status;
+      }
+      activeQuery = typeof savedFilters.query === 'string' ? savedFilters.query : '';
+      if (searchInput) searchInput.value = activeQuery;
+      filterBtns.forEach(function (btn) {
+        var active = btn.getAttribute('data-filter') === activeFilter;
+        btn.classList.toggle('filter-btn--active', active);
+        btn.classList.toggle('filter-btn--inactive', !active);
+        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+    } catch (error) {}
+
+    function applyStudentFilters() {
+      var visibleCount = 0;
+      rows.forEach(function (row) {
+        var matchesStatus = activeFilter === 'all' || row.getAttribute('data-status') === activeFilter;
+        var matchesSearch = !activeQuery || row.textContent.toLowerCase().includes(activeQuery);
+        var isVisible = matchesStatus && matchesSearch;
+        row.style.display = isVisible ? '' : 'none';
+        if (isVisible) visibleCount++;
+      });
+
+      var emptyRow = document.getElementById('student-filter-empty');
+      if (rows.length > 0 && visibleCount === 0) {
+        if (!emptyRow && tableBody) {
+          emptyRow = document.createElement('tr');
+          emptyRow.id = 'student-filter-empty';
+          emptyRow.innerHTML = '<td colspan="8" style="padding:32px;text-align:center;color:var(--color-muted);">No students match these filters.</td>';
+          tableBody.appendChild(emptyRow);
+        }
+      } else if (emptyRow) {
+        emptyRow.remove();
+      }
+
+      if (resultsCount) resultsCount.textContent = rows.length ? 'Showing ' + visibleCount + ' of ' + rows.length + ' students' : 'No students to display';
+      try { sessionStorage.setItem(filterStorageKey, JSON.stringify({ status: activeFilter, query: activeQuery })); } catch (error) {}
+    }
 
     filterBtns.forEach(function (btn) {
       btn.addEventListener('click', function () {
-        var filter = btn.getAttribute('data-filter');
+        activeFilter = btn.getAttribute('data-filter') || 'all';
 
         filterBtns.forEach(function (b) {
           b.classList.remove('filter-btn--active');
@@ -1148,21 +1199,16 @@ function sams_html(string $value): string
         btn.classList.remove('filter-btn--inactive');
         btn.setAttribute('aria-pressed', 'true');
 
-        rows.forEach(function (row) {
-          var status = row.getAttribute('data-status');
-          row.style.display = (filter === 'all' || status === filter) ? '' : 'none';
-        });
+        applyStudentFilters();
       });
     });
 
     /* ---- Live search ---- */
-    var searchInput = document.getElementById('search-input');
-    searchInput.addEventListener('input', function () {
-      var q = this.value.toLowerCase().trim();
-      rows.forEach(function (row) {
-        row.style.display = (!q || row.textContent.toLowerCase().includes(q)) ? '' : 'none';
-      });
+    if (searchInput) searchInput.addEventListener('input', function () {
+      activeQuery = this.value.toLowerCase().trim();
+      applyStudentFilters();
     });
+    applyStudentFilters();
 
   }());
 
@@ -1473,6 +1519,7 @@ function sams_html(string $value): string
 </script>
 
 <script src="../assets/js/admin-notifications.js?v=20260922"></script>
+<script src="../assets/js/table-export.js" defer></script>
 
 </body>
 </html>

@@ -87,6 +87,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $availRows = $availStmt->fetchAll(PDO::FETCH_ASSOC);
 
         if (!empty($availRows)) {
+            // Delete existing duty schedules before inserting to prevent duplicates
+            $delAppStmt = $pdo->prepare('DELETE FROM duty_schedules WHERE application_id = :application_id');
+            $delAppStmt->execute(['application_id' => $applicationId]);
+
             $hasOfficeColumn = sams_column_exists($pdo, 'duty_schedules', 'office_name');
             if ($hasOfficeColumn) {
                 $insertAppStmt = $pdo->prepare(
@@ -583,7 +587,7 @@ $pendingApplications = (int) $applicationCounts['pending'];
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: #003087;
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1299,9 +1303,8 @@ $pendingApplications = (int) $applicationCounts['pending'];
       ">
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
           <div>
-            <h3 style="font-size: 15px; font-weight: 700; color: #111827; display: flex; align-items: center; gap: 8px;">
-              <svg viewBox="0 0 20 20" width="15" height="15" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="8.5" cy="8.5" r="4.75" stroke="currentColor" stroke-width="1.6"/><path d="M12.5 12.5L17 17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-              Skill-based Recommendation Filter
+            <h3 style="font-size: 15px; font-weight: 700; color: #111827; display: flex; align-items: center; gap: 6px;">
+              <?= sams_icon('search', '') ?> Skill-based Recommendation Filter
             </h3>
             <div style="font-size: 12px; color: #6b7280; margin-top: 2px;">
               Select skills to filter applications and dynamically prioritize top candidates for Miss Zai.
@@ -1315,10 +1318,9 @@ $pendingApplications = (int) $applicationCounts['pending'];
               text-decoration: none;
               display: inline-flex;
               align-items: center;
-              gap: 6px;
+              gap: 4px;
             ">
-              <svg viewBox="0 0 20 20" width="14" height="14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-              Clear Filter
+              ✕ Clear Filter
             </a>
           <?php endif; ?>
         </div>
@@ -1383,7 +1385,7 @@ $pendingApplications = (int) $applicationCounts['pending'];
           </div>
           <!-- Filter buttons -->
           <?php foreach ($statusFilterOptions as $filterKey => $filterLabel): ?>
-          <button class="filter-btn <?= $filterKey === 'all' ? 'filter-btn--active' : 'filter-btn--inactive' ?>"
+          <button type="button" class="filter-btn <?= $filterKey === 'all' ? 'filter-btn--active' : 'filter-btn--inactive' ?>"
             data-filter="<?= htmlspecialchars($filterKey) ?>"
             aria-pressed="<?= $filterKey === 'all' ? 'true' : 'false' ?>">
             <?= htmlspecialchars($filterLabel) ?>
@@ -1391,19 +1393,20 @@ $pendingApplications = (int) $applicationCounts['pending'];
           </button>
           <?php endforeach; ?>
         </div>
-        <a class="btn-export" href="#" aria-label="Export applicant list">
+        <div id="application-results-count" aria-live="polite" style="margin:8px 0;color:var(--color-muted);font-size:13px;"></div>
+        <button type="button" class="btn-export" data-export-table="#applications-table" data-export-name="sams-applications" aria-label="Export applicant list">
           <svg class="btn-export__icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M10 3v9M10 12L6.5 8.5M10 12l3.5-3.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M3 14.5v1A1.5 1.5 0 004.5 17h11A1.5 1.5 0 0017 15.5v-1" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
           </svg>
           Export List
-        </a>
+        </button>
       </div>
 
       <!-- ---- Table ---- -->
       <div class="table-card">
         <div class="table-wrap">
-          <table aria-label="Applications table">
+          <table id="applications-table" aria-label="Applications table">
             <thead>
               <tr>
                 <th scope="col">Applicant</th>
@@ -1418,7 +1421,7 @@ $pendingApplications = (int) $applicationCounts['pending'];
             <tbody id="table-body">
 
               <?php if (empty($applications)): ?>
-              <tr>
+              <tr data-empty-state="true">
                 <td colspan="7" style="padding: 32px; text-align: center; color: var(--color-muted);">
                   No applications have been submitted yet.
                 </td>
@@ -1449,7 +1452,7 @@ $pendingApplications = (int) $applicationCounts['pending'];
                               $recTitle = "Matches " . count($matches) . " selected skill(s): " . implode(', ', $matches);
                             }
                           ?>
-                          <span class="badge badge--recommended" title="<?= htmlspecialchars($recTitle) ?>">🌟 Top Recommended</span>
+                          <span class="badge badge--recommended" title="<?= htmlspecialchars($recTitle) ?>"><?= sams_icon('star-outline', '') ?> Top Recommended</span>
                         <?php endif; ?>
                       </div>
                       <div class="applicant__date">Applied <?= htmlspecialchars($submittedAt) ?></div>
@@ -1508,9 +1511,16 @@ $pendingApplications = (int) $applicationCounts['pending'];
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                       </button>
                     </form>
-                    <button class="action-btn action-btn--msg" title="Message" aria-label="Message <?= htmlspecialchars($fullName !== '' ? $fullName : 'applicant') ?>">
+                    <?php $applicantEmail = trim((string) ($application['email'] ?? '')); ?>
+                    <?php if ($applicantEmail !== '' && filter_var($applicantEmail, FILTER_VALIDATE_EMAIL)): ?>
+                    <a class="action-btn action-btn--msg" href="mailto:<?= htmlspecialchars($applicantEmail, ENT_QUOTES, 'UTF-8') ?>?subject=<?= rawurlencode('SAMS Application Inquiry') ?>" title="Email applicant" aria-label="Email <?= htmlspecialchars($fullName !== '' ? $fullName : 'applicant') ?>">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                    </a>
+                    <?php else: ?>
+                    <button type="button" class="action-btn action-btn--msg" title="No valid email address is available" aria-label="Email unavailable for <?= htmlspecialchars($fullName !== '' ? $fullName : 'applicant') ?>" disabled>
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
                     </button>
+                    <?php endif; ?>
                   </div>
                 </td>
               </tr>
@@ -1527,7 +1537,7 @@ $pendingApplications = (int) $applicationCounts['pending'];
 
         <!-- Auto-Filtering card -->
         <div class="card-auto">
-          <div class="card-auto__title">🤖 Live Applications</div>
+          <div class="card-auto__title"><?= sams_icon('bot', '') ?> Live Applications</div>
           <div class="card-auto__desc">Applications are loaded directly from the database. Only submitted applicants are shown above.</div>
           <div class="card-auto__stats">
             <div class="stat-box">
@@ -1543,7 +1553,7 @@ $pendingApplications = (int) $applicationCounts['pending'];
 
         <!-- AI Recommendations card -->
         <div class="card-ai">
-          <div class="card-ai__title">✨ AI Recommendations</div>
+          <div class="card-ai__title"><?= sams_icon('sparkles', '') ?> AI Recommendations</div>
           <div class="card-ai__desc">Based on the latest submitted application records</div>
           <div class="card-ai__list">
             <?php if (empty($applications)): ?>
@@ -1694,11 +1704,58 @@ $pendingApplications = (int) $applicationCounts['pending'];
 
     /* ---- Filter buttons ---- */
     var filterBtns = document.querySelectorAll('.filter-btn');
-    var rows = document.querySelectorAll('#table-body tr');
+    var tableBody = document.getElementById('table-body');
+    var rows = tableBody ? Array.prototype.slice.call(tableBody.querySelectorAll('tr[data-status]')) : [];
+    var searchInput = document.getElementById('search-input');
+    var resultsCount = document.getElementById('application-results-count');
+    var activeFilter = 'all';
+    var activeQuery = '';
+    var filterStorageKey = 'sams-admin-applications-filters';
+
+    try {
+      var savedFilters = JSON.parse(sessionStorage.getItem(filterStorageKey) || '{}');
+      if (filterBtns.length && Array.prototype.some.call(filterBtns, function (btn) { return btn.getAttribute('data-filter') === savedFilters.status; })) {
+        activeFilter = savedFilters.status;
+      }
+      activeQuery = typeof savedFilters.query === 'string' ? savedFilters.query : '';
+      if (searchInput) searchInput.value = activeQuery;
+      filterBtns.forEach(function (btn) {
+        var active = btn.getAttribute('data-filter') === activeFilter;
+        btn.classList.toggle('filter-btn--active', active);
+        btn.classList.toggle('filter-btn--inactive', !active);
+        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+    } catch (error) {}
+
+    function applyApplicationFilters() {
+      var visibleCount = 0;
+      rows.forEach(function (row) {
+        var matchesStatus = activeFilter === 'all' || row.getAttribute('data-status') === activeFilter;
+        var matchesSearch = !activeQuery || row.textContent.toLowerCase().includes(activeQuery);
+        var isVisible = matchesStatus && matchesSearch;
+        row.style.display = isVisible ? '' : 'none';
+        if (isVisible) visibleCount++;
+      });
+
+      var emptyRow = document.getElementById('application-filter-empty');
+      if (rows.length > 0 && visibleCount === 0) {
+        if (!emptyRow && tableBody) {
+          emptyRow = document.createElement('tr');
+          emptyRow.id = 'application-filter-empty';
+          emptyRow.innerHTML = '<td colspan="7" style="padding:32px;text-align:center;color:var(--color-muted);">No applications match these filters.</td>';
+          tableBody.appendChild(emptyRow);
+        }
+      } else if (emptyRow) {
+        emptyRow.remove();
+      }
+
+      if (resultsCount) resultsCount.textContent = rows.length ? 'Showing ' + visibleCount + ' of ' + rows.length + ' applications' : 'No applications to display';
+      try { sessionStorage.setItem(filterStorageKey, JSON.stringify({ status: activeFilter, query: activeQuery })); } catch (error) {}
+    }
 
     filterBtns.forEach(function (btn) {
       btn.addEventListener('click', function () {
-        var filter = btn.getAttribute('data-filter');
+        activeFilter = btn.getAttribute('data-filter') || 'all';
 
         filterBtns.forEach(function (b) {
           b.classList.remove('filter-btn--active');
@@ -1709,22 +1766,16 @@ $pendingApplications = (int) $applicationCounts['pending'];
         btn.classList.remove('filter-btn--inactive');
         btn.setAttribute('aria-pressed', 'true');
 
-        rows.forEach(function (row) {
-          var status = row.getAttribute('data-status');
-          row.style.display = (filter === 'all' || status === filter) ? '' : 'none';
-        });
+        applyApplicationFilters();
       });
     });
 
     /* ---- Live search ---- */
-    var searchInput = document.getElementById('search-input');
-    searchInput.addEventListener('input', function () {
-      var q = this.value.toLowerCase().trim();
-      rows.forEach(function (row) {
-        var text = row.textContent.toLowerCase();
-        row.style.display = (!q || text.includes(q)) ? '' : 'none';
-      });
+    if (searchInput) searchInput.addEventListener('input', function () {
+      activeQuery = this.value.toLowerCase().trim();
+      applyApplicationFilters();
     });
+    applyApplicationFilters();
 
     /* ---- Image lightbox ---- */
     var lightbox      = document.getElementById('image-lightbox');
@@ -1935,9 +1986,12 @@ $pendingApplications = (int) $applicationCounts['pending'];
 
       fileLink.target = '_blank';
 
-      fileLink.textContent =
-        'Open ' +
-        (doc.original_filename || 'Document');
+      var fileIcon = document.createElement('span');
+      fileIcon.innerHTML = <?= json_encode(sams_icon('file-text', '')) ?>;
+      fileLink.appendChild(fileIcon);
+      fileLink.appendChild(document.createTextNode(
+        ' Open ' + (doc.original_filename || 'Document')
+      ));
 
       fileLink.style.display = 'inline-block';
       fileLink.style.padding = '10px 14px';
@@ -2092,6 +2146,7 @@ $pendingApplications = (int) $applicationCounts['pending'];
 </script>
 
 <script src="../assets/js/admin-notifications.js?v=20260922"></script>
+<script src="../assets/js/table-export.js" defer></script>
 
 </body>
 </html>

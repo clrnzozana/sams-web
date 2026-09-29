@@ -38,7 +38,7 @@ $department = 'NU Lipa - Student Development and Activities Office';
             background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
             color: var(--text);
         }
-        .shell {
+        .retired-shell {
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -113,7 +113,10 @@ $department = 'NU Lipa - Student Development and Activities Office';
     </style>
 </head>
 <body>
-    <main class="shell">
+    <div class="shell">
+        <?php $activeAdminNav = 'applications'; require __DIR__ . '/_sidebar.php'; ?>
+        <main class="main"><div class="page">
+    <section class="retired-shell">
         <section class="card" aria-labelledby="page-title">
             <div class="eyebrow">Admin Documents</div>
             <h1 id="page-title">Document center removed</h1>
@@ -133,6 +136,8 @@ $department = 'NU Lipa - Student Development and Activities Office';
                 <a class="btn btn-secondary" href="applications.php">View applications</a>
             </div>
         </section>
-    </main>
+    </section>
+        </div></main>
+    </div>
 </body>
 </html>

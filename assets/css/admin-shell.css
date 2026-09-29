@@ -10,11 +10,12 @@
 .sidebar__header {
   flex-shrink: 0;
   border-bottom: 1px solid #e5e7eb;
-  background: #ffffff;
+  background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
 }
 
 .sidebar {
-  width: 256px;
+  width: 264px;
+  flex: 0 0 264px;
   min-height: 100vh;
   background: #ffffff;
   border-right: 1px solid #e5e7eb;
@@ -24,7 +25,7 @@
   position: sticky;
   top: 0;
   height: 100vh;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 .sidebar__brand {
@@ -38,20 +39,12 @@
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  background: #ffffff;
+  background: linear-gradient(135deg, #155dfc 0%, #9810fa 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  overflow: hidden;
-  box-shadow: 0 8px 18px rgba(0, 48, 135, 0.16);
-}
-
-.sidebar__logo img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: contain;
+  box-shadow: 0 10px 20px rgba(21, 93, 252, 0.18);
 }
 
 .sidebar__logo-text {
@@ -82,7 +75,9 @@
 
 .sidebar__nav {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 16px;
 }
 
@@ -124,25 +119,16 @@
 }
 
 .nav__link--active {
-  background: #003087 !important;
-  color: #ffffff !important;
-  box-shadow: none;
+  background: #ffb81c;
+  border-color: #ffb81c;
+  color: #00205b;
+  box-shadow: 0 1px 2px rgba(0, 32, 91, .12);
 }
 
 .nav__link--active:hover {
-  opacity: .96;
+  background: #ffb81c;
+  color: #00205b;
   transform: none;
-}
-
-.nav__link--active .nav__label,
-.nav__link--active .nav__icon,
-.nav__link--active svg,
-.nav__link--active path,
-.nav__link--active rect,
-.nav__link--active circle {
-  color: #ffffff !important;
-  stroke: #ffffff !important;
-  fill: none !important;
 }
 
 .nav__icon {
@@ -371,11 +357,107 @@
 
   .sidebar {
     width: 100%;
+    flex-basis: auto;
     height: auto;
     position: relative;
+    top: auto;
     min-height: 0;
+    overflow: visible;
   }
 
+  .sidebar__nav {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: row;
+    align-items: center;
+    min-width: 0;
+    min-height: 0;
+    padding: 8px 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+
+  .sidebar__nav > .sidebar__section-label,
+  .sidebar__footer > .sidebar__section-label { display: none; }
+
+  .sidebar__nav .nav__list,
+  .sidebar__footer .nav__list {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 6px;
+    width: max-content;
+    margin: 0;
+    padding: 0;
+  }
+
+  .sidebar__nav .nav__link,
+  .sidebar__footer .nav__link,
+  .sidebar__nav-link {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 8px;
+    width: auto;
+    height: 44px;
+    min-height: 44px;
+    min-width: max-content;
+    padding: 0 10px;
+    white-space: nowrap;
+  }
+
+  .sidebar__nav .nav__icon,
+  .sidebar__footer .nav__icon,
+  .sidebar__nav-link .sidebar__nav-icon {
+    display: inline-flex;
+    flex: 0 0 20px;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+  }
+
+  .sidebar__nav .nav__icon svg,
+  .sidebar__footer .nav__icon svg,
+  .sidebar__nav-link .sidebar__nav-icon svg {
+    display: block;
+    width: 20px;
+    height: 20px;
+  }
+
+  .sidebar__nav .nav__label,
+  .sidebar__footer .nav__label,
+  .sidebar__nav-link .sidebar__nav-label { white-space: nowrap; }
+
+  .sidebar__footer {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-top: 0;
+    border-left: 1px solid #e5e7eb;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .sidebar__nav .nav__link:hover,
+  .sidebar__footer .nav__link:hover,
+  .sidebar__nav-link:hover { transform: none; }
+
+  .sidebar__nav .nav__link:focus-visible,
+  .sidebar__footer .nav__link:focus-visible,
+  .sidebar__nav-link:focus-visible {
+    outline: 2px solid #155dfc;
+    outline-offset: -2px;
+  }
   .topbar {
     padding: 0 20px;
   }

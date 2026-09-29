@@ -821,7 +821,7 @@ if (!function_exists('meeting_block_style')) {
             <div class="sidebar__header">
                 <div class="sidebar__brand">
                     <div class="sidebar__logo" aria-hidden="true">
-                        <img src="../assets/logo.png" alt="" aria-hidden="true">
+                        <span class="sidebar__logo-text">NU</span>
                     </div>
                     <div class="sidebar__brand-info">
                         <span class="sidebar__app-name">SA System</span>
@@ -950,14 +950,14 @@ if (!function_exists('meeting_block_style')) {
             <div class="sidebar__footer">
                 <ul class="nav__list">
                     <li class="nav__item">
-                        <a href="settings.php" class="nav__link">
+                        <a href="profile.php" class="nav__link">
                             <span class="nav__icon" aria-hidden="true">
                                 <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M8.325 2.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37a1.724 1.724 0 002.572-1.065z" stroke="#364153" stroke-width="1.3"/>
                                     <circle cx="10" cy="10" r="3" stroke="#364153" stroke-width="1.3"/>
                                 </svg>
                             </span>
-                            <span class="nav__label">Settings</span>
+                            <span class="nav__label">Profile</span>
                         </a>
                     </li>
                     <li class="nav__item">

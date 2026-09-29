@@ -69,6 +69,9 @@ $avg = ((float)($eval['performance_rating']??0) + (float)($eval['reliability_rat
   </style>
 </head>
 <body>
+  <div class="shell">
+  <?php $activeAdminNav = 'evaluation'; require __DIR__ . '/_sidebar.php'; ?>
+  <main class="main"><div class="page">
   <div class="card">
     <h2>Evaluation Detail</h2>
     <p class="meta">Student: <strong><?php echo h($studentName); ?></strong> — <em><?php echo h((string)($eval['student_id_number'] ?? '')); ?></em></p>
@@ -88,6 +91,8 @@ $avg = ((float)($eval['performance_rating']??0) + (float)($eval['reliability_rat
     <div style="margin-top:16px">
       <a class="btn" href="evaluation.php">Back to Evaluations</a>
     </div>
+  </div>
+  </div></main>
   </div>
 </body>
 </html>

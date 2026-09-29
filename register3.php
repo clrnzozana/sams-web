@@ -375,11 +375,11 @@ $val_skills   = htmlspecialchars($_POST['skills'] ?? '');
             --color-error:          #dc2626;
             --color-submit-text:    #003087;
 
-            --gradient-bg:          #f8fafc;
-            --gradient-primary:     #003087;
-            --gradient-steps:       #003087;
-            --gradient-progress:    #ffb81c;
-            --gradient-submit:      #ffb81c;
+            --gradient-bg:          linear-gradient(138.29deg, #eff6ff 0%, #ffffff 50%, #fffbeb 100%);
+            --gradient-primary:     linear-gradient(135deg, #003087 0%, #0047ab 100%);
+            --gradient-steps:       linear-gradient(159.33deg, #003087 0%, #0047ab 100%);
+            --gradient-progress:    linear-gradient(90deg, #003087 0%, #ffb81c 100%);
+            --gradient-submit:      linear-gradient(90deg, #ffb81c 0%, #ffa500 100%);
 
             --radius-card:  16px;
             --radius-step:  14px;
@@ -954,6 +954,7 @@ $val_skills   = htmlspecialchars($_POST['skills'] ?? '');
             }
         }
     </style>
+    <link rel="stylesheet" href="assets/css/sams-dark-mode.css?v=20260926" />
 </head>
 <body>
 
@@ -1271,5 +1272,6 @@ $val_skills   = htmlspecialchars($_POST['skills'] ?? '');
 })();
 </script>
 
+<script src="assets/js/sams-theme.js?v=20260926"></script>
 </body>
 </html>

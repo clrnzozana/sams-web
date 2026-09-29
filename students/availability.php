@@ -159,6 +159,22 @@ $days = [
             max-width: 720px;
         }
 
+        .availability-back {
+            display: inline-flex;
+            align-items: center;
+            min-height: 40px;
+            margin-top: 16px;
+            padding: 0 14px;
+            border: 1px solid var(--color-border);
+            border-radius: 10px;
+            color: var(--color-primary);
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .availability-back:hover { background: #eff6ff; }
+
         .card {
             background: var(--color-white);
             border-radius: var(--radius-card);
@@ -398,14 +414,23 @@ $days = [
             }
         }
     </style>
+<link rel="stylesheet" href="../assets/css/sams-dark-mode.css?v=20260926" />
 </head>
 
 <body>
+    <?php if (!$isRegistration): ?>
+    <div class="shell">
+        <?php $sidebarRole = 'student'; require __DIR__ . '/../includes/sidebar.php'; ?>
+        <div class="main">
+    <?php endif; ?>
     <main class="page">
         <section class="hero">
             <div class="hero__badge">A</div>
             <h1 class="hero__title"><?= htmlspecialchars($pageTitle) ?></h1>
             <p class="hero__sub"><?= htmlspecialchars($pageSubtitle) ?></p>
+            <?php if (!$isRegistration): ?>
+                <a class="availability-back" href="dashboard.php">Back to Dashboard</a>
+            <?php endif; ?>
         </section>
 
         <section class="card">
@@ -517,6 +542,10 @@ $days = [
             </form>
         </section>
     </main>
+    <?php if (!$isRegistration): ?>
+        </div>
+    </div>
+    <?php endif; ?>
 
     <script>
     (function () {
@@ -656,5 +685,6 @@ $days = [
         }
     })();
     </script>
+<script src="../assets/js/sams-theme.js?v=20260926"></script>
 </body>
 </html>

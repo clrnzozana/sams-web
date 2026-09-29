@@ -276,11 +276,23 @@ $dashboardTitle = $studentName !== '' ? $studentName . ' | Profile' : 'My Profil
             --clr-alert:            #FB2C36;
             --clr-blue-light:       #DBEAFE;
 
-            /* Flat palette */
-            --grad-navy-v:          #003087;
-            --grad-navy-h:          #003087;
-            --grad-navy-135:        #003087;
-            --grad-navy-diag:       #003087;
+            /* Gradients */
+            --grad-navy-v:          linear-gradient(180deg,
+                                        #003087 0%,#00328B 10%,#00358E 20%,#003792 30%,
+                                        #003995 40%,#003B99 50%,#003E9C 60%,#0040A0 70%,
+                                        #0042A4 80%,#0045A7 90%,#0047AB 100%);
+            --grad-navy-h:          linear-gradient(90deg,
+                                        #003087 0%,#00328B 10%,#00358E 20%,#003792 30%,
+                                        #003995 40%,#003B99 50%,#003E9C 60%,#0040A0 70%,
+                                        #0042A4 80%,#0045A7 90%,#0047AB 100%);
+            --grad-navy-135:        linear-gradient(135deg,
+                                        #003087 0%,#00328B 10%,#00358E 20%,#003792 30%,
+                                        #003995 40%,#003B99 50%,#003E9C 60%,#0040A0 70%,
+                                        #0042A4 80%,#0045A7 90%,#0047AB 100%);
+            --grad-navy-diag:       linear-gradient(155.57deg,
+                                        #003087 0%,#00328B 10%,#00358E 20%,#003792 30%,
+                                        #003995 40%,#003B99 50%,#003E9C 60%,#0040A0 70%,
+                                        #0042A4 80%,#0045A7 90%,#0047AB 100%);
 
             /* Shadows */
             --shadow-sm:    0 1px 3px rgba(0,0,0,.10), 0 1px 2px rgba(0,0,0,.10);
@@ -321,7 +333,7 @@ $dashboardTitle = $studentName !== '' ? $studentName . ' | Profile' : 'My Profil
         html { font-size: 16px; }
         body {
             font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
-            background: #f4f7fb;
+            background: linear-gradient(136.4deg, #EFF6FF 0%, #FFFFFF 50%, #FFFBEB 100%);
             min-height: 100vh;
             display: flex;
         }
@@ -417,18 +429,16 @@ $dashboardTitle = $studentName !== '' ? $studentName . ' | Profile' : 'My Profil
             height: 48px;
             padding-left: var(--sp-16);
             border-radius: var(--radius-md);
-            transition: background 0.15s ease, transform 0.15s ease;
-            border: 1px solid rgba(255,255,255,0.08);
+            transition: background 0.15s;
         }
         .nav__link:hover { background: rgba(255,255,255,.10); }
         .nav__link--active {
-            background: #003087;
-            box-shadow: none;
-            border-color: rgba(255,255,255,.14);
+            background: var(--clr-white);
+            box-shadow: var(--shadow-md);
         }
 
-        .nav__icon { width: 20px; height: 20px; flex-shrink: 0; }
-        .nav__icon svg { width: 100%; height: 100%; }
+        .nav__icon { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; flex: 0 0 20px; }
+        .nav__icon svg { display: block; width: 100%; height: 100%; }
 
         .nav__label {
             font-size: var(--fs-base);
@@ -437,7 +447,7 @@ $dashboardTitle = $studentName !== '' ? $studentName . ' | Profile' : 'My Profil
             line-height: 24px;
             white-space: nowrap;
         }
-        .nav__link--active .nav__label { color: #ffffff; }
+        .nav__link--active .nav__label { color: var(--clr-navy); }
 
         .sidebar__footer {
             border-top: 1px solid rgba(255,255,255,.20);
@@ -491,8 +501,8 @@ $dashboardTitle = $studentName !== '' ? $studentName . ' | Profile' : 'My Profil
             transition: background 0.15s;
         }
         .sidebar__logout:hover { background: rgba(255,255,255,.18); }
-        .sidebar__logout-icon { width: 20px; height: 20px; flex-shrink: 0; }
-        .sidebar__logout-icon svg { width: 100%; height: 100%; }
+        .sidebar__logout-icon { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; flex: 0 0 20px; }
+        .sidebar__logout-icon svg { display: block; width: 100%; height: 100%; }
         .sidebar__logout-label {
             font-size: var(--fs-base);
             font-weight: 700;
@@ -595,7 +605,7 @@ $dashboardTitle = $studentName !== '' ? $studentName . ' | Profile' : 'My Profil
             transition: background 0.15s;
         }
         .topbar__action-btn:hover { background: var(--clr-bg-muted); }
-        .topbar__action-btn svg { width: 24px; height: 24px; }
+        .topbar__action-btn svg { display: block; width: 24px; height: 24px; }
 
         .topbar__badge {
             position: absolute;
@@ -676,7 +686,7 @@ $dashboardTitle = $studentName !== '' ? $studentName . ' | Profile' : 'My Profil
             margin-bottom: 16px;
         }
 
-        .avatar-card__avatar svg { width: 64px; height: 64px; }
+        .avatar-card__avatar svg { display: block; width: 64px; height: 64px; }
 
         .avatar-card__name {
             font-size: var(--fs-xl);
@@ -730,8 +740,8 @@ $dashboardTitle = $studentName !== '' ? $studentName . ' | Profile' : 'My Profil
             align-items: center;
         }
 
-        .avatar-stat--blue { background: #EEF5FF; }
-        .avatar-stat--gold { background: #FFF6DD; }
+        .avatar-stat--blue { background: linear-gradient(148.09deg, #EFF6FF 0%, #EEF2FF 100%); }
+        .avatar-stat--gold { background: linear-gradient(148.09deg, #FFFBEB 0%, #FFF7ED 100%); }
 
         .avatar-stat__value {
             font-size: var(--fs-2xl);
@@ -825,7 +835,7 @@ $dashboardTitle = $studentName !== '' ? $studentName . ' | Profile' : 'My Profil
         }
 
         .info-card__heading-icon { width: 28px; height: 28px; flex-shrink: 0; }
-        .info-card__heading-icon svg { width: 100%; height: 100%; }
+        .info-card__heading-icon svg { display: block; width: 100%; height: 100%; }
 
         .info-card__title {
             font-size: var(--fs-xl);
@@ -856,7 +866,7 @@ $dashboardTitle = $studentName !== '' ? $studentName . ' | Profile' : 'My Profil
             line-height: 20px;
         }
 
-        .field__label svg { width: 16px; height: 16px; flex-shrink: 0; }
+        .field__label svg { display: block; width: 16px; height: 16px; flex: 0 0 16px; }
 
         .field__value {
             font-size: var(--fs-md);
@@ -1020,7 +1030,7 @@ $dashboardTitle = $studentName !== '' ? $studentName . ' | Profile' : 'My Profil
             flex-shrink: 0;
         }
 
-        .achievement__icon-wrap svg { width: 24px; height: 24px; }
+        .achievement__icon-wrap svg { display: block; width: 24px; height: 24px; }
 
         .achievement__info { display: flex; flex-direction: column; }
 
@@ -1065,6 +1075,20 @@ $dashboardTitle = $studentName !== '' ? $studentName . ' | Profile' : 'My Profil
             gap: var(--sp-12);
         }
 
+        .privacy-dialog {
+            width: min(480px, calc(100vw - 32px));
+            border: 1px solid var(--clr-border);
+            border-radius: var(--radius-lg);
+            padding: 0;
+            color: var(--clr-text-primary);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .privacy-dialog::backdrop { background: rgba(15, 23, 42, .48); }
+        .privacy-dialog__content { display: grid; gap: 16px; padding: 24px; }
+        .privacy-dialog__content h2 { margin: 0; font-size: var(--fs-lg); }
+        .privacy-dialog__content p { margin: 0; line-height: 1.6; color: var(--clr-text-secondary); }
+
         .btn-action {
             height: 48px;
             border-radius: var(--radius-md);
@@ -1090,7 +1114,7 @@ $dashboardTitle = $studentName !== '' ? $studentName . ' | Profile' : 'My Profil
             color: var(--clr-red);
         }
         .btn-action--red:hover { background: #FEE2E2; }
-        .btn-action--red svg { width: 20px; height: 20px; flex-shrink: 0; }
+        .btn-action--red svg { display: block; width: 20px; height: 20px; flex: 0 0 20px; }
 
         /* ============================================================
            RESPONSIVE — TABLET (≤1024px)
@@ -1132,6 +1156,7 @@ $dashboardTitle = $studentName !== '' ? $studentName . ' | Profile' : 'My Profil
         }
     </style>
 <link rel="stylesheet" href="../assets/css/notifications-shell.css?v=20260922" />
+<link rel="stylesheet" href="../assets/css/sams-dark-mode.css?v=20260926" />
 </head>
 <body>
 
@@ -1139,90 +1164,8 @@ $dashboardTitle = $studentName !== '' ? $studentName . ' | Profile' : 'My Profil
 
 <div class="app">
 
-    <!-- ================================================================
-         SIDEBAR
-    ================================================================ -->
-    <aside class="sidebar" id="sidebar" role="navigation" aria-label="Student portal navigation">
 
-        <div class="sidebar__header">
-            <div class="sidebar__brand">
-                <div class="sidebar__logo" aria-hidden="true">
-                    <img src="../assets/logo.png" alt="" aria-hidden="true">
-                </div>
-                <div class="sidebar__brand-info">
-                    <span class="sidebar__app-name">SAMS</span>
-                    <span class="sidebar__app-sub">Student Assistant Management</span>
-                </div>
-            </div>
-        </div>
-
-        <nav class="sidebar__nav" aria-label="Main menu">
-            <ul class="nav__list">
-                <li class="nav__item">
-                    <a href="dashboard.php" class="nav__link">
-                        <span class="nav__icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M3 11.5L12 4l9 7.5" stroke="#101828" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="#ffffff"/>
-                                <path d="M5 10.5V20h5v-5h4v5h5v-9.5" stroke="#101828" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="#ffffff"/>
-                            </svg>
-                        </span>
-                        <span class="nav__label">Dashboard</span>
-                    </a>
-                </li>
-                <li class="nav__item">
-                    <a href="schedule.php" class="nav__link">
-                        <span class="nav__icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect x="4" y="5" width="16" height="15" rx="2" stroke="#101828" stroke-width="1.8" fill="#ffffff"/>
-                                <path d="M8 3v4M16 3v4M4 9h16" stroke="#101828" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-                            </svg>
-                        </span>
-                        <span class="nav__label">My Schedule</span>
-                    </a>
-                </li>
-                <li class="nav__item">
-                    <a href="attendance_history.php" class="nav__link">
-                        <span class="nav__icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M5 4h10l4 4v12H5z" stroke="#101828" stroke-width="1.8" stroke-linejoin="round" fill="#ffffff"/>
-                                <path d="M15 4v4h4" stroke="#101828" stroke-width="1.8" stroke-linejoin="round" fill="#ffffff"/>
-                                <path d="M8 11h8M8 15h8" stroke="#101828" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-                            </svg>
-                        </span>
-                        <span class="nav__label">Duty-Hour Report</span>
-                    </a>
-                </li>
-                <li class="nav__item">
-                    <a href="profile.php" class="nav__link nav__link--active" aria-current="page">
-                        <span class="nav__icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="12" cy="8" r="3.2" stroke="#101828" stroke-width="1.8" fill="#ffffff"/>
-                                <path d="M6.5 19c1.4-3.1 4-4.8 5.5-4.8S15.6 15.9 17 19" stroke="#101828" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="#ffffff"/>
-                            </svg>
-                        </span>
-                        <span class="nav__label">Profile</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-
-        <div class="sidebar__footer">
-            <div class="sidebar__user-card">
-                <span class="sidebar__user-label">Logged in as</span>
-                <span class="sidebar__user-name"><?php echo htmlspecialchars($studentName, ENT_QUOTES, 'UTF-8'); ?></span>
-                <span class="sidebar__user-id">Student ID: <?php echo htmlspecialchars($studentCode, ENT_QUOTES, 'UTF-8'); ?></span>
-            </div>
-            <button class="sidebar__logout" type="button" onclick="window.location.href='logout.php'">
-                <span class="sidebar__logout-icon" aria-hidden="true">
-                    <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7 3H4a1 1 0 00-1 1v12a1 1 0 001 1h3" stroke="rgba(255,255,255,0.85)" stroke-width="1.5" stroke-linecap="round"/>
-                        <path d="M13 14l3-4-3-4M16 10H7" stroke="rgba(255,255,255,0.85)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </span>
-                <span class="sidebar__logout-label">Logout</span>
-            </button>
-        </div>
-    </aside>
+    <?php $sidebarRole = 'student'; $sidebarUserName = $studentName; $sidebarUserId = $studentCode; require __DIR__ . '/../includes/sidebar.php'; ?>
 
     <!-- ================================================================
          MAIN
@@ -1251,7 +1194,7 @@ $dashboardTitle = $studentName !== '' ? $studentName . ' | Profile' : 'My Profil
                         <span class="topbar__badge" style="display:none;" aria-label="New notifications"></span>
                     </a>
                     <script>window.SAMS_CSRF = '<?php echo addslashes(sams_csrf_token()); ?>';</script>
-                    <a href="#" class="topbar__action-btn" aria-label="Settings">
+                    <a href="#account-actions" class="topbar__action-btn" aria-label="Account actions">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37a1.724 1.724 0 002.572-1.065z" stroke="#4A5565" stroke-width="1.8"/>
                             <circle cx="12" cy="12" r="3" stroke="#4A5565" stroke-width="1.8"/>
@@ -1525,11 +1468,11 @@ $dashboardTitle = $studentName !== '' ? $studentName . ' | Profile' : 'My Profil
                     </div>
 
                     <!-- Account Actions -->
-                    <div class="actions-card" role="region" aria-label="Account Actions">
+                    <div class="actions-card" id="account-actions" role="region" aria-label="Account Actions">
                         <h2 class="actions-card__title">Account Actions</h2>
                         <div class="actions-card__buttons">
-                            <button class="btn-action btn-action--grey" type="button">Download My Data</button>
-                            <button class="btn-action btn-action--grey" type="button">Privacy Settings</button>
+                            <button class="btn-action btn-action--grey" id="download-student-data" type="button">Download My Data</button>
+                            <button class="btn-action btn-action--grey" id="open-privacy-notice" type="button">Privacy Notice</button>
                             <button class="btn-action btn-action--red" type="button" onclick="window.location.href='logout.php'">
                                 <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M7 3H4a1 1 0 00-1 1v12a1 1 0 001 1h3" stroke="#E7000B" stroke-width="1.5" stroke-linecap="round"/>
@@ -1538,6 +1481,14 @@ $dashboardTitle = $studentName !== '' ? $studentName . ' | Profile' : 'My Profil
                                 Logout from SAMS
                             </button>
                         </div>
+                        <span id="profile-action-status" role="status" aria-live="polite"></span>
+                        <dialog class="privacy-dialog" id="privacy-notice-dialog" aria-labelledby="privacy-notice-title">
+                            <div class="privacy-dialog__content">
+                                <h2 id="privacy-notice-title">Privacy Notice</h2>
+                                <p>Your profile export contains the profile, schedule, and attendance summary information currently available on this page. For questions or requests to correct your information, contact your supervising office.</p>
+                                <form method="dialog"><button class="btn-action btn-action--grey" type="submit">Close</button></form>
+                            </div>
+                        </dialog>
                     </div>
 
                 </div><!-- /right-col -->
@@ -1551,6 +1502,59 @@ $dashboardTitle = $studentName !== '' ? $studentName . ' | Profile' : 'My Profil
 (function () {
     'use strict';
     var originalNfcUid = <?php echo json_encode((string) ($student['nfc_uid'] ?? '')); ?>;
+    var profileExportData = <?php echo json_encode([
+        'profile' => [
+            'student_id' => $studentCode,
+            'first_name' => (string) ($student['first_name'] ?? ''),
+            'last_name' => (string) ($student['last_name'] ?? ''),
+            'email' => $studentEmail,
+            'phone' => $studentPhone,
+            'program' => $studentProgram,
+            'year_level' => $studentYearLevel,
+            'gpa' => $studentGpa,
+            'status' => $studentStatusLabel,
+            'joined' => $studentJoined,
+            'application_status' => $applicationStatusLabel,
+            'preferred_office' => $applicationOffice,
+        ],
+        'attendance_summary' => $attendanceTotals,
+        'schedules' => array_map(static function (array $schedule): array {
+            return [
+                'day' => (string) ($schedule['day_of_week'] ?? ''),
+                'start_time' => (string) ($schedule['time_start'] ?? ''),
+                'end_time' => (string) ($schedule['time_end'] ?? ''),
+                'office' => (string) ($schedule['office_name'] ?? ''),
+                'status' => (string) ($schedule['status'] ?? ''),
+            ];
+        }, $scheduleRows),
+    ], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT); ?>;
+
+    var downloadDataButton = document.getElementById('download-student-data');
+    var privacyButton = document.getElementById('open-privacy-notice');
+    var privacyDialog = document.getElementById('privacy-notice-dialog');
+    var actionStatus = document.getElementById('profile-action-status');
+
+    if (downloadDataButton) downloadDataButton.addEventListener('click', function () {
+        var blob = new Blob([JSON.stringify(profileExportData, null, 2)], { type: 'application/json' });
+        var url = URL.createObjectURL(blob);
+        var link = document.createElement('a');
+        link.href = url;
+        link.download = 'sams-my-data.json';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+        if (actionStatus) actionStatus.textContent = 'Your data download has started.';
+    });
+
+    if (privacyButton && privacyDialog) privacyButton.addEventListener('click', function () {
+        if (typeof privacyDialog.showModal === 'function') privacyDialog.showModal();
+        else privacyDialog.setAttribute('open', '');
+    });
+
+    if (privacyDialog) privacyDialog.addEventListener('click', function (event) {
+        if (event.target === privacyDialog) privacyDialog.close();
+    });
 
     var hamburger = document.getElementById('hamburgerBtn');
     var sidebar   = document.getElementById('sidebar');
@@ -1585,16 +1589,10 @@ $dashboardTitle = $studentName !== '' ? $studentName . ' | Profile' : 'My Profil
         }
     });
 
-    // Handle Page Auto-Reload
-    var reloadTimer = window.setInterval(function () {
-        window.location.reload();
-    }, 30000);
-
-
-
 })();
 </script>
 <script src="../assets/js/student-notifications.js?v=20260922"></script>
+<script src="../assets/js/sams-theme.js?v=20260926"></script>
 
 </body>
 </html>

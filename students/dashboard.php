@@ -383,17 +383,17 @@ try {
       --color-sidebar-start:   #003087;
       --color-sidebar-end:     #0047ab;
 
-      /* Flat palette */
-      --grad-sidebar:          #003087;
-      --grad-primary-135:      #003087;
-      --grad-gold:             #ffb81c;
-      --grad-green:            #10b981;
-      --grad-purple:           #8b5cf6;
-      --grad-page:             #f4f7fb;
-      --grad-blue-card:        #edf4ff;
-      --grad-green-card:       #edfaf3;
-      --grad-purple-card:      #f4f0ff;
-      --grad-tips:             #003087;
+      /* Gradients */
+      --grad-sidebar:          linear-gradient(180deg, #003087 0%, #0047ab 100%);
+      --grad-primary-135:      linear-gradient(135deg, #003087 0%, #0047ab 100%);
+      --grad-gold:             linear-gradient(135deg, #ffb81c 0%, #ffa500 100%);
+      --grad-green:            linear-gradient(135deg, #00c950 0%, #00a63e 100%);
+      --grad-purple:           linear-gradient(135deg, #ad46ff 0%, #9810fa 100%);
+      --grad-page:             linear-gradient(135deg, #eff6ff 0%, #ffffff 50%, #fffbeb 100%);
+      --grad-blue-card:        linear-gradient(141deg, #eff6ff 0%, #dbeafe 100%);
+      --grad-green-card:       linear-gradient(141deg, #f0fdf4 0%, #dcfce7 100%);
+      --grad-purple-card:      linear-gradient(141deg, #faf5ff 0%, #f3e8ff 100%);
+      --grad-tips:             linear-gradient(147deg, #003087 0%, #0047ab 100%);
 
       /* Shadows */
       --shadow-card:           0 10px 15px 0 rgba(0,0,0,.10), 0 4px 6px 0 rgba(0,0,0,.10);
@@ -512,18 +512,17 @@ try {
       font-weight: 700;
       color: var(--color-white);
       cursor: pointer;
-      transition: background .15s ease, transform .15s ease;
-      border: 1px solid rgba(255,255,255,0.08);
+      transition: background .15s;
     }
     .nav-item:hover { background: rgba(255,255,255,.10); }
     .nav-item--active {
-      background: #003087;
-      color: #ffffff;
-      box-shadow: none;
-      border-color: rgba(255,255,255,.14);
+      background: var(--color-white);
+      color: var(--color-primary);
+      box-shadow: var(--shadow-card);
     }
-    .nav-item--active:hover { background: #003087; }
-    .nav-item__icon { width: 20px; height: 20px; flex-shrink: 0; }
+    .nav-item--active:hover { background: var(--color-white); }
+    .nav-item__icon { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; flex: 0 0 20px; }
+    .nav-item__icon svg { display: block; width: 20px; height: 20px; }
 
     /* Sidebar footer */
     .sidebar__footer {
@@ -630,7 +629,7 @@ try {
       cursor: pointer;
     }
     .topbar__icon-btn img { width: 24px; height: 24px; }
-    .topbar__icon-btn svg { width: 24px; height: 24px; }
+    .topbar__icon-btn svg { display: block; width: 24px; height: 24px; }
     .topbar__notif-dot {
       position: absolute;
       top: -3px; right: -3px;
@@ -836,7 +835,7 @@ try {
       color: var(--color-white);
     }
     .stat-card__icon img { width: 24px; height: 24px; }
-    .stat-card__icon svg { width: 24px; height: 24px; }
+    .stat-card__icon svg { display: block; width: 24px; height: 24px; }
     .stat-card__icon--blue   { background: var(--grad-primary-135); }
     .stat-card__icon--gold   { background: var(--grad-gold); }
     .stat-card__icon--green  { background: var(--grad-green); }
@@ -903,7 +902,7 @@ try {
       font-weight: 900;
       color: var(--color-dark);
     }
-    .card__heading img { width: 28px; height: 28px; }
+    .card__heading img, .card__heading svg { display: block; width: 28px; height: 28px; flex: 0 0 28px; }
     .card__link {
       font-size: var(--font-sm);
       font-weight: 700;
@@ -919,7 +918,7 @@ try {
       color: var(--color-dark);
       margin-bottom: var(--space-4);
     }
-    .card__heading--sm img { width: 24px; height: 24px; }
+    .card__heading--sm img, .card__heading--sm svg { display: block; width: 24px; height: 24px; flex: 0 0 24px; }
 
     /* =============================================
        TODAY'S SCHEDULE – empty state
@@ -938,7 +937,7 @@ try {
       background: var(--color-card-border);
       display: flex; align-items: center; justify-content: center;
     }
-    .schedule-empty__icon-wrap img { width: 48px; height: 48px; }
+    .schedule-empty__icon-wrap img, .schedule-empty__icon-wrap svg { display: block; width: 48px; height: 48px; }
     .schedule-empty__title {
       font-size: var(--font-xl);
       font-weight: 900;
@@ -990,16 +989,16 @@ try {
       transition: opacity .15s;
     }
     .quick-action:hover { opacity: .88; }
-    .quick-action--green  { background: #edfaf3; border-color: #cfeedb; }
-    .quick-action--blue   { background: #edf4ff; border-color: #dfeaff; }
-    .quick-action--purple { background: #f4f0ff; border-color: #e7dbff; }
+    .quick-action--green  { background: var(--grad-green-card);  border-color: #b9f8cf; }
+    .quick-action--blue   { background: var(--grad-blue-card);   border-color: var(--color-blue-pale); }
+    .quick-action--purple { background: var(--grad-purple-card); border-color: #e9d4ff; }
     .quick-action__icon {
       width: 56px; height: 56px;
       border-radius: var(--radius-lg);
       display: flex; align-items: center; justify-content: center;
       font-size: 30px;
     }
-    .quick-action__icon img { width: 28px; height: 28px; }
+    .quick-action__icon img, .quick-action__icon svg { display: block; width: 28px; height: 28px; }
     .quick-action__icon--green  { background: var(--color-green); }
     .quick-action__icon--blue   { background: var(--color-blue-mid); }
     .quick-action__icon--purple { background: var(--color-purple-mid); }
@@ -1039,7 +1038,7 @@ try {
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
     }
-    .duty-item__icon img { width: 24px; height: 24px; }
+    .duty-item__icon img, .duty-item__icon svg { display: block; width: 24px; height: 24px; }
     .duty-item__day  { font-size: var(--font-base); font-weight: 900; color: var(--color-dark); }
     .duty-item__date { font-size: var(--font-sm);   font-weight: 500; color: var(--color-muted); }
     .duty-item__right { text-align: right; }
@@ -1194,74 +1193,13 @@ try {
   </style>
   <link rel="stylesheet" href="../assets/css/sams-shell.css" />
 <link rel="stylesheet" href="../assets/css/notifications-shell.css?v=20260922" />
+<link rel="stylesheet" href="../assets/css/sams-dark-mode.css?v=20260926" />
 </head>
 <body>
 
 <div class="app">
 
-  <!-- ============================================
-       SIDEBAR
-  ============================================= -->
-  <aside class="sidebar" id="sidebar" aria-label="Student navigation">
-
-    <!-- Brand -->
-    <div class="sidebar__brand">
-      <div class="sidebar__logo" aria-hidden="true"><img src="../assets/logo.png" alt="" aria-hidden="true"></div>
-      <div>
-        <div class="sidebar__brand-name">SAMS</div>
-        <div class="sidebar__brand-sub">Student Assistant Management</div>
-      </div>
-    </div>
-
-    <!-- Nav -->
-    <nav class="sidebar__nav" aria-label="Main navigation">
-      <a class="nav-item nav-item--active" href="dashboard.php" aria-current="page">
-        <svg class="nav-item__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M3 11.5L12 4l9 7.5" stroke="#101828" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="#ffffff" />
-          <path d="M5 10.5V20h5v-5h4v5h5v-9.5" stroke="#101828" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="#ffffff" />
-        </svg>
-        Dashboard
-      </a>
-      <a class="nav-item" href="schedule.php">
-        <svg class="nav-item__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <rect x="4" y="5" width="16" height="15" rx="2" stroke="#101828" stroke-width="1.8" fill="#ffffff" />
-          <path d="M8 3v4M16 3v4M4 9h16" stroke="#101828" stroke-width="1.8" stroke-linecap="round" fill="none" />
-        </svg>
-        My Schedule
-      </a>
-      <a class="nav-item" href="attendance_history.php">
-        <svg class="nav-item__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M5 4h10l4 4v12H5z" stroke="#101828" stroke-width="1.8" stroke-linejoin="round" fill="#ffffff" />
-          <path d="M15 4v4h4" stroke="#101828" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="#ffffff" />
-          <path d="M8 11h8M8 15h8" stroke="#101828" stroke-width="1.8" stroke-linecap="round" fill="none" />
-        </svg>
-        Duty-Hour Report
-      </a>
-      <a class="nav-item" href="profile.php">
-        <svg class="nav-item__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <circle cx="12" cy="8" r="3.2" stroke="#101828" stroke-width="1.8" fill="#ffffff" />
-          <path d="M6.5 19c1.4-3.1 4-4.8 5.5-4.8S15.6 15.9 17 19" stroke="#101828" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="#ffffff" />
-        </svg>
-        Profile
-      </a>
-    </nav>
-
-    <!-- Footer: user info + logout -->
-    <div class="sidebar__footer">
-      <div class="sidebar__user">
-        <span class="sidebar__user-label">Logged in as</span>
-        <span class="sidebar__user-name"><?php echo htmlspecialchars($studentName, ENT_QUOTES, 'UTF-8'); ?></span>
-        <span class="sidebar__user-id">Student ID: <?php echo htmlspecialchars($studentCode, ENT_QUOTES, 'UTF-8'); ?></span>
-      </div>
-      <button class="sidebar__logout" type="button" onclick="window.location.href='logout.php'">
-        <svg class="nav-item__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M10 7V5.5A1.5 1.5 0 0 1 11.5 4h6A1.5 1.5 0 0 1 19 5.5v13A1.5 1.5 0 0 1 17.5 20h-6A1.5 1.5 0 0 1 10 18.5V17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-          <path d="M3 12h10m0 0-3-3m3 3-3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-        Logout
-      </button>
-    </div>
-  </aside>
+  <?php $sidebarRole = 'student'; $sidebarUserName = $studentName; $sidebarUserId = $studentCode; require __DIR__ . '/../includes/sidebar.php'; ?>
 
   <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
 
@@ -1286,21 +1224,15 @@ try {
       <div class="topbar__actions">
         <!-- Notification bell -->
         <button id="notif-toggle" class="topbar__icon-btn" aria-label="Notifications">
-          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path d="M12 4a5 5 0 0 0-5 5v2.2c0 .9-.2 1.8-.6 2.6L5.2 15.6A1 1 0 0 0 6 17h12a1 1 0 0 0 .8-1.4l-1.2-1.8c-.4-.8-.6-1.7-.6-2.6V9a5 5 0 0 0-5-5Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-            <path d="M9.5 17.5a2.8 2.8 0 0 0 5 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-          </svg>
+          <?= sams_icon('bell', '') ?>
           <span class="topbar__notif-dot" style="display:none;" aria-label="New notifications"></span>
         </button>
         <?php // expose CSRF token to JS for API calls ?>
         <script>window.SAMS_CSRF = '<?php echo addslashes(sams_csrf_token()); ?>';</script>
         <!-- Settings -->
-        <button class="topbar__icon-btn" aria-label="Settings">
-          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path d="M12 8.2a3.8 3.8 0 1 0 0 7.6 3.8 3.8 0 0 0 0-7.6Z" stroke="currentColor" stroke-width="1.8" fill="none" />
-            <path d="M4.5 13.2v-2.4l2-.7a6.8 6.8 0 0 1 .8-1.8l-1-1.9 1.7-1.7 1.9 1a6.8 6.8 0 0 1 1.8-.8l.7-2h2.4l.7 2c.6.2 1.2.5 1.8.8l1.9-1 1.7 1.7-1 1.9c.3.6.6 1.2.8 1.8l2 .7v2.4l-2 .7a6.8 6.8 0 0 1-.8 1.8l1 1.9-1.7 1.7-1.9-1c-.6.3-1.2.6-1.8.8l-.7 2h-2.4l-.7-2a6.8 6.8 0 0 1-1.8-.8l-1.9 1-1.7-1.7 1-1.9a6.8 6.8 0 0 1-.8-1.8Z" stroke="currentColor" stroke-width="1.2" fill="none" />
-          </svg>
-        </button>
+        <a class="topbar__icon-btn" href="profile.php" aria-label="Account settings">
+          <?= sams_icon('settings', '') ?>
+        </a>
       </div>
     </header>
 
@@ -1394,10 +1326,7 @@ try {
         <div class="stat-card">
           <div class="stat-card__top">
             <div class="stat-card__icon stat-card__icon--blue">
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <circle cx="12" cy="12" r="7.5" stroke="currentColor" stroke-width="1.8" fill="none" />
-                <path d="M12 8.2V12l2.6 1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-              </svg>
+              <?= sams_icon('clock', '') ?>
             </div>
             <span class="stat-card__badge stat-card__badge--green">Live</span>
           </div>
@@ -1408,10 +1337,7 @@ try {
         <div class="stat-card">
           <div class="stat-card__top">
             <div class="stat-card__icon stat-card__icon--gold">
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <rect x="4" y="5" width="16" height="15" rx="2" stroke="currentColor" stroke-width="1.8" fill="none" />
-                <path d="M8 3v4M16 3v4M4 9h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-              </svg>
+              <?= sams_icon('calendar-days', '') ?>
             </div>
             <span class="stat-card__badge stat-card__badge--blue">Assigned</span>
           </div>
@@ -1422,10 +1348,7 @@ try {
         <div class="stat-card">
           <div class="stat-card__top">
             <div class="stat-card__icon stat-card__icon--green">
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M6.5 12.5l3 3 8-8" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-                <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.2" fill="none" opacity=".35" />
-              </svg>
+              <?= sams_icon('circle-check', '') ?>
             </div>
             <span class="stat-card__badge stat-card__badge--green">Accepted</span>
           </div>
@@ -1436,10 +1359,7 @@ try {
         <div class="stat-card">
           <div class="stat-card__top">
             <div class="stat-card__icon stat-card__icon--purple">
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M12 3.5v4m0 9v4M5.5 12h4m9 0h-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-                <circle cx="12" cy="12" r="4.8" stroke="currentColor" stroke-width="1.6" fill="none" />
-              </svg>
+              <?= sams_icon('hourglass', '') ?>
             </div>
             <span class="stat-card__badge stat-card__badge--purple">Pending</span>
           </div>
@@ -1458,10 +1378,7 @@ try {
           <div class="card">
             <div class="card__header">
               <h2 class="card__heading">
-                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="card__heading-icon">
-                    <path d="M3 11.5L12 4l9 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-                    <path d="M5 10.5V20h5v-5h4v5h5v-9.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-                  </svg>
+                  <?= sams_icon('calendar-days', '') ?>
                 Today's Schedule
               </h2>
               <a class="card__link" href="schedule.php">View Full Schedule →</a>
@@ -1472,10 +1389,7 @@ try {
                   <div class="duty-item">
                     <div class="duty-item__left">
                       <div class="duty-item__icon">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                          <rect x="4" y="5" width="16" height="15" rx="2" stroke="currentColor" stroke-width="1.8" fill="none" />
-                          <path d="M8 3v4M16 3v4M4 9h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-                        </svg>
+                        <?= sams_icon('calendar-days', '') ?>
                       </div>
                       <div>
                         <div class="duty-item__day"><?php echo htmlspecialchars((string) $schedule['day_of_week'], ENT_QUOTES, 'UTF-8'); ?></div>
@@ -1492,11 +1406,7 @@ try {
             <?php else: ?>
               <div class="schedule-empty">
                 <div class="schedule-empty__icon-wrap">
-                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <rect x="4" y="5" width="16" height="15" rx="2" stroke="currentColor" stroke-width="1.8" fill="none" />
-                    <path d="M8 3v4M16 3v4M4 9h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-                    <path d="M8.5 13h7M8.5 16h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity=".8" />
-                  </svg>
+                  <?= sams_icon('calendar-days', '') ?>
                 </div>
                 <div class="schedule-empty__title">No Duty Today! 🎉</div>
                 <div class="schedule-empty__sub">
@@ -1517,28 +1427,19 @@ try {
             <div class="quick-actions">
               <a class="quick-action quick-action--green" href="availability.php">
                 <div class="quick-action__icon quick-action__icon--green">
-                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <rect x="4" y="5" width="16" height="15" rx="2" stroke="currentColor" stroke-width="1.8" fill="none" />
-                    <path d="M8 12h8M8 15h5M8 8h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-                  </svg>
+                  <?= sams_icon('calendar-days', '') ?>
                 </div>
                 <span class="quick-action__label">Set Availability</span>
               </a>
               <a class="quick-action quick-action--blue" href="schedule.php">
                 <div class="quick-action__icon quick-action__icon--blue">
-                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-                    <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.4" fill="none" opacity=".35" />
-                  </svg>
+                  <?= sams_icon('calendar-days', '') ?>
                 </div>
                 <span class="quick-action__label">View Schedule</span>
               </a>
               <a class="quick-action quick-action--purple" href="profile.php">
                 <div class="quick-action__icon quick-action__icon--purple">
-                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <circle cx="12" cy="8" r="3.2" stroke="currentColor" stroke-width="1.8" fill="none" />
-                    <path d="M6.5 19c1.4-3.1 4-4.8 5.5-4.8S15.6 15.9 17 19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-                  </svg>
+                  <?= sams_icon('user-round', '') ?>
                 </div>
                 <span class="quick-action__label">My Profile</span>
               </a>
@@ -1563,10 +1464,7 @@ try {
                   <div class="duty-item">
                     <div class="duty-item__left">
                       <div class="duty-item__icon">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                          <rect x="4" y="5" width="16" height="15" rx="2" stroke="currentColor" stroke-width="1.8" fill="none" />
-                          <path d="M8 3v4M16 3v4M4 9h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-                        </svg>
+                        <?= sams_icon('calendar-days', '') ?>
                       </div>
                       <div>
                         <div class="duty-item__day"><?php echo htmlspecialchars((string) $schedule['day_of_week'], ENT_QUOTES, 'UTF-8'); ?></div>
@@ -1591,10 +1489,7 @@ try {
           <!-- Announcements -->
           <div class="card">
             <h2 class="card__heading--sm">
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="card__heading-icon">
-                <path d="M4 6h16v10H5.8L4 18V6Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="none" />
-                <path d="M8 9h8M8 12h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-              </svg>
+              <?= sams_icon('megaphone', '') ?>
               Announcements
             </h2>
             <div class="announcements-list" id="announcements-container">
@@ -1605,7 +1500,7 @@ try {
 
           <!-- Tips & Reminders -->
           <div class="tips-card">
-            <div class="tips-card__heading">💡 Tips &amp; Reminders</div>
+            <div class="tips-card__heading"><?= sams_icon('lightbulb', '') ?> Tips &amp; Reminders</div>
             <div class="tips-card__list">
               <div class="tips-card__item">
                 <span class="tips-card__check">✓</span>
@@ -1724,12 +1619,7 @@ try {
                   <?php foreach ($attendanceHistory as $log): ?>
                     <div class="duty-item">
                       <div class="duty-item__left">
-                        <div class="duty-item__icon">
-                          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                            <circle cx="12" cy="12" r="7.5" stroke="currentColor" stroke-width="1.8" fill="none" />
-                            <path d="M12 8.2V12l2.6 1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-                          </svg>
-                        </div>
+                        <div class="duty-item__icon"><?= sams_icon('clock', '') ?></div>
                         <div>
                           <div class="duty-item__day"><?php echo htmlspecialchars(sams_student_attendance_status_label((string) ($log['status'] ?? 'absent')), ENT_QUOTES, 'UTF-8'); ?></div>
                           <div class="duty-item__date"><?php echo htmlspecialchars(date('M d, Y', strtotime((string) ($log['created_at'] ?? 'now'))), ENT_QUOTES, 'UTF-8'); ?></div>
@@ -1980,7 +1870,7 @@ try {
           var row = document.createElement('div');
           row.className = 'duty-item';
           row.innerHTML = '<div class="duty-item__left">' +
-                          '<div class="duty-item__icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="7.5" stroke="currentColor" stroke-width="1.8" fill="none" /><path d="M12 8.2V12l2.6 1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none" /></svg></div>' +
+                          '<div class="duty-item__icon">' + <?= json_encode(sams_icon('clock', '')) ?> + '</div>' +
                           '<div><div class="duty-item__day">' + (it.status ? it.status.charAt(0).toUpperCase() + it.status.slice(1) : 'Absent') + '</div>' +
                           '<div class="duty-item__date">' + (new Date(it.created_at)).toLocaleDateString() + '</div></div></div>' +
                           '<div class="duty-item__right"><div class="duty-item__office">Late: ' + (parseInt(it.late_minutes || 0, 10)) + ' min' + (it.notes ? ' · ' + it.notes : '') + '</div></div>';
@@ -2137,13 +2027,10 @@ try {
     });
     overlay.addEventListener('click', closeSidebar);
 
-    window.setInterval(function () {
-      window.location.reload();
-    }, 90000);
-
   }());
 </script>
 <script src="../assets/js/student-notifications.js?v=20260922"></script>
+<script src="../assets/js/sams-theme.js?v=20260926"></script>
 
 </body>
 </html>

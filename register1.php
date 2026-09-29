@@ -19,6 +19,12 @@ $values = [
     'year_level'      => '',
     'gpa'             => '',
 ];
+$savedValues = $_SESSION['sams_registration']['step2'] ?? [];
+if (is_array($savedValues)) {
+  foreach (array_keys($values) as $key) {
+    $values[$key] = (string) ($savedValues[$key] ?? '');
+  }
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $values['course']          = trim($_POST['course']          ?? '');
@@ -67,6 +73,7 @@ function isSelected(string $key, string $option, array $values): string {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="assets/css/sams-dark-mode.css?v=20260926" />
   <title>Apply – Academic Info | SAMS NU Lipa</title>
   <meta name="description" content="Step 2 of the Student Assistant application – Academic Information." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -100,11 +107,11 @@ function isSelected(string $key, string $option, array $values): string {
       --color-page-bg-mid:     #ffffff;
       --color-page-bg-end:     #fffbeb;
 
-      --grad-primary:          #003087;
-      --grad-primary-135:      #003087;
-      --grad-primary-159:      #003087;
-      --grad-progress:         #ffb81c;
-      --grad-page:             #f8fafc;
+      --grad-primary:          linear-gradient(90deg,  #003087 0%, #004aab 100%);
+      --grad-primary-135:      linear-gradient(135deg, #003087 0%, #004aab 100%);
+      --grad-primary-159:      linear-gradient(159deg, #003087 0%, #004aab 100%);
+      --grad-progress:         linear-gradient(90deg,  #003087 0%, #ffb81c 100%);
+      --grad-page:             linear-gradient(143deg, var(--color-page-bg-start) 0%, var(--color-page-bg-mid) 50%, var(--color-page-bg-end) 100%);
 
       --shadow-card:  0 10px 15px 0 rgba(0,0,0,.10), 0 4px 6px 0 rgba(0,0,0,.10);
 
@@ -658,7 +665,7 @@ function isSelected(string $key, string $option, array $values): string {
 
         <!-- Info banner -->
         <div class="form__info-banner" role="note" aria-label="Auto-filtering note">
-          ℹ️&nbsp;<strong>Auto-filtering:</strong> Questions adjust based on your year level to ensure relevance.
+          <?= sams_icon('info', '') ?>&nbsp;<strong>Auto-filtering:</strong> Questions adjust based on your year level to ensure relevance.
         </div>
 
       </form>
@@ -757,5 +764,6 @@ function isSelected(string $key, string $option, array $values): string {
     })();
   </script>
 
+<script src="assets/js/sams-theme.js?v=20260926"></script>
 </body>
 </html>

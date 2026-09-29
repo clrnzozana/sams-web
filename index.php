@@ -1,6 +1,7 @@
 <?php
 // index.php - NU SAMS Landing Page
 // Student Assistant Management System - National University Lipa
+require_once __DIR__ . '/includes/icon.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -137,24 +138,17 @@
       text-decoration: none;
     }
     .nav__logo {
-      width: 32px;
-      height: 32px;
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      background: var(--grad-primary-135);
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
+      font-size: var(--font-2xl);
+      font-weight: 900;
+      color: var(--color-white);
       flex-shrink: 0;
-      background: transparent;
-      border: none;
-      border-radius: 0;
-      box-shadow: none;
-    }
-    .nav__logo img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
-      background: transparent;
     }
     .nav__brand-text {}
     .nav__brand-name {
@@ -458,6 +452,7 @@
     .feature-card__icon-wrap--blue { background: var(--grad-primary-135); }
     .feature-card__icon-wrap--gold { background: var(--grad-gold); }
     .feature-card__icon-wrap img { width: 32px; height: 32px; }
+    .feature-card__icon-wrap svg { display: block; width: 32px; height: 32px; color: white; }
     .feature-card__title {
       font-family: var(--font-display, 'Poppins', sans-serif);
       font-size: var(--font-xl);
@@ -585,22 +580,15 @@
     .footer__logo {
       width: 48px;
       height: 48px;
+      border-radius: var(--radius-md);
+      background: var(--color-gold);
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
+      font-size: var(--font-2xl);
+      font-weight: 900;
+      color: var(--color-primary);
       flex-shrink: 0;
-      background: transparent;
-      border: none;
-      border-radius: 0;
-      box-shadow: none;
-    }
-    .footer__logo img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
-      background: transparent;
     }
     .footer__brand-name {
       font-size: var(--font-lg);
@@ -714,9 +702,7 @@
       <nav class="nav__inner" aria-label="Main navigation">
         <!-- Brand -->
         <a class="nav__brand" href="index.php" aria-label="SAMS Home">
-          <div class="nav__logo" aria-hidden="true">
-            <img src="assets/logo.png" alt="SAMS logo" />
-          </div>
+          <div class="nav__logo" aria-hidden="true">NU</div>
           <div class="nav__brand-text">
             <div class="nav__brand-name">SAMS</div>
             <div class="nav__brand-sub">Student Assistant Management System</div>
@@ -784,7 +770,7 @@
 
             <!-- Description -->
             <p class="hero__desc">
-              An integrated mobile and web-based platform that automates application processing, scheduling with algorithm-guided assignment, and secure attendance monitoring using QR + PIN/OTP validation - all with real-time administrative dashboard for efficient management.
+              An integrated mobile and web-based platform that automates application processing, scheduling with algorithm-guided assignment, and secure attendance monitoring through registered NFC card check-in and check-out - all managed through a real-time administrative dashboard.
             </p>
 
             <!-- CTAs -->
@@ -880,19 +866,10 @@
           <!-- Card 3 -->
           <article class="feature-card">
             <div class="feature-card__icon-wrap feature-card__icon-wrap--blue">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" style="width: 32px; height: 32px; color: white;">
-                <rect x="3" y="3" width="7" height="7"></rect>
-                <rect x="14" y="3" width="7" height="7"></rect>
-                <rect x="14" y="14" width="7" height="7"></rect>
-                <rect x="3" y="14" width="7" height="7"></rect>
-                <rect x="7" y="7" width="2" height="2"></rect>
-                <rect x="15" y="7" width="2" height="2"></rect>
-                <rect x="7" y="15" width="2" height="2"></rect>
-                <rect x="15" y="15" width="2" height="2"></rect>
-              </svg>
+              <?= sams_icon('nfc', '') ?>
             </div>
-            <h3 class="feature-card__title">QR Attendance</h3>
-            <p class="feature-card__desc">Secure check-in/out with QR code scanning and PIN verification</p>
+            <h3 class="feature-card__title">NFC Attendance</h3>
+            <p class="feature-card__desc">Tap your registered NFC card for secure check-in and check-out</p>
           </article>
 
           <!-- Card 4 -->
@@ -980,9 +957,7 @@
         <!-- Brand column -->
         <div>
           <div class="footer__brand">
-            <div class="footer__logo" aria-hidden="true">
-              <img src="assets/logo.png" alt="SAMS logo" />
-            </div>
+            <div class="footer__logo" aria-hidden="true">NU</div>
             <div>
               <div class="footer__brand-name">SAMS</div>
               <div class="footer__brand-sub">Student Assistant Management</div>

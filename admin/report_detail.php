@@ -77,9 +77,12 @@ if (!$report) {
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Report #<?php echo (int)$report['report_id']; ?> — Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>body{font-family:Inter,system-ui,Arial;background:#f9fafb;margin:0;padding:20px} .card{background:#fff;padding:18px;border-radius:10px;border:1px solid #eef2f7;max-width:900px;margin:18px auto}</style>
+    <style>body{font-family:Inter,system-ui,Arial;background:#f9fafb;margin:0} .card{background:#fff;padding:18px;border-radius:10px;border:1px solid #eef2f7;max-width:900px;margin:18px auto}</style>
 </head>
 <body>
+    <div class="shell">
+        <?php $activeAdminNav = 'reports'; require __DIR__ . '/_sidebar.php'; ?>
+        <main class="main"><div class="page">
     <div class="card">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
             <div>
@@ -136,6 +139,8 @@ if (!$report) {
             <strong>Notes</strong>
             <div style="margin-top:8px;white-space:pre-wrap;color:#111"><?php echo nl2br(htmlspecialchars((string)($report['notes'] ?? ''))); ?></div>
         </div>
+    </div>
+        </div></main>
     </div>
 </body>
 </html>

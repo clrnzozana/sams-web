@@ -122,8 +122,12 @@ if ($userId > 0) {
          FROM duty_schedules ds
          LEFT JOIN applications a ON a.application_id = ds.application_id
          LEFT JOIN terms t ON t.term_id = ds.term_id
-         LEFT JOIN attendance_logs al ON al.application_id = ds.application_id
-           AND al.duty_id = ds.duty_id
+         LEFT JOIN attendance_logs al ON al.log_id = (
+           SELECT al2.log_id FROM attendance_logs al2
+           WHERE al2.application_id = ds.application_id
+             AND al2.duty_id = ds.duty_id
+           ORDER BY al2.log_id DESC LIMIT 1
+         )
          WHERE a.student_id = :student_id
          ORDER BY FIELD(ds.day_of_week, 'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'), ds.start_time ASC"
       );
@@ -185,7 +189,11 @@ foreach ($studentSchedules as $schedule) {
   ];
 }
 
+$weekOffset = max(-52, min(52, (int) ($_GET['week'] ?? 0)));
 $weekStart = new DateTimeImmutable('monday this week');
+if ($weekOffset !== 0) {
+  $weekStart = $weekStart->modify(($weekOffset > 0 ? '+' : '') . $weekOffset . ' weeks');
+}
 $weekEnd = $weekStart->modify('+5 days');
 $weekRangeLabel = $weekStart->format('M d') . ' - ' . $weekEnd->format('M d, Y');
 
@@ -283,11 +291,11 @@ if (!empty($studentSchedules)) {
 
       /* Sidebar */
       --sidebar-w:           288px;
-      --grad-sidebar:        #003087;
-      --grad-primary-135:    #003087;
-      --grad-primary-126:    #003087;
-      --grad-gold:           #ffb81c;
-      --grad-page:           #f4f7fb;
+      --grad-sidebar:        linear-gradient(180deg, #003087 0%, #0047ab 100%);
+      --grad-primary-135:    linear-gradient(135deg, #003087 0%, #0047ab 100%);
+      --grad-primary-126:    linear-gradient(126deg, #003087 0%, #0047ab 100%);
+      --grad-gold:           linear-gradient(135deg, #ffb81c 0%, #ffa500 100%);
+      --grad-page:           linear-gradient(133deg, #eff6ff 0%, #ffffff 50%, #fffbeb 100%);
 
       /* Shadows */
       --shadow-sidebar:      0 25px 50px 0 rgba(0,0,0,.25);
@@ -400,18 +408,17 @@ if (!empty($studentSchedules)) {
       font-size: var(--font-base);
       font-weight: 700;
       color: var(--color-white);
-      transition: background .15s ease, transform .15s ease;
-      border: 1px solid rgba(255,255,255,0.08);
+      transition: background .15s;
     }
     .nav-item:hover { background: rgba(255,255,255,.10); }
     .nav-item--active {
-      background: #003087;
-      color: #ffffff;
-      box-shadow: none;
-      border-color: rgba(255,255,255,.14);
+      background: var(--color-white);
+      color: var(--color-primary);
+      box-shadow: var(--shadow-card);
     }
-    .nav-item--active:hover { background: #003087; }
-    .nav-item__icon { width: 20px; height: 20px; flex-shrink: 0; }
+    .nav-item--active:hover { background: var(--color-white); }
+    .nav-item__icon { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; flex: 0 0 20px; }
+    .nav-item__icon svg { display: block; width: 20px; height: 20px; }
 
     .sidebar__footer {
       border-top: 1px solid rgba(255,255,255,.20);
@@ -500,8 +507,7 @@ if (!empty($studentSchedules)) {
       background: none; border: none;
       position: relative; cursor: pointer;
     }
-    .topbar__icon-btn img { width: 24px; height: 24px; }
-    .topbar__icon-btn svg { width: 24px; height: 24px; }
+    .topbar__icon-btn img, .topbar__icon-btn svg { display: block; width: 24px; height: 24px; }
     .topbar__notif-dot {
       position: absolute;
       top: -3px; right: -3px;
@@ -551,7 +557,7 @@ if (!empty($studentSchedules)) {
       margin-bottom: var(--space-2);
     }
     .page-header__title img { width: 40px; height: 40px; }
-    .page-header__title svg { width: 40px; height: 40px; }
+    .page-header__title svg { display: block; width: 40px; height: 40px; flex: 0 0 40px; }
     .page-header__sub {
       font-size: var(--font-lg);
       font-weight: 500;
@@ -590,7 +596,7 @@ if (!empty($studentSchedules)) {
       white-space: nowrap;
     }
     .view-toggle__btn img { width: 16px; height: 16px; }
-    .view-toggle__btn svg { width: 16px; height: 16px; }
+    .view-toggle__btn svg { display: block; width: 16px; height: 16px; flex: 0 0 16px; }
     .view-toggle__btn--active {
       background: var(--color-primary);
       color: var(--color-white);
@@ -608,7 +614,7 @@ if (!empty($studentSchedules)) {
       height: 48px;
       padding: 0 var(--space-6);
       border-radius: var(--radius-md);
-      background: var(--color-primary);
+      background: var(--grad-primary-135);
       border: none;
       font-size: var(--font-base);
       font-weight: 700;
@@ -619,7 +625,7 @@ if (!empty($studentSchedules)) {
     }
     .btn-demo:hover { opacity: .88; }
     .btn-demo img { width: 20px; height: 20px; }
-    .btn-demo svg { width: 20px; height: 20px; }
+    .btn-demo svg { display: block; width: 20px; height: 20px; flex: 0 0 20px; }
 
     /* =============================================
        STAT MINI-CARDS ROW
@@ -646,10 +652,9 @@ if (!empty($studentSchedules)) {
       flex-shrink: 0;
       color: var(--color-white);
     }
-    .stat-mini__icon img { width: 28px; height: 28px; }
-    .stat-mini__icon svg { width: 28px; height: 28px; }
-    .stat-mini__icon--blue { background: var(--color-primary); }
-    .stat-mini__icon--gold { background: var(--color-gold); }
+    .stat-mini__icon img, .stat-mini__icon svg { display: block; width: 28px; height: 28px; }
+    .stat-mini__icon--blue { background: var(--grad-primary-135); }
+    .stat-mini__icon--gold { background: var(--grad-gold); }
     .stat-mini__label { font-size: var(--font-sm); font-weight: 700; color: var(--color-muted); }
     .stat-mini__value { font-size: var(--font-3xl); font-weight: 900; color: var(--color-dark); line-height: 1.2; }
 
@@ -674,6 +679,7 @@ if (!empty($studentSchedules)) {
     }
     .week-nav__btn:hover { background: var(--color-bg); }
     .week-nav__btn img { width: 24px; height: 24px; }
+    .week-nav__btn svg { display: block; width: 24px; height: 24px; }
     .week-nav__info { text-align: center; }
     .week-nav__label { font-size: var(--font-sm); font-weight: 700; color: var(--color-muted); }
     .week-nav__range { font-size: var(--font-lg); font-weight: 900; color: var(--color-dark); }
@@ -961,7 +967,8 @@ if (!empty($studentSchedules)) {
       flex-wrap: wrap;
       margin: 0 auto;
     }
-    .cal-event__icon { width: 12px; height: 12px; flex-shrink: 0; }
+    .cal-event__icon { display: block; width: 12px; height: 12px; flex: 0 0 12px; }
+    .cal-event__recur svg { display: inline-block; width: 16px; height: 16px; vertical-align: middle; }
     .cal-event__time {
       font-size: 11px;
       font-weight: 900;
@@ -1072,6 +1079,7 @@ if (!empty($studentSchedules)) {
       border-right: 1px solid var(--color-border);
       vertical-align: top;
     }
+    .schedule-list__thead svg, .schedule-list__badge svg { display: inline-block; width: 16px; height: 16px; margin-right: 4px; vertical-align: middle; }
 
     .schedule-list__cell--last {
       border-right: none;
@@ -1119,7 +1127,7 @@ if (!empty($studentSchedules)) {
     }
 
     .schedule-list__action-btn--accept {
-      background: var(--color-primary);
+      background: var(--grad-primary-135);
       color: var(--color-white);
     }
 
@@ -1150,7 +1158,7 @@ if (!empty($studentSchedules)) {
     .guidelines {
       border: 2px solid var(--color-blue-pale);
       border-radius: var(--radius-lg);
-      background: #edf4ff;
+      background: linear-gradient(168deg, #eff6ff 0%, #eee2ff 100%);
       padding: 34px;
     }
     .guidelines__heading {
@@ -1163,6 +1171,7 @@ if (!empty($studentSchedules)) {
       margin-bottom: var(--space-6);
     }
     .guidelines__icon {
+      display: block;
       width: 28px;
       height: 28px;
       flex-shrink: 0;
@@ -1179,7 +1188,8 @@ if (!empty($studentSchedules)) {
       align-items: flex-start;
       gap: var(--space-3);
     }
-    .guideline-item__emoji { font-size: 30px; flex-shrink: 0; line-height: 1; }
+    .guideline-item__emoji { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; flex: 0 0 32px; }
+    .guideline-item__emoji svg { display: block; width: 24px; height: 24px; }
     .guideline-item__title {
       font-size: var(--font-base);
       font-weight: 900;
@@ -1237,71 +1247,14 @@ if (!empty($studentSchedules)) {
     }
   </style>
 <link rel="stylesheet" href="../assets/css/notifications-shell.css?v=20260922" />
+<link rel="stylesheet" href="../assets/css/sams-dark-mode.css?v=20260926" />
 </head>
 <body>
 
 <div class="app">
 
-  <!-- ============================================
-       SIDEBAR
-  ============================================= -->
-  <aside class="sidebar" id="sidebar" aria-label="Student navigation">
 
-    <div class="sidebar__brand">
-      <div class="sidebar__logo" aria-hidden="true"><img src="../assets/logo.png" alt="" aria-hidden="true"></div>
-      <div>
-        <div class="sidebar__brand-name">SAMS</div>
-        <div class="sidebar__brand-sub">Student Assistant Management</div>
-      </div>
-    </div>
-
-    <nav class="sidebar__nav" aria-label="Main navigation">
-      <a class="nav-item" href="dashboard.php">
-        <svg class="nav-item__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M3 11.5L12 4l9 7.5" stroke="#101828" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="#ffffff" />
-          <path d="M5 10.5V20h5v-5h4v5h5v-9.5" stroke="#101828" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="#ffffff" />
-        </svg>
-        Dashboard
-      </a>
-      <a class="nav-item nav-item--active" href="#" aria-current="page">
-        <svg class="nav-item__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <rect x="4" y="5" width="16" height="15" rx="2" stroke="#101828" stroke-width="1.8" fill="#ffffff" />
-          <path d="M8 3v4M16 3v4M4 9h16" stroke="#101828" stroke-width="1.8" stroke-linecap="round" fill="none" />
-        </svg>
-        My Schedule
-      </a>
-      <a class="nav-item" href="attendance_history.php">
-        <svg class="nav-item__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M5 4h10l4 4v12H5z" stroke="#101828" stroke-width="1.8" stroke-linejoin="round" fill="#ffffff" />
-          <path d="M15 4v4h4" stroke="#101828" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="#ffffff" />
-          <path d="M8 11h8M8 15h8" stroke="#101828" stroke-width="1.8" stroke-linecap="round" fill="none" />
-        </svg>
-        Duty-Hour Report
-      </a>
-      <a class="nav-item" href="profile.php">
-        <svg class="nav-item__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <circle cx="12" cy="8" r="3.2" stroke="#101828" stroke-width="1.8" fill="#ffffff" />
-          <path d="M6.5 19c1.4-3.1 4-4.8 5.5-4.8S15.6 15.9 17 19" stroke="#101828" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="#ffffff" />
-        </svg>
-        Profile
-      </a>
-    </nav>
-
-    <div class="sidebar__footer">
-      <div class="sidebar__user">
-        <div class="sidebar__user-label">Logged in as</div>
-        <div class="sidebar__user-name"><?php echo htmlspecialchars($studentName, ENT_QUOTES, 'UTF-8'); ?></div>
-        <div class="sidebar__user-id">Student ID: <?php echo htmlspecialchars($studentCode, ENT_QUOTES, 'UTF-8'); ?></div>
-      </div>
-      <button class="sidebar__logout" type="button" onclick="window.location.href='logout.php'">
-        <svg class="nav-item__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M10 7V5.5A1.5 1.5 0 0 1 11.5 4h6A1.5 1.5 0 0 1 19 5.5v13A1.5 1.5 0 0 1 17.5 20h-6A1.5 1.5 0 0 1 10 18.5V17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-          <path d="M3 12h10m0 0-3-3m3 3-3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-        Logout
-      </button>
-    </div>
-  </aside>
+  <?php $sidebarRole = 'student'; $sidebarUserName = $studentName; $sidebarUserId = $studentCode; require __DIR__ . '/../includes/sidebar.php'; ?>
 
   <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
 
@@ -1332,12 +1285,12 @@ if (!empty($studentSchedules)) {
             <span class="topbar__notif-dot" style="display:none;" aria-label="New notifications"></span>
         </button>
         <script>window.SAMS_CSRF = '<?php echo addslashes(sams_csrf_token()); ?>';</script>
-        <button class="topbar__icon-btn" aria-label="Settings">
+        <a class="topbar__icon-btn" href="profile.php" aria-label="Account settings">
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <path d="M12 8.2a3.8 3.8 0 1 0 0 7.6 3.8 3.8 0 0 0 0-7.6Z" stroke="currentColor" stroke-width="1.8" fill="none" />
               <path d="M4.5 13.2v-2.4l2-.7a6.8 6.8 0 0 1 .8-1.8l-1-1.9 1.7-1.7 1.9 1a6.8 6.8 0 0 1 1.8-.8l.7-2h2.4l.7 2c.6.2 1.2.5 1.8.8l1.9-1 1.7 1.7-1 1.9c.3.6.6 1.2.8 1.8l2 .7v2.4l-2 .7a6.8 6.8 0 0 1-.8 1.8l1 1.9-1.7 1.7-1.9-1c-.6.3-1.2.6-1.8.8l-.7 2h-2.4l-.7-2a6.8 6.8 0 0 1-1.8-.8l-1.9 1-1.7-1.7 1-1.9a6.8 6.8 0 0 1-.8-1.8Z" stroke="currentColor" stroke-width="1.2" fill="none" />
             </svg>
-        </button>
+        </a>
       </div>
     </header>
 
@@ -1416,21 +1369,33 @@ if (!empty($studentSchedules)) {
 
         <!-- Week navigator -->
         <div class="stat-mini" style="justify-content: space-between;">
-          <button class="week-nav__btn" aria-label="Previous week">
+          <?php if ($weekOffset > -52): ?>
+          <a class="week-nav__btn" href="?week=<?php echo $weekOffset - 1; ?>" aria-label="Previous week">
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <path d="M14.5 6.5 9 12l5.5 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none" />
             </svg>
+          </a>
+          <?php else: ?>
+          <button class="week-nav__btn" type="button" aria-label="Previous week" disabled>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14.5 6.5 9 12l5.5 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none" /></svg>
           </button>
+          <?php endif; ?>
           <div class="week-nav__info">
             <div class="week-nav__label">Current Week</div>
             <div class="week-nav__range"><?php echo htmlspecialchars($weekRangeLabel, ENT_QUOTES, 'UTF-8'); ?></div>
             <div class="stat-mini__sub"><?php echo htmlspecialchars($studentName, ENT_QUOTES, 'UTF-8'); ?> · <?php echo htmlspecialchars($studentCode, ENT_QUOTES, 'UTF-8'); ?></div>
           </div>
-          <button class="week-nav__btn" aria-label="Next week">
+          <?php if ($weekOffset < 52): ?>
+          <a class="week-nav__btn" href="?week=<?php echo $weekOffset + 1; ?>" aria-label="Next week">
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <path d="M9.5 6.5 15 12l-5.5 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none" />
             </svg>
+          </a>
+          <?php else: ?>
+          <button class="week-nav__btn" type="button" aria-label="Next week" disabled>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9.5 6.5 15 12l-5.5 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none" /></svg>
           </button>
+          <?php endif; ?>
         </div>
 
       </div>
@@ -1500,7 +1465,7 @@ if (!empty($studentSchedules)) {
                             <span class="cal-event__loc"><?php echo htmlspecialchars($event['office_name'], ENT_QUOTES, 'UTF-8'); ?></span>
                           </div>
                         </div>
-                        <div class="cal-event__recur"><?php echo htmlspecialchars(match($event['status']) { 'deployed' => 'Live', 'accepted' => 'Accepted', default => 'Pending' }, ENT_QUOTES, 'UTF-8'); ?></div>
+                        <div class="cal-event__recur"><?php echo match($event['status']) { 'deployed' => sams_icon('rocket', ''), 'accepted' => sams_icon('circle-check', ''), default => sams_icon('refresh-cw', '') }; ?></div>
                       </div>
                     <?php endforeach; ?>
                   <?php endif; ?>
@@ -1573,9 +1538,9 @@ if (!empty($studentSchedules)) {
               <table class="schedule-list__table">
                   <thead class="schedule-list__thead">
                     <tr>
-                      <th class="schedule-list__cell">Date & Time</th>
-                      <th class="schedule-list__cell">Office</th>
-                      <th class="schedule-list__cell">Hours</th>
+                      <th class="schedule-list__cell"><?= sams_icon('calendar-days', '') ?> Date & Time</th>
+                      <th class="schedule-list__cell"><?= sams_icon('building', '') ?> Office</th>
+                      <th class="schedule-list__cell"><?= sams_icon('clock', '') ?> Hours</th>
                       <th class="schedule-list__cell">Status</th>
                       <th class="schedule-list__cell schedule-list__cell--last">Actions</th>
                     </tr>
@@ -1614,11 +1579,11 @@ if (!empty($studentSchedules)) {
                             default => '#374151',
                           };
                           $statusIcon = match($attendanceStatus) {
-                            'present' => '✓',
-                            'late' => '⏱',
-                            'absent' => '✕',
-                            'incomplete' => '?',
-                            default => '?',
+                            'present' => sams_icon('circle-check', ''),
+                            'late' => sams_icon('clock', ''),
+                            'absent' => sams_icon('circle-x', ''),
+                            'incomplete' => sams_icon('circle-help', ''),
+                            default => sams_icon('circle-help', ''),
                           };
                           $statusLabel = ucfirst($attendanceStatus);
                           if ($attendanceStatus === 'late' && !empty($s['late_minutes'])) {
@@ -1647,10 +1612,10 @@ if (!empty($studentSchedules)) {
                             default => '#d97706',
                           };
                           $statusIcon = match((string) ($s['status'] ?? 'pending')) {
-                            'deployed' => 'Live',
-                            'accepted' => 'Accepted',
-                            'declined' => 'Declined',
-                            default => 'Pending',
+                            'deployed' => sams_icon('rocket', ''),
+                            'accepted' => sams_icon('circle-check', ''),
+                            'declined' => sams_icon('circle-x', ''),
+                            default => sams_icon('hourglass', ''),
                           };
                           $statusLabel = match((string) ($s['status'] ?? 'pending')) {
                             'deployed' => 'Deployed',
@@ -1670,7 +1635,7 @@ if (!empty($studentSchedules)) {
                         <td class="schedule-list__cell schedule-list__hours"><?php $start = strtotime((string) ($s['time_start'] ?? '')); $end = strtotime((string) ($s['time_end'] ?? '')); $hours = ($start && $end && $end > $start) ? ($end - $start) / 3600 : 0; echo htmlspecialchars(number_format((float) $hours, 1), ENT_QUOTES, 'UTF-8'); ?>h</td>
                         <td class="schedule-list__cell">
                           <span class="schedule-list__badge" style="background:<?= $statusColor ?>;color:<?= $statusTextColor ?>;">
-                            <?= htmlspecialchars($statusIcon, ENT_QUOTES, 'UTF-8') ?> <?= htmlspecialchars($statusLabel, ENT_QUOTES, 'UTF-8') ?>
+                            <?= $statusIcon ?> <?= htmlspecialchars($statusLabel, ENT_QUOTES, 'UTF-8') ?>
                           </span>
                         </td>
                         <td class="schedule-list__cell schedule-list__cell--last">
@@ -1682,13 +1647,13 @@ if (!empty($studentSchedules)) {
                                 <input type="hidden" name="_csrf" value="<?= htmlspecialchars(sams_csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
                                 <input type="hidden" name="schedule_id" value="<?= (int) ($s['id'] ?? 0) ?>">
                                 <input type="hidden" name="status" value="accepted">
-                                <button type="submit" class="schedule-list__action-btn schedule-list__action-btn--accept">Accept</button>
+                                <button type="submit" class="schedule-list__action-btn schedule-list__action-btn--accept">✓ Accept</button>
                               </form>
                               <form method="POST" action="respond_schedule.php" class="schedule-response-form" style="display:inline-block;">
                                 <input type="hidden" name="_csrf" value="<?= htmlspecialchars(sams_csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
                                 <input type="hidden" name="schedule_id" value="<?= (int) ($s['id'] ?? 0) ?>">
                                 <input type="hidden" name="status" value="declined">
-                                <button type="submit" class="schedule-list__action-btn schedule-list__action-btn--decline">Decline</button>
+                                <button type="submit" class="schedule-list__action-btn schedule-list__action-btn--decline">✕ Decline</button>
                               </form>
                             </div>
                           <?php else: ?>
@@ -1710,32 +1675,32 @@ if (!empty($studentSchedules)) {
             <path d="M4 6h16v10H5.8L4 18V6Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="none" />
             <path d="M8 9h8M8 12h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
           </svg>
-          <h2 id="guidelines-heading">Schedule Guidelines</h2>
+          <h2 id="guidelines-heading">Schedule Guidelines <?= sams_icon('clipboard-list', '') ?></h2>
         </div>
         <div class="guidelines__grid">
           <div class="guideline-item">
-            <span class="guideline-item__emoji" aria-hidden="true"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="7.5" stroke="currentColor" stroke-width="1.8"/><path d="M12 8.2V12l2.6 1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="guideline-item__emoji" aria-hidden="true"><?= sams_icon('clock', '') ?></span>
             <div>
               <div class="guideline-item__title">Be Punctual</div>
               <div class="guideline-item__desc">Arrive 5-10 minutes before your scheduled time</div>
             </div>
           </div>
           <div class="guideline-item">
-            <span class="guideline-item__emoji" aria-hidden="true"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 6.8A2.8 2.8 0 0 1 6.8 4h10.4A2.8 2.8 0 0 1 20 6.8v7.4A2.8 2.8 0 0 1 17.2 17H12l-4 3v-3H6.8A2.8 2.8 0 0 1 4 14.2V6.8Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 9.2h8M8 12.5h5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+            <span class="guideline-item__emoji" aria-hidden="true"><?= sams_icon('phone', '') ?></span>
             <div>
               <div class="guideline-item__title">Communication</div>
               <div class="guideline-item__desc">Notify Miss Zai if you need to reschedule</div>
             </div>
           </div>
           <div class="guideline-item">
-            <span class="guideline-item__emoji" aria-hidden="true"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 8.5A5 5 0 0 1 17 8.5V11a2 2 0 0 1-2 2h-2.5v3.5a2.5 2.5 0 0 1-5 0V13H7a2 2 0 0 1-2-2V8.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M10.2 15.5h3.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+            <span class="guideline-item__emoji" aria-hidden="true"><?= sams_icon('camera', '') ?></span>
             <div>
               <div class="guideline-item__title">Attendance</div>
               <div class="guideline-item__desc">Always scan QR code when checking in/out</div>
             </div>
           </div>
           <div class="guideline-item">
-            <span class="guideline-item__emoji" aria-hidden="true"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.5 12.5 9.5 16.5 18.5 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="guideline-item__emoji" aria-hidden="true"><?= sams_icon('circle-check', '') ?></span>
             <div>
               <div class="guideline-item__title">Complete Tasks</div>
               <div class="guideline-item__desc">Finish all assigned duties during your shift</div>
@@ -1844,6 +1809,7 @@ if (!empty($studentSchedules)) {
 }());
 </script>
 <script src="../assets/js/student-notifications.js?v=20260922"></script>
+<script src="../assets/js/sams-theme.js?v=20260926"></script>
 
 </body>
 </html>

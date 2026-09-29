@@ -117,6 +117,7 @@ function sams_register_first_existing_column(PDO $pdo, string $table, array $col
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="assets/css/sams-dark-mode.css?v=20260926" />
   <title>Apply – Student Assistant | SAMS NU Lipa</title>
   <meta name="description" content="Apply as a Student Assistant at National University Lipa through SAMS." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -147,11 +148,11 @@ function sams_register_first_existing_column(PDO $pdo, string $table, array $col
       --color-error-bg:      #fef2f2;
       --color-error-border:  #fecaca;
 
-      --grad-primary:       #003087;
-      --grad-primary-135:   #003087;
-      --grad-primary-159:   #003087;
-      --grad-progress:      #ffb81c;
-      --grad-page:          #f8fafc;
+      --grad-primary:       linear-gradient(90deg,  #003087 0%, #004aab 100%);
+      --grad-primary-135:   linear-gradient(135deg, #003087 0%, #004aab 100%);
+      --grad-primary-159:   linear-gradient(159deg, #003087 0%, #004aab 100%);
+      --grad-progress:      linear-gradient(90deg,  #003087 0%, #ffb81c 100%);
+      --grad-page:          linear-gradient(145deg, var(--color-page-bg-start) 0%, var(--color-page-bg-mid) 50%, var(--color-page-bg-end) 100%);
 
       --shadow-card: 0 10px 15px 0 rgba(0,0,0,.10), 0 4px 6px 0 rgba(0,0,0,.10);
 
@@ -779,5 +780,6 @@ function sams_register_first_existing_column(PDO $pdo, string $table, array $col
     })();
   </script>
 
+<script src="assets/js/sams-theme.js?v=20260926"></script>
 </body>
 </html>

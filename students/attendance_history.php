@@ -15,7 +15,7 @@ function sams_report_time_label(?string $time): string
 
 function sams_report_hours_label(float $hours): string
 {
-		return number_format(max(0, $hours), 1) . ' hrs';
+		return sams_attendance_format_duration((int) round(max(0, $hours) * 3600));
 }
 
 function sams_report_status_label(string $status): string
@@ -61,15 +61,15 @@ function sams_report_first_existing_column(PDO $pdo, string $table, array $colum
 
 function sams_report_hours_from_row(array $row): float
 {
+		$timeIn = !empty($row['time_in']) ? strtotime((string) $row['time_in']) : false;
+		$timeOut = !empty($row['time_out']) ? strtotime((string) $row['time_out']) : false;
+		if ($timeIn !== false && $timeOut !== false && $timeOut > $timeIn) {
+				return ($timeOut - $timeIn) / 3600;
+		}
+
 		$hoursColumn = $row['rendered_hours'] ?? null;
 		if ($hoursColumn !== null && $hoursColumn !== '') {
 				return (float) $hoursColumn;
-		}
-
-		$timeIn = !empty($row['time_in']) ? strtotime((string) $row['time_in']) : false;
-		$timeOut = !empty($row['time_out']) ? strtotime((string) $row['time_out']) : false;
-		if ($timeIn && $timeOut && $timeOut > $timeIn) {
-				return ($timeOut - $timeIn) / 3600;
 		}
 
 		return 0.0;
@@ -280,9 +280,9 @@ function h(?string $value): string
 			--color-sidebar-end: #0047ab;
 
 			/* Gradients */
-			--grad-sidebar: #003087;
-			--grad-primary-135: #003087;
-			--grad-page: #f4f7fb;
+			--grad-sidebar: linear-gradient(180deg, #003087 0%, #0047ab 100%);
+			--grad-primary-135: linear-gradient(135deg, #003087 0%, #0047ab 100%);
+			--grad-page: linear-gradient(135deg, #eff6ff 0%, #ffffff 50%, #fffbeb 100%);
 
 			/* Shadows */
 			--shadow-card: 0 10px 15px 0 rgba(0,0,0,.10), 0 4px 6px 0 rgba(0,0,0,.10);
@@ -393,18 +393,17 @@ function h(?string $value): string
 			font-weight: 700;
 			color: var(--color-white);
 			cursor: pointer;
-			transition: background .15s ease, transform .15s ease;
-			border: 1px solid rgba(255,255,255,0.08);
+			transition: background .15s;
 		}
 		.nav-item:hover { background: rgba(255,255,255,.10); }
 		.nav-item--active {
-			background: #003087;
-			color: #ffffff;
-			box-shadow: none;
-			border-color: rgba(255,255,255,.14);
+			background: var(--color-white);
+			color: var(--color-primary);
+			box-shadow: var(--shadow-card);
 		}
-		.nav-item--active:hover { background: #003087; }
-		.nav-item__icon { width: 20px; height: 20px; flex-shrink: 0; }
+		.nav-item--active:hover { background: var(--color-white); }
+		.nav-item__icon { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; flex: 0 0 20px; }
+		.nav-item__icon svg { display: block; width: 20px; height: 20px; }
 
 		/* Sidebar footer */
 		.sidebar__footer {
@@ -511,6 +510,7 @@ function h(?string $value): string
 			font-weight: 700;
 			white-space: nowrap;
 		}
+		.overview-card__chip svg { display: block; width: 20px; height: 20px; flex: 0 0 20px; }
 
 		/* Overview Grid */
 		.overview-grid {
@@ -552,12 +552,16 @@ function h(?string $value): string
 			box-shadow: var(--shadow-card);
 		}
 		.metric__label {
+			display: flex;
+			align-items: center;
+			gap: 5px;
 			font-size: var(--font-xs);
 			font-weight: 900;
 			letter-spacing: .12em;
 			text-transform: uppercase;
 			color: var(--color-muted);
 		}
+		.metric__label svg { display: block; width: 16px; height: 16px; flex: 0 0 16px; }
 		.metric__value {
 			font-size: var(--font-4xl);
 			font-weight: 900;
@@ -673,7 +677,8 @@ function h(?string $value): string
 		@media (max-width: 1100px) {
 			.layout { flex-direction: column; }
 			.sidebar { width: 100%; height: auto; flex-direction: row; }
-			.sidebar__nav { flex-direction: row; gap: var(--space-4); }
+			.sidebar__nav { flex: 1; min-width: 0; flex-direction: row; gap: var(--space-4); overflow-x: auto; overflow-y: hidden; white-space: nowrap; }
+			.sidebar__nav .nav-item { flex: 0 0 auto; white-space: nowrap; }
 			.sidebar__footer { display: none; }
 			.overview-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 			.content { padding: var(--space-6); }
@@ -686,94 +691,46 @@ function h(?string $value): string
 		}
 	</style>
 	<link rel="stylesheet" href="../assets/css/sams-shell.css" />
+<link rel="stylesheet" href="../assets/css/sams-dark-mode.css?v=20260926" />
 </head>
 <body>
 	<div class="layout">
-		<aside class="sidebar">
-			<div class="sidebar__brand">
-				<div class="sidebar__logo"><img src="../assets/logo.png" alt="" aria-hidden="true"></div>
-				<div>
-					<div class="sidebar__brand-name">SAMS</div>
-					<div class="sidebar__brand-sub">Student Assistant Management</div>
-				</div>
-			</div>
-
-			<nav class="sidebar__nav" aria-label="Student navigation">
-				<a href="dashboard.php" class="nav-item">
-					<svg class="nav-item__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-						<path d="M3 11.5L12 4l9 7.5" stroke="#101828" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="#ffffff" />
-						<path d="M5 10.5V20h5v-5h4v5h5v-9.5" stroke="#101828" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="#ffffff" />
-					</svg>
-					Dashboard
-				</a>
-				<a href="schedule.php" class="nav-item">
-					<svg class="nav-item__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-						<rect x="4" y="5" width="16" height="15" rx="2" stroke="#101828" stroke-width="1.8" fill="#ffffff" />
-						<path d="M8 3v4M16 3v4M4 9h16" stroke="#101828" stroke-width="1.8" stroke-linecap="round" fill="none" />
-					</svg>
-					My Schedule
-				</a>
-				<a href="attendance_history.php" class="nav-item nav-item--active" aria-current="page">
-					<svg class="nav-item__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-						<path d="M5 4h10l4 4v12H5z" stroke="#101828" stroke-width="1.8" stroke-linejoin="round" fill="#ffffff" />
-						<path d="M15 4v4h4" stroke="#101828" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="#ffffff" />
-						<path d="M8 11h8M8 15h8" stroke="#101828" stroke-width="1.8" stroke-linecap="round" fill="none" />
-					</svg>
-					Duty-Hour Report
-				</a>
-				<a href="profile.php" class="nav-item">
-					<svg class="nav-item__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-						<circle cx="12" cy="8" r="3.2" stroke="#101828" stroke-width="1.8" fill="#ffffff" />
-						<path d="M6.5 19c1.4-3.1 4-4.8 5.5-4.8S15.6 15.9 17 19" stroke="#101828" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="#ffffff" />
-					</svg>
-					Profile
-				</a>
-			</nav>
-
-			<div class="sidebar__footer">
-				<div class="sidebar__user">
-					<span class="sidebar__user-label">Logged in as</span>
-					<span class="sidebar__user-name"><?php echo htmlspecialchars($studentName, ENT_QUOTES, 'UTF-8'); ?></span>
-					<span class="sidebar__user-id">Student ID: <?php echo htmlspecialchars($studentCode, ENT_QUOTES, 'UTF-8'); ?></span>
-				</div>
-				<button class="sidebar__logout" type="button" onclick="window.location.href='logout.php'">Logout</button>
-			</div>
-		</aside>
+		<?php $sidebarRole = 'student'; $sidebarUserName = $studentName; $sidebarUserId = $studentCode; require __DIR__ . '/../includes/sidebar.php'; ?>
 
 		<main class="main">
 			<div class="content">
 				<!-- Overview Card (Hero) -->
 				<section class="overview-card">
-					<div class="overview-card__eyebrow">Individual duty-hour report</div>
+					<div class="overview-card__eyebrow"><?= sams_icon('chart-bar', '') ?> Individual duty-hour report</div>
 					<h2 class="overview-card__title"><?php echo h($studentName); ?></h2>
 					<p class="overview-card__desc">This web report shows your rendered duty hours for the term and an attendance summary limited to Active, Late, and Absent counts. Evaluation data is intentionally excluded from the student portal.</p>
 					<div class="overview-card__chips">
-						<span class="overview-card__chip">Rendered hours</span>
-						<span class="overview-card__chip">Attendance summary</span>
-						<span class="overview-card__chip">No evaluation data</span>
-						<span class="overview-card__chip"><?php echo h($reportTermLabel); ?></span>
+						<span class="overview-card__chip"><?= sams_icon('chart-line', '') ?> Rendered hours</span>
+						<span class="overview-card__chip"><?= sams_icon('clipboard-list', '') ?> Attendance summary</span>
+						<span class="overview-card__chip"><?= sams_icon('lock', '') ?> No evaluation data</span>
+						<span class="overview-card__chip"><?= sams_icon('calendar-days', '') ?> <?php echo h($reportTermLabel); ?></span>
 					</div>
 				</section>
 
 				<!-- Metrics Grid -->
 				<section class="overview-grid">
 					<div class="metric metric--primary">
-						<div class="metric__label">Rendered Hours</div>
+						<div class="metric__label"><?= sams_icon('map-pin', '') ?> Rendered Hours</div>
 						<div class="metric__value"><?php echo h(sams_report_hours_label($renderedHours)); ?></div>
 						<div class="metric__sub">Total rendered time from your attendance logs.</div>
 					</div>
 					<div class="metric metric--green">
-						<div class="metric__label">Active (Present)</div>
+						<div class="metric__label"><?= sams_icon('circle-check', '') ?> Active (Present)</div>
 						<div class="metric__value"><?php echo (int) $summary['active']; ?></div>
 						<div class="metric__sub">Successfully clocked in on time.</div>
 					</div>
 					<div class="metric metric--yellow">
-						<div class="metric__label">Late</div>
+						<div class="metric__label"><?= sams_icon('clock', '') ?> Late</div>
 						<div class="metric__value"><?php echo (int) $summary['late']; ?></div>
 						<div class="metric__sub">Clocked in after grace period.</div>
 					</div>
 					<div class="metric metric--red">
-						<div class="metric__label">Absent</div>
+						<div class="metric__label"><?= sams_icon('circle-x', '') ?> Absent</div>
 						<div class="metric__value"><?php echo (int) $summary['absent']; ?></div>
 						<div class="metric__sub">No clock-in by schedule end.</div>
 					</div>
@@ -837,6 +794,7 @@ function h(?string $value): string
 			</div>
 		</main>
 	</div>
+<script src="../assets/js/sams-theme.js?v=20260926"></script>
 </body>
 <!-- SAMS Student Portal Attendance History -->
 </html>

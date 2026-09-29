@@ -1,11 +1,9 @@
 /* Admin/Supervisor theme variables to standardize colours and tokens */
 :root {
-  --color-primary:         #003087;
-  --color-primary-dark:    #00205b;
-  --color-gold:            #ffb81c;
-  --color-gold-soft:       #fff7d6;
-  --color-purple:          #8b5cf6;
-  --gradient-brand:        #003087;
+  --color-primary:         #155dfc;
+  --color-primary-dark:    #1447e6;
+  --color-purple:          #9810fa;
+  --gradient-brand:        linear-gradient(135deg, #155dfc 0%, #9810fa 100%);
 
   --color-heading:         #101828;
   --color-body:            #4a5565;
@@ -14,8 +12,8 @@
   --color-border:          #e5e7eb;
   --color-bg-app:          #f9fafb;
   --color-white:           #ffffff;
-  --grad-blue:             #003087;
-  --grad-purple:           #ffb81c;
+  --grad-blue:             linear-gradient(135deg, #155dfc 0%, #1447e6 100%);
+  --grad-purple:           linear-gradient(135deg, #ad46ff 0%, #9810fa 100%);
 
   --sidebar-width: 256px;
   --topbar-height: 89px;
@@ -28,8 +26,7 @@
 
 /* Small theme adjustments shared by admin and supervisor */
 body { background: var(--color-bg-app); color: var(--color-heading); }
-.sidebar__logo { background: var(--color-white); }
-.sidebar__logo img { width: 100%; height: 100%; display: block; object-fit: contain; }
+.sidebar__logo { background: var(--gradient-brand); }
 
 /* Ensure SVG icons follow the current text color for consistent theming */
 .sidebar__nav-icon, .sidebar__nav-icon * { stroke: currentColor !important; fill: none !important; }
@@ -63,15 +60,15 @@ body { background: var(--color-bg-app); color: var(--color-heading); }
 /* Shell layout and typography */
 a { text-decoration: none; color: inherit; }
 .shell { display: flex; width: 100%; min-height: 100vh; }
-.sidebar { width: var(--sidebar-width); min-height: 100vh; background: var(--color-white); border-right: 1px solid var(--color-border); display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+.sidebar { width: var(--sidebar-width); min-height: 0; background: var(--color-white); border-right: 1px solid var(--color-border); display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; overflow: hidden; }
 .sidebar__brand { display:flex; align-items:center; gap:12px; padding:24px 24px 20px; border-bottom:1px solid var(--color-border); }
 .sidebar__brand-name { font-size:var(--font-base); font-weight:700; color:var(--color-heading); }
 .sidebar__brand-sub { font-size:var(--font-xs); color:var(--color-body); }
 .sidebar__logo-text { font-size:18px; font-weight:700; color:var(--color-white); }
-.sidebar__nav { flex:1; padding:16px; display:flex; flex-direction:column; gap:4px; overflow-y:auto; }
+.sidebar__nav { flex:1; min-height:0; padding:16px; display:flex; flex-direction:column; gap:4px; overflow-y:auto; overscroll-behavior:contain; }
 .sidebar__nav-link { display:flex; align-items:center; gap:12px; height:48px; padding:0 14px; border-radius:12px; font-size:var(--font-base); font-weight:600; color:var(--color-label); border:1px solid transparent; transition:background .18s ease, color .18s ease, border-color .18s ease, transform .18s ease, box-shadow .18s ease; white-space:nowrap; }
 .sidebar__nav-link:hover { background:#f3f6ff; border-color:#dbe6ff; color:#0f3fb8; transform:translateY(-1px); }
-.sidebar__nav-link--active { background:var(--color-primary); color:#fff; border-color:transparent; box-shadow:none; }
+.sidebar__nav-link--active { background:var(--color-primary); color:#fff; border-color:transparent; box-shadow:0 8px 18px rgba(21, 93, 252, .24); }
 .sidebar__nav-link--active:hover { opacity:.96; transform:none; }
 .sidebar__nav-icon { width:20px; height:20px; flex-shrink:0; opacity:.9; }
 .sidebar__nav-link .sidebar__nav-icon { display:inline-flex; align-items:center; justify-content:center; }
@@ -109,8 +106,11 @@ a { text-decoration: none; color: inherit; }
 
 /* Responsive adjustments */
 @media (max-width: 960px) {
+  .shell { flex-direction: column; }
+  .sidebar { width: 100%; min-height: 0; height: auto; position: relative; top: auto; overflow: visible; }
+  .sidebar__nav { flex: 0 0 auto; min-height: 0; overflow: visible; }
   .grid { grid-template-columns:1fr; }
   .page { padding:20px; }
-  .topbar { padding:0 20px; }
+  .topbar { height: auto; min-height: var(--topbar-height); padding:12px 20px; flex-wrap:wrap; }
   .card { padding:20px; }
 }

@@ -36,7 +36,6 @@ function escape($s){ return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
   <style>
     body {
       background: var(--grad-page, #f8fafc);
-      padding: 32px 20px;
       color: var(--color-body, #334155);
       min-height: 100vh;
     }
@@ -125,6 +124,7 @@ function escape($s){ return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
       align-items: center;
       gap: 4px;
     }
+    .announcement__time svg { display: block; width: 14px; height: 14px; flex: 0 0 14px; }
     .announcement__status {
       font-size: 11px;
       font-weight: 700;
@@ -164,9 +164,13 @@ function escape($s){ return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
       font-size: 15px;
     }
   </style>
+<link rel="stylesheet" href="../assets/css/sams-dark-mode.css?v=20260926" />
 </head>
 <body>
-  <div class="announcements-container">
+  <div class="shell">
+    <?php $sidebarRole = 'student'; require __DIR__ . '/../includes/sidebar.php'; ?>
+    <main class="main">
+      <div class="announcements-container">
     <div class="announcements-card">
       <div class="top">
         <h1>Announcements</h1>
@@ -199,6 +203,8 @@ function escape($s){ return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
         <?php endif; ?>
       </div>
     </div>
+      </div>
+    </main>
   </div>
 
   <script>
@@ -215,5 +221,6 @@ function escape($s){ return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
       });
     });
   </script>
+<script src="../assets/js/sams-theme.js?v=20260926"></script>
 </body>
 </html>
