@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SAMS — Student Application Form Wireframe v2 (Low-Fi)</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: Helvetica, Arial, sans-serif; background:#eaeaea; color:#333; padding: 30px 16px 60px 16px; }
+  .page { max-width: 780px; margin: 0 auto; background: #fff; border: 1px solid #999; min-height: 90vh; position:relative; }
+  .topbar { display:flex; align-items:center; justify-content:space-between; padding:14px 24px; border-bottom:1px solid #999; }
+  .logo-box { width:120px; height:28px; border:1px dashed #999; display:flex; align-items:center; justify-content:center; font-size:11px; color:#777; }
+  .anno { font-size:10px; color:#999; text-transform:uppercase; text-align:right; }
+
+  .progress-wrap { padding:20px 24px 0 24px; }
+  .steps { display:flex; align-items:center; margin-bottom:6px; }
+  .step-dot { width:26px; height:26px; border-radius:50%; border:1px solid #999; display:flex; align-items:center; justify-content:center; font-size:12px; color:#999; background:#fff; flex-shrink:0; cursor:pointer; }
+  .step-dot.active { background:#333; color:#fff; border-color:#333; }
+  .step-dot.done { background:#ccc; color:#333; border-color:#999; }
+  .step-line { flex:1; height:1px; background:#ccc; margin:0 6px; }
+  .step-names { display:flex; justify-content:space-between; font-size:9.5px; color:#999; margin-top:-10px; margin-bottom:20px; padding:0 2px; }
+
+  .content { padding:4px 24px 24px 24px; min-height:440px; }
+  h2.step-title { font-size:16px; margin:0 0 4px 0; color:#222; }
+  p.step-sub { font-size:12px; color:#888; margin:0 0 20px 0; }
+
+  .field { margin-bottom:16px; }
+  .field label { display:block; font-size:11px; color:#666; margin-bottom:5px; }
+  .input-box { border:1px dashed #aaa; background:#fafafa; height:34px; border-radius:2px; display:flex; align-items:center; padding:0 10px; font-size:11px; color:#aaa; }
+  .row-2 { display:flex; gap:14px; }
+  .row-2 > .field { flex:1; }
+
+  .note-box { border:1px dashed #bbb; border-radius:5px; padding:10px 12px; background:#fafafa; font-size:10.5px; color:#999; margin-bottom:16px; }
+
+  .upload-box { border:2px dashed #aaa; border-radius:4px; height:100px; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#999; font-size:11.5px; margin-bottom:18px; background:#fafafa; }
+  .upload-box .icon { width:26px; height:26px; border:1px solid #bbb; margin-bottom:6px; }
+
+  .skills-grid { display:grid; grid-template-columns:repeat(2, 1fr); gap:8px; margin-bottom:20px; }
+  .skill-box { border:1px solid #bbb; border-radius:3px; padding:8px 10px; font-size:11px; color:#555; background:#fff; display:flex; align-items:center; gap:8px; cursor:pointer; }
+  .skill-box .chk { width:12px; height:12px; border:1px solid #999; flex-shrink:0; }
+  .skill-box.selected { background:#f0f0f0; border-color:#555; }
+  .skill-box.selected .chk { background:#555; }
+
+  /* time availability grid */
+  .avail-table { width:100%; border-collapse:collapse; margin-bottom:16px; font-size:10.5px; }
+  .avail-table th, .avail-table td { border:1px solid #ccc; text-align:center; padding:6px 4px; }
+  .avail-table th { background:#f3f3f3; color:#666; font-weight:normal; }
+  .avail-table td.slot-label { text-align:left; color:#777; background:#fafafa; white-space:nowrap; }
+  .cell-box { width:16px; height:16px; border:1px solid #999; margin:0 auto; cursor:pointer; background:#fff; }
+  .cell-box.on { background:#555; border-color:#555; }
+
+  .footer-nav { display:flex; justify-content:space-between; padding:16px 24px; border-top:1px solid #999; }
+  .btn { padding:9px 22px; border-radius:3px; font-size:12px; cursor:pointer; border:1px solid #999; }
+  .btn.primary { background:#333; color:#fff; border-color:#333; }
+  .btn.secondary { background:#fff; color:#555; }
+
+  .step-panel { display:none; }
+  .step-panel.active { display:block; }
+  .wire-note { text-align:center; font-size:11px; color:#999; margin-top:10px; }
+
+  /* assessment popup */
+  .overlay { position:fixed; inset:0; background:rgba(0,0,0,0.4); display:none; align-items:center; justify-content:center; padding:20px; z-index:10; }
+  .overlay.show { display:flex; }
+  .modal { background:#fff; border:1px solid #999; border-radius:4px; max-width:420px; width:100%; max-height:85vh; overflow-y:auto; }
+  .modal-head { padding:16px 20px; border-bottom:1px solid #ccc; }
+  .modal-head h3 { margin:0 0 3px 0; font-size:15px; color:#222; }
+  .modal-head p { margin:0; font-size:11px; color:#888; }
+  .modal-body { padding:16px 20px; }
+  .status-pill { display:inline-block; font-size:10.5px; padding:3px 10px; border-radius:10px; border:1px dashed #999; color:#666; margin-bottom:14px; }
+  .assess-row { display:flex; justify-content:space-between; font-size:11.5px; padding:7px 0; border-bottom:1px dashed #ddd; }
+  .assess-row span:first-child { color:#888; }
+  .assess-row span:last-child { color:#333; text-align:right; max-width:60%; }
+  .match-bar-wrap { background:#eee; border-radius:3px; height:8px; margin:4px 0 14px 0; }
+  .match-bar { background:#555; height:8px; border-radius:3px; width:72%; }
+  .modal-foot { padding:14px 20px; border-top:1px solid #ccc; display:flex; justify-content:flex-end; gap:10px; }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="topbar">
+    <div class="logo-box">[ SAMS LOGO ]</div>
+    <div class="anno">register.php → register1 → register2 → register3<br>(v2 — Time Availability merged, Assessment moved to submit popup)</div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="steps">
+      <div class="step-dot active" id="dot-1" onclick="goTo(1)">1</div><div class="step-line"></div>
+      <div class="step-dot" id="dot-2" onclick="goTo(2)">2</div><div class="step-line"></div>
+      <div class="step-dot" id="dot-3" onclick="goTo(3)">3</div><div class="step-line"></div>
+      <div class="step-dot" id="dot-4" onclick="goTo(4)">4</div>
+    </div>
+    <div class="step-names">
+      <span>Personal Info</span><span>Academic Info</span><span>Time Availability</span><span>Requirements</span>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <div class="step-panel active" id="step-1">
+      <h2 class="step-title">Step 1 — Personal Information</h2>
+      <p class="step-sub">register.php — basic applicant identity details.</p>
+      <div class="row-2">
+        <div class="field"><label>Full Name *</label><div class="input-box">[ Text Input ]</div></div>
+        <div class="field"><label>Student ID *</label><div class="input-box">[ Text Input ]</div></div>
+      </div>
+      <div class="row-2">
+        <div class="field"><label>Email Address *</label><div class="input-box">[ Email Input ]</div></div>
+        <div class="field"><label>Contact Number *</label><div class="input-box">[ Phone Input ]</div></div>
+      </div>
+      <div class="row-2">
+        <div class="field"><label>Date of Birth *</label><div class="input-box">[ Date Input ]</div></div>
+        <div class="field"><label>Gender *</label><div class="input-box">[ Dropdown Select ]</div></div>
+      </div>
+    </div>
+
+    <div class="step-panel" id="step-2">
+      <h2 class="step-title">Step 2 — Academic Information</h2>
+      <p class="step-sub">register1.php — program details, auto-filtering enabled per course.</p>
+      <div class="note-box">[ Auto-filtering note: office/skill suggestions adjust based on selected program ]</div>
+      <div class="row-2">
+        <div class="field"><label>Course/Program *</label><div class="input-box">[ Dropdown — e.g. BSARCH, BSBAFM, BSBAMM, BSPSYCH... ]</div></div>
+        <div class="field"><label>Year Level *</label><div class="input-box">[ Dropdown Select ]</div></div>
+      </div>
+      <div class="field" style="max-width:240px;">
+        <label>Current GPA/GWA</label><div class="input-box">[ Number Input ]</div>
+      </div>
+    </div>
+
+    <div class="step-panel" id="step-3">
+      <h2 class="step-title">Step 3 — Time Availability &amp; Preferences</h2>
+      <p class="step-sub">Merged from the separate availability page — weekly schedule, office preference and skills used by the auto-assessment.</p>
+      <div class="note-box">[ Auto-recommendation notice: suggested office is computed from program, skills and the schedule below ]</div>
+
+      <label style="display:block; font-size:11px; color:#666; margin-bottom:6px;">Weekly Availability *</label>
+      <table class="avail-table">
+        <tr><th>Time Slot</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th></tr>
+      </table>
+      <div id="avail-body"></div>
+
+      <div class="field" style="max-width:320px; margin-top:16px;">
+        <label>Preferred Office Assignment *</label><div class="input-box">[ Dropdown Select ]</div>
+      </div>
+      <label style="display:block; font-size:11px; color:#666; margin:14px 0 8px 0;">Special Skills or Talents</label>
+      <div class="skills-grid" id="skills-grid"></div>
+    </div>
+
+    <div class="step-panel" id="step-4">
+      <h2 class="step-title">Step 4 — Upload Requirements</h2>
+      <p class="step-sub">register2.php — document uploads. Submitting runs the assessment shown in the current system.</p>
+      <label style="display:block; font-size:11px; color:#666; margin-bottom:6px;">2x2 Photo (Recent) *</label>
+      <div class="upload-box"><div class="icon"></div>[ Drag &amp; Drop or Browse — image file ]</div>
+      <label style="display:block; font-size:11px; color:#666; margin-bottom:6px;">Certificate of Grades (CoG) *</label>
+      <div class="upload-box"><div class="icon"></div>[ Drag &amp; Drop or Browse — PDF/image ]</div>
+      <label style="display:block; font-size:11px; color:#666; margin-bottom:6px;">Valid ID (School ID or Government ID) *</label>
+      <div class="upload-box"><div class="icon"></div>[ Drag &amp; Drop or Browse — PDF/image ]</div>
+    </div>
+
+  </div>
+
+  <div class="footer-nav">
+    <div class="btn secondary" id="backBtn" onclick="prevStep()">Back to Home</div>
+    <div class="btn primary" id="nextBtn" onclick="nextStep()">Proceed to next step</div>
+  </div>
+
+  <!-- Assessment popup, shown after Submit on step 4 -->
+  <div class="overlay" id="assessOverlay">
+    <div class="modal">
+      <div class="modal-head">
+        <h3>Application Assessment</h3>
+        <p>[ Auto-generated after submission — mirrors the assessment logic in the current repo ]</p>
+      </div>
+      <div class="modal-body">
+        <div class="status-pill">[ Status: For Review ]</div>
+        <div class="assess-row"><span>Program</span><span>[ from Step 2 ]</span></div>
+        <div class="assess-row"><span>GPA/GWA</span><span>[ from Step 2 ]</span></div>
+        <div class="assess-row"><span>Preferred Office</span><span>[ from Step 3 ]</span></div>
+        <div class="assess-row"><span>Recommended Office</span><span>[ auto-matched ]</span></div>
+        <div class="assess-row"><span>Skills Matched</span><span>[ from Step 3 ]</span></div>
+        <div class="assess-row"><span>Availability Summary</span><span>[ hrs/week from Step 3 ]</span></div>
+        <label style="display:block; font-size:10.5px; color:#888; margin:12px 0 4px;">Office Match Score</label>
+        <div class="match-bar-wrap"><div class="match-bar"></div></div>
+        <div class="note-box" style="margin-bottom:0;">[ Note: final placement subject to admin review after documents are verified ]</div>
+      </div>
+      <div class="modal-foot">
+        <div class="btn secondary" onclick="closeAssess()">Close</div>
+        <div class="btn primary" onclick="confirmSubmit()">Confirm Submission</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wire-note">Low-fidelity wireframe v2 — Time Availability step merged into the flow; Assessment now appears as a popup triggered by Submit on the Requirements step.</div>
+
+<script>
+  // skills grid
+  const skillNames = ["Data Encoding","Communication Skills","Graphic Design","Research Skills","Event Organizing","Basic First Aid","Photography/Videography","Customer Service"];
+  const grid = document.getElementById('skills-grid');
+  skillNames.forEach(name => {
+    const el = document.createElement('div');
+    el.className = 'skill-box';
+    el.innerHTML = `<div class="chk"></div><span>${name}</span>`;
+    el.onclick = () => el.classList.toggle('selected');
+    grid.appendChild(el);
+  });
+
+  // availability grid
+  const slots = ["7:00–9:00","9:00–11:00","11:00–1:00","1:00–3:00","3:00–5:00"];
+  const availBody = document.getElementById('avail-body');
+  const table = document.createElement('table');
+  table.className = 'avail-table';
+  slots.forEach(slot => {
+    const tr = document.createElement('tr');
+    let row = `<td class="slot-label">${slot}</td>`;
+    for (let d=0; d<5; d++) row += `<td><div class="cell-box" onclick="this.classList.toggle('on')"></div></td>`;
+    tr.innerHTML = row;
+    table.appendChild(tr);
+  });
+  availBody.appendChild(table);
+
+  // step nav
+  let current = 1; const total = 4;
+  function render() {
+    for (let i=1;i<=total;i++) {
+      document.getElementById('step-'+i).classList.toggle('active', i===current);
+      const dot = document.getElementById('dot-'+i);
+      dot.classList.remove('active','done');
+      if (i<current) dot.classList.add('done');
+      if (i===current) dot.classList.add('active');
+    }
+    document.getElementById('backBtn').textContent = current===1 ? 'Back to Home' : 'Back';
+    document.getElementById('nextBtn').textContent = current===total ? 'Submit Application' : 'Proceed to next step';
+  }
+  function nextStep(){ if(current<total){current++;render();} else { document.getElementById('assessOverlay').classList.add('show'); } }
+  function prevStep(){ if(current>1){current--;render();} }
+  function goTo(n){ current=n; render(); }
+  function closeAssess(){ document.getElementById('assessOverlay').classList.remove('show'); }
+  function confirmSubmit(){ alert('Wireframe only — this is where the final application record would be saved.'); closeAssess(); }
+  render();
+</script>
+
+</body>
+</html>

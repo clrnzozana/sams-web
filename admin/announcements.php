@@ -10,6 +10,9 @@ if (!$currentUser || ($currentUser['role'] ?? null) !== 'admin') {
 }
 
 $pdo = sams_pdo();
+$postedTitle = '';
+$postedBody = '';
+$postedAudience = 'students';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $postedToken = (string) ($_POST['_csrf'] ?? '');
@@ -19,21 +22,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    $title = trim((string) ($_POST['title'] ?? ''));
-    $body = trim((string) ($_POST['body'] ?? ''));
-    $audience = in_array((string) ($_POST['audience'] ?? ''), ['students', 'supervisors', 'all'], true)
+    $postedTitle = trim((string) ($_POST['title'] ?? ''));
+    $postedBody = trim((string) ($_POST['body'] ?? ''));
+    $postedAudience = in_array((string) ($_POST['audience'] ?? ''), ['students', 'supervisors', 'all'], true)
         ? (string) $_POST['audience']
         : 'students';
 
-    if ($title !== '' && $body !== '') {
+    if ($postedTitle !== '' && $postedBody !== '') {
         $stmt = $pdo->prepare(
             'INSERT INTO announcements (title, body, audience, is_active, created_by)
              VALUES (:title, :body, :audience, 1, :created_by)'
         );
         $stmt->execute([
-            'title' => $title,
-            'body' => $body,
-            'audience' => $audience,
+            'title' => $postedTitle,
+            'body' => $postedBody,
+            'audience' => $postedAudience,
             'created_by' => (int) ($currentUser['user_id'] ?? $currentUser['id'] ?? 0),
         ]);
 
@@ -427,20 +430,20 @@ $adminRole = (string) ($currentUser['role'] ?? 'SDAO Head');
 
                         <div class="form-group">
                             <label class="form-label" for="title">Announcement Title *</label>
-                            <input type="text" id="title" name="title" class="form-input" placeholder="e.g., Meeting Schedule Updated" required />
+                            <input type="text" id="title" name="title" class="form-input" placeholder="e.g., Meeting Schedule Updated" value="<?= h($postedTitle) ?>" required />
                         </div>
 
                         <div class="form-group">
                             <label class="form-label" for="body">Message *</label>
-                            <textarea id="body" name="body" class="form-textarea" rows="8" placeholder="Enter your announcement message here..." required></textarea>
+                            <textarea id="body" name="body" class="form-textarea" rows="8" placeholder="Enter your announcement message here..." required><?= h($postedBody) ?></textarea>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label" for="audience">Audience *</label>
                             <select id="audience" name="audience" class="form-select">
-                                <option value="students">Students Only</option>
-                                <option value="supervisors">Supervisors Only</option>
-                                <option value="all">All (Students & Supervisors)</option>
+                                <option value="students"<?= $postedAudience === 'students' ? ' selected' : '' ?>>Students Only</option>
+                                <option value="supervisors"<?= $postedAudience === 'supervisors' ? ' selected' : '' ?>>Supervisors Only</option>
+                                <option value="all"<?= $postedAudience === 'all' ? ' selected' : '' ?>>All (Students &amp; Supervisors)</option>
                             </select>
                         </div>
 

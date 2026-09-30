@@ -271,6 +271,8 @@ function isSelected(string $key, string $option, array $values): string {
       text-decoration: none;
       transition: background .2s;
     }
+    .step-tab--disabled { cursor: not-allowed; }
+    .step-tab:not(a):not(.step-tab--disabled) { cursor: default; }
     .step-tab--active {
       background: var(--grad-primary-159);
     }
@@ -563,20 +565,22 @@ function isSelected(string $key, string $option, array $values): string {
         </div>
 
         <!-- Step 3 – locked -->
-        <a class="step-tab" href="<?= $step3_link ?>" aria-label="Step 3: Requirements">
+        <?php if ($step3_link !== '#'): ?><a class="step-tab" href="<?= $step3_link ?>" aria-label="Step 3: Requirements">
+        <?php else: ?><div class="step-tab step-tab--disabled" aria-disabled="true" aria-label="Step 3: Requirements (complete Academic Info first)"><?php endif; ?>
           <svg class="step-tab__svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
           <span class="step-tab__label">Requirements</span>
-        </a>
+        <?php if ($step3_link !== '#'): ?></a><?php else: ?></div><?php endif; ?>
 
         <!-- Step 4 – locked -->
-        <a class="step-tab" href="<?= $step4_link ?>" aria-label="Step 4: Assessment">
+        <?php if ($step4_link !== '#'): ?><a class="step-tab" href="<?= $step4_link ?>" aria-label="Step 4: Assessment">
+        <?php else: ?><div class="step-tab step-tab--disabled" aria-disabled="true" aria-label="Step 4: Assessment (complete Requirements first)"><?php endif; ?>
           <svg class="step-tab__svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
           </svg>
           <span class="step-tab__label">Assessment</span>
-        </a>
+        <?php if ($step4_link !== '#'): ?></a><?php else: ?></div><?php endif; ?>
 
       </nav>
     </div>

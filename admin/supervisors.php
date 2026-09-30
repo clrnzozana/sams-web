@@ -13,6 +13,7 @@ if (!$currentUser || (($currentUser['role'] ?? null) !== 'admin')) {
 $pdo = sams_pdo();
 $flashMessage = '';
 $flashError = '';
+$temporaryPasswordNotice = null;
 
 $userIdColumn = sams_first_existing_column($pdo, 'users', ['user_id', 'id']);
 $passwordColumn = sams_first_existing_column($pdo, 'users', ['password_hash', 'password']);
@@ -217,7 +218,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $flashError === '') {
                             $pdo->prepare($updateSql)->execute($params);
                             $pdo->commit();
 
-                            $flashMessage = 'Temporary password reset for ' . (string) ($target['email'] ?? 'supervisor') . '. New temp password: ' . $tempPassword;
+                            $_SESSION['supervisor_temporary_password_notice'] = [
+                                'email' => (string) ($target['email'] ?? 'supervisor'),
+                                'password' => $tempPassword,
+                            ];
+                            header('Location: supervisors.php?edit_id=' . $supervisorId . '&password_reset=1');
+                            exit;
                         }
 
                         if ($action === 'update_supervisor') {
@@ -308,6 +314,11 @@ if (isset($_GET['updated'])) {
     $flashMessage = 'Supervisor account updated successfully.';
 }
 
+if (isset($_GET['password_reset'], $_SESSION['supervisor_temporary_password_notice'])) {
+    $temporaryPasswordNotice = $_SESSION['supervisor_temporary_password_notice'];
+    unset($_SESSION['supervisor_temporary_password_notice']);
+}
+
 $supervisorsStmt = $pdo->query(
     'SELECT
         s.supervisor_id,
@@ -390,6 +401,10 @@ function h(?string $value): string
         .alert{padding:12px 14px;border-radius:12px;border:1px solid var(--color-border);background:#fff}
         .alert--success{background:#f0fdf4;border-color:#bbf7d0;color:#166534}
         .alert--error{background:#fef2f2;border-color:#fecaca;color:#991b1b}
+        .alert p{margin:8px 0;font-size:13px;line-height:1.5}
+        #temporary-password-value{display:block;width:min(100%,420px);margin-top:6px;padding:10px 12px;border:1px solid #86efac;border-radius:8px;background:#fff;color:#14532d;font:600 16px ui-monospace,Consolas,monospace}
+        .temporary-password-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+        #temporary-password-copy-status{font-size:13px}
         .table-wrap{overflow-x:auto}
         table{width:100%;border-collapse:collapse;min-width:900px}
         thead th{background:#f9fafb;text-align:left;padding:14px 16px;border-bottom:1px solid var(--color-border);font-size:13px;color:var(--color-heading)}
@@ -436,6 +451,21 @@ function h(?string $value): string
             <section class="panel">
                 <div class="panel__title">Edit Supervisor Account</div>
                 <div class="panel__sub">Update office assignment, profile details, and activation status. This keeps the supervisor portal scoped to the assigned office only.</div>
+
+                <?php if ($flashMessage !== ''): ?><div class="alert alert--success" role="status"><?php echo h($flashMessage); ?></div><?php endif; ?>
+                <?php if ($flashError !== ''): ?><div class="alert alert--error" role="alert"><?php echo h($flashError); ?></div><?php endif; ?>
+                <?php if (is_array($temporaryPasswordNotice)): ?>
+                    <div class="alert alert--success" role="status">
+                        <strong>Temporary password reset for <?php echo h((string) ($temporaryPasswordNotice['email'] ?? 'supervisor')); ?>.</strong>
+                        <p>Copy this one-time password now and share it through your approved secure channel. The supervisor will be required to change it after signing in.</p>
+                        <label for="temporary-password-value">Temporary password</label>
+                        <input id="temporary-password-value" type="text" value="<?php echo h((string) ($temporaryPasswordNotice['password'] ?? '')); ?>" readonly onclick="this.select()" />
+                        <div class="temporary-password-actions">
+                            <button id="copy-temporary-password" class="btn btn--secondary" type="button">Copy password</button>
+                            <span id="temporary-password-copy-status" role="status" aria-live="polite"></span>
+                        </div>
+                    </div>
+                <?php endif; ?>
 
                 <form method="post">
                     <?php echo sams_csrf_input_field(); ?>
@@ -485,13 +515,13 @@ function h(?string $value): string
                 </form>
 
                 <div class="actions" style="margin-top:12px;">
-                    <form method="post" style="display:inline-flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                    <form method="post" style="display:inline-flex;gap:10px;align-items:center;flex-wrap:wrap;" onsubmit="return confirm('<?php echo ((int) ($editSupervisor['is_active'] ?? 1) === 1) ? 'Deactivate' : 'Activate'; ?> this supervisor account?');">
                         <?php echo sams_csrf_input_field(); ?>
                         <input type="hidden" name="action" value="toggle_supervisor_status" />
                         <input type="hidden" name="supervisor_id" value="<?php echo (int) $editSupervisor['supervisor_id']; ?>" />
                         <button class="btn btn--secondary" type="submit"><?php echo ((int) ($editSupervisor['is_active'] ?? 1) === 1) ? 'Deactivate Account' : 'Activate Account'; ?></button>
                     </form>
-                    <form method="post" style="display:inline-flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                    <form method="post" style="display:inline-flex;gap:10px;align-items:center;flex-wrap:wrap;" onsubmit="return confirm('Reset this supervisor password? Their current password will stop working immediately.');">
                         <?php echo sams_csrf_input_field(); ?>
                         <input type="hidden" name="action" value="reset_supervisor_password" />
                         <input type="hidden" name="supervisor_id" value="<?php echo (int) $editSupervisor['supervisor_id']; ?>" />
@@ -618,5 +648,30 @@ function h(?string $value): string
         </main>
     </div>
 </div>
+<script>
+(function () {
+    var copyButton = document.getElementById('copy-temporary-password');
+    var passwordField = document.getElementById('temporary-password-value');
+    var copyStatus = document.getElementById('temporary-password-copy-status');
+    if (!copyButton || !passwordField || !copyStatus) return;
+
+    copyButton.addEventListener('click', function () {
+        function fallbackCopy() {
+            passwordField.focus();
+            passwordField.select();
+            var copied = document.execCommand('copy');
+            copyStatus.textContent = copied ? 'Password copied.' : 'Password selected. Press Ctrl+C to copy.';
+        }
+
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(passwordField.value)
+                .then(function () { copyStatus.textContent = 'Password copied.'; })
+                .catch(fallbackCopy);
+        } else {
+            fallbackCopy();
+        }
+    });
+}());
+</script>
 </body>
 </html>

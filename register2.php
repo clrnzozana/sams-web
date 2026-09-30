@@ -383,6 +383,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         .step--inactive {
             background: var(--color-bg-step-off);
+            cursor: not-allowed;
         }
 
         .step__icon {
@@ -729,6 +730,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 background: var(--color-bg-step-off);
             }
 
+            .nav__item--disabled,
+            .nav__item--disabled:hover {
+                color: var(--color-disabled);
+                cursor: not-allowed;
+                background: transparent;
+            }
+
             .nav__item--active {
                 color: var(--color-primary);
             }
@@ -855,7 +863,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <li><a href="<?= $step1_link ?>"   class="nav__item">Personal Info</a></li>
                 <li><a href="<?= $step2_link ?>"  class="nav__item">Academic Info</a></li>
                 <li><a href="<?= $step3_link ?>"  class="nav__item nav__item--active" aria-current="page">Requirements</a></li>
-                <li><a href="<?= $step4_link ?>"  class="nav__item">Assessment</a></li>
+                <li><?php if ($step4_link !== '#'): ?><a href="<?= $step4_link ?>" class="nav__item">Assessment</a><?php else: ?><span class="nav__item nav__item--disabled" aria-disabled="true">Assessment · Complete requirements first</span><?php endif; ?></li>
             </ul>
         </nav>
     </div>
@@ -927,7 +935,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <!-- Step 4 – Assessment (upcoming) -->
+                <?php if ($step4_link !== '#'): ?>
                 <a href="<?= $step4_link ?>" class="step step--inactive" role="listitem">
+                <?php else: ?>
+                <div class="step step--inactive" role="listitem" aria-disabled="true" aria-label="Step 4: Assessment (complete Requirements first)">
+                <?php endif; ?>
                     <svg class="step__icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <rect x="3" y="3" width="18" height="18" rx="2" stroke="#99a1af" stroke-width="2"/>
                         <path d="M9 9H15" stroke="#99a1af" stroke-width="2" stroke-linecap="round"/>
@@ -935,7 +947,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <path d="M9 15H12" stroke="#99a1af" stroke-width="2" stroke-linecap="round"/>
                     </svg>
                     <span class="step__label">Assessment</span>
-                </a>
+                <?php if ($step4_link !== '#'): ?></a><?php else: ?></div><?php endif; ?>
             </div>
         </section>
         <!-- /PROGRESS CARD -->

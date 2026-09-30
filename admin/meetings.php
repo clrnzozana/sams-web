@@ -738,6 +738,7 @@ if (!function_exists('meeting_block_style')) {
             pointer-events: none;
             transition: opacity 0.2s ease;
         }
+        .meeting-modal-overlay[hidden] { display: none; }
         .meeting-modal-overlay--visible {
             opacity: 1;
             pointer-events: auto;
@@ -817,7 +818,7 @@ if (!function_exists('meeting_block_style')) {
     <div class="shell">
         <?php $activeAdminNav = 'meetings'; $pendingApplications = 0; include __DIR__ . '/_sidebar.php'; ?>
 
-        <aside class="sidebar" aria-label="Admin navigation" style="display:none">
+        <aside class="sidebar" aria-label="Legacy Admin navigation" style="display:none" aria-hidden="true" inert>
             <div class="sidebar__header">
                 <div class="sidebar__brand">
                     <div class="sidebar__logo" aria-hidden="true">
@@ -1250,7 +1251,7 @@ if (!function_exists('meeting_block_style')) {
                                 <?php endif; ?>
 
                                 <?php if ($status !== 'cancelled'): ?>
-                                    <form method="post">
+                                    <form method="post" onsubmit="return confirm('Cancel this meeting? Attendees will be notified of the status change.');">
                                         <input type="hidden" name="action" value="set_status">
                                         <input type="hidden" name="meeting_id" value="<?php echo (int) ($meeting['meeting_id'] ?? 0); ?>">
                                         <input type="hidden" name="status" value="cancelled">
@@ -1283,11 +1284,11 @@ if (!function_exists('meeting_block_style')) {
         </div>
 
     <!-- Meeting Details Modal -->
-    <div class="meeting-modal-overlay" id="meetingModalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="meeting-modal-overlay" id="meetingModalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true" hidden>
         <div class="meeting-modal">
             <div class="meeting-modal__header">
                 <h3 class="meeting-modal__title" id="modalTitle">Meeting Details</h3>
-                <button class="meeting-modal__close" onclick="closeMeetingModal()">&times;</button>
+                <button class="meeting-modal__close" type="button" aria-label="Close meeting details" onclick="closeMeetingModal()">&times;</button>
             </div>
             <div class="meeting-modal__body">
                 <div style="font-size: 20px; font-weight: 700; color: var(--color-heading); margin-bottom: 8px;" id="modalMeetingTitle">Title</div>
@@ -1313,8 +1314,8 @@ if (!function_exists('meeting_block_style')) {
                 </div>
             </div>
             <div class="meeting-modal__footer" style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; flex-wrap: wrap;">
-                <button class="btn btn--small btn--brand" id="modalEditBtn">Edit Details</button>
-                <form method="post" id="modalStatusForm" style="display:inline;">
+                <button class="btn btn--small btn--brand" id="modalEditBtn" type="button">Edit Details</button>
+                <form method="post" id="modalStatusForm" style="display:inline;" onsubmit="return confirm('Change this meeting status?');">
                     <input type="hidden" name="action" value="set_status">
                     <input type="hidden" name="meeting_id" id="modalStatusMeetingId">
                     <input type="hidden" name="status" id="modalStatusVal">
@@ -1489,12 +1490,18 @@ if (!function_exists('meeting_block_style')) {
             };
 
             const overlay = document.getElementById('meetingModalOverlay');
+            overlay.hidden = false;
+            overlay.setAttribute('aria-hidden', 'false');
             overlay.classList.add('meeting-modal-overlay--visible');
         }
 
         function closeMeetingModal() {
             const overlay = document.getElementById('meetingModalOverlay');
-            if (overlay) overlay.classList.remove('meeting-modal-overlay--visible');
+            if (overlay) {
+                overlay.classList.remove('meeting-modal-overlay--visible');
+                overlay.setAttribute('aria-hidden', 'true');
+                overlay.hidden = true;
+            }
         }
 
         document.addEventListener('keydown', function(event) {

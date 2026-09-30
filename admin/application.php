@@ -375,6 +375,12 @@ $statusFilterOptions = [
 $activeAdminNav = 'applications';
 $pendingApplications = (int) $applicationCounts['pending'];
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Applications | SAMS Admin</title>
 <style>
 
     /* =============================================
@@ -1497,14 +1503,14 @@ $pendingApplications = (int) $applicationCounts['pending'];
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                     </a>
-                    <form class="action-form" method="post">
+                    <form class="action-form" method="post" onsubmit="return confirm('Approve this application and create schedules from the submitted availability?');">
                       <input type="hidden" name="application_id" value="<?= (int) $application['application_id'] ?>" />
                       <input type="hidden" name="review_action" value="approve" />
                       <button class="action-btn action-btn--approve" type="submit" title="Approve" aria-label="Approve <?= htmlspecialchars($fullName !== '' ? $fullName : 'applicant') ?>">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
                       </button>
                     </form>
-                    <form class="action-form" method="post">
+                    <form class="action-form" method="post" onsubmit="return confirm('Reject this application? Its status will change to rejected.');">
                       <input type="hidden" name="application_id" value="<?= (int) $application['application_id'] ?>" />
                       <input type="hidden" name="review_action" value="reject" />
                       <button class="action-btn action-btn--reject" type="submit" title="Reject" aria-label="Reject <?= htmlspecialchars($fullName !== '' ? $fullName : 'applicant') ?>">
@@ -1644,13 +1650,13 @@ $pendingApplications = (int) $applicationCounts['pending'];
       </div>
       <div class="modal__footer">
         <button class="modal__button modal__button--ghost" type="button" id="modal-cancel">Close</button>
-        <form class="modal__action" method="post" id="modal-approve-form">
+        <form class="modal__action" method="post" id="modal-approve-form" onsubmit="return confirm('Approve this application and create schedules from the submitted availability?');">
           <input type="hidden" name="application_id" id="modal-approve-id" value="" />
           <input type="hidden" name="review_action" value="approve" />
           <button class="modal__button modal__button--approve" type="submit">Approve</button>
           <button id="resendEmailBtn" class="modal__button" type="button" style="margin-left:8px;background:#f3f4f6;color:#111;border:1px solid var(--color-border);">Resend Email</button>
         </form>
-        <form class="modal__action" method="post" id="modal-reject-form">
+        <form class="modal__action" method="post" id="modal-reject-form" onsubmit="return confirm('Reject this application? Its status will change to rejected.');">
           <input type="hidden" name="application_id" id="modal-reject-id" value="" />
           <input type="hidden" name="review_action" value="reject" />
           <button class="modal__button modal__button--reject" type="submit">Reject</button>

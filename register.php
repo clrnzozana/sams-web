@@ -314,6 +314,8 @@ function sams_register_first_existing_column(PDO $pdo, string $table, array $col
       transition: background .2s;
       text-decoration: none;
     }
+    .step-tab--disabled { cursor: not-allowed; }
+    .step-tab:not(a):not(.step-tab--disabled) { cursor: default; }
     .step-tab--active {
       background: var(--grad-primary-159);
     }
@@ -568,28 +570,31 @@ function sams_register_first_existing_column(PDO $pdo, string $table, array $col
         </div>
 
         <!-- Step 2 -->
-        <a class="step-tab" href="<?= $step2_link ?>" aria-label="Step 2: Academic Info">
+        <?php if ($step2_link !== '#'): ?><a class="step-tab" href="<?= $step2_link ?>" aria-label="Step 2: Academic Info">
+        <?php else: ?><div class="step-tab step-tab--disabled" aria-disabled="true" aria-label="Step 2: Academic Info (complete Personal Info first)"><?php endif; ?>
           <svg class="step-tab__svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
           </svg>
           <span class="step-tab__label">Academic Info</span>
-        </a>
+        <?php if ($step2_link !== '#'): ?></a><?php else: ?></div><?php endif; ?>
 
         <!-- Step 3 -->
-        <a class="step-tab" href="<?= $step3_link ?>" aria-label="Step 3: Requirements">
+        <?php if ($step3_link !== '#'): ?><a class="step-tab" href="<?= $step3_link ?>" aria-label="Step 3: Requirements">
+        <?php else: ?><div class="step-tab step-tab--disabled" aria-disabled="true" aria-label="Step 3: Requirements (complete Academic Info first)"><?php endif; ?>
           <svg class="step-tab__svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
           <span class="step-tab__label">Requirements</span>
-        </a>
+        <?php if ($step3_link !== '#'): ?></a><?php else: ?></div><?php endif; ?>
 
         <!-- Step 4 -->
-        <a class="step-tab" href="<?= $step4_link ?>" aria-label="Step 4: Assessment">
+        <?php if ($step4_link !== '#'): ?><a class="step-tab" href="<?= $step4_link ?>" aria-label="Step 4: Assessment">
+        <?php else: ?><div class="step-tab step-tab--disabled" aria-disabled="true" aria-label="Step 4: Assessment (complete Requirements first)"><?php endif; ?>
           <svg class="step-tab__svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
           </svg>
           <span class="step-tab__label">Assessment</span>
-        </a>
+        <?php if ($step4_link !== '#'): ?></a><?php else: ?></div><?php endif; ?>
 
       </nav>
     </div>

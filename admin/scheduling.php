@@ -1097,10 +1097,11 @@ $hours = range($calendarStartHour, $calendarEndHour); // include last hour (e.g.
         .sched-right{display:flex;flex-direction:column;gap:24px}.card{padding:24px}.card__title{font-size:var(--font-md);font-weight:700;margin-bottom:16px}.sched-list{display:flex;flex-direction:column;gap:12px;max-height:560px;overflow-y:auto}.sched-item{background:var(--color-bg-app);border-radius:var(--radius-nav);padding:16px;display:flex;flex-direction:column;gap:8px;border-left:4px solid transparent}.sched-item--blue{border-left-color:var(--sched-blue)}.sched-item--green{border-left-color:var(--sched-green)}.sched-item--purple{border-left-color:var(--sched-purple)}.sched-item--orange{border-left-color:var(--sched-orange)}.sched-item--yellow{border-left-color:var(--sched-yellow)}.sched-item__name{font-size:var(--font-base);font-weight:700}.sched-item__time,.sched-item__loc{font-size:var(--font-sm);color:var(--color-body)}.sched-item__actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}.sched-item__badge{display:inline-block;padding:4px 10px;border-radius:var(--radius-badge);font-size:var(--font-xs);font-weight:700}.sched-item__badge--confirmed{background:var(--color-green-bg);color:var(--color-green-text)}.sched-item__badge--pending{background:var(--color-yellow-bg);color:var(--color-yellow-text)}.sched-item__badge--declined{background:var(--color-red-bg);color:var(--color-red-text)}.sched-item__badge--blue{background:var(--color-blue-bg);color:var(--color-blue-text)}
         .table-card{background:#fff;border:1px solid var(--color-border);border-radius:var(--radius-card);box-shadow:var(--shadow-card);overflow:hidden}.schedule-table{width:100%;border-collapse:collapse}.schedule-table th,.schedule-table td{padding:12px 14px;border-bottom:1px solid var(--color-border);text-align:left;font-size:14px}.schedule-table th{background:#f8fafc;color:var(--color-muted);text-transform:uppercase;font-size:12px;letter-spacing:.04em}.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:90}.sidebar-overlay--visible{display:block}
         @media(max-width:1200px){.sched-grid{grid-template-columns:1fr}.stats-row{grid-template-columns:repeat(2,1fr)}}@media(max-width:1024px){.sidebar{position:fixed;left:0;top:0;height:100%;z-index:100;transform:translateX(-100%);transition:transform .3s ease}.sidebar--open{transform:translateX(0)}.topbar__hamburger{display:flex}.topbar{padding:0 24px}.scheduling{padding:24px}}@media(max-width:768px){.topbar{padding:0 16px}.topbar__user-info{display:none}.scheduling{padding:16px;gap:16px}.stats-row{grid-template-columns:1fr}.calendar-card{overflow-x:auto}.cal-days,.cal-body{min-width:980px}}
-        /* Override: center the scheduling grid and set fixed column widths */
-        .sched-grid{max-width:1260px;margin:0 auto !important;display:flex !important;justify-content:center;gap:24px;align-items:flex-start}
-        .sched-grid > .calendar-card{flex:0 0 900px;max-width:900px}
-        .sched-grid > .sched-right{flex:0 0 360px;max-width:360px}
+        .sched-flex{display:flex;width:100%;max-width:1260px;margin:0 auto;gap:24px;align-items:flex-start;min-width:0}
+        .sched-main{flex:1 1 900px;max-width:900px;min-width:0;display:flex;flex-direction:column;gap:24px}
+        .sched-flex > .sched-right{flex:0 1 360px;width:100%;max-width:360px;min-width:0}
+        @media(max-width:1200px){.sched-flex{flex-direction:column;max-width:100%}.sched-main,.sched-flex > .sched-right{flex:1 1 auto;width:100%;max-width:100%}}
+        @media(max-width:768px){.sched-flex{gap:16px}.sched-flex > .sched-right{gap:16px}.schedule-table{min-width:760px}}
     </style>
 </head>
 <body>
@@ -1119,7 +1120,6 @@ $hours = range($calendarStartHour, $calendarEndHour); // include last hour (e.g.
             unset($pendingApplications);
         }
     ?>
-    </aside>
     <div class="main">
         <header class="topbar" role="banner">
             <div class="topbar__left-wrap"><button class="topbar__hamburger" id="hamburger-btn" aria-expanded="false" aria-controls="sidebar" aria-label="Toggle navigation"><span class="topbar__hamburger-bar"></span><span class="topbar__hamburger-bar"></span><span class="topbar__hamburger-bar"></span></button><div><div class="topbar__title">Scheduling</div><div class="topbar__sub"><?= h($department) ?></div></div></div>
@@ -1156,8 +1156,8 @@ $hours = range($calendarStartHour, $calendarEndHour); // include last hour (e.g.
             <?php if ($flashError !== ''): ?><div class="alert alert-error"><?= h($flashError) ?></div><?php endif; ?>
                         <!-- stats cards removed as requested -->
 
-                        <div class="sched-flex" style="display:flex;max-width:1260px;margin:0 auto;gap:24px;align-items:flex-start;">
-                            <div style="flex:0 0 900px;max-width:900px;display:flex;flex-direction:column;gap:24px;">
+                        <div class="sched-flex">
+                            <div class="sched-main">
                                 <div style="display:flex;flex-direction:column;align-items:center;gap:4px;margin-bottom:8px;">
                                     <?php if ($selectedPreferred): ?>
                                         <span style="font-size:22px;font-weight:900;letter-spacing:0.5px;">Preferred Schedule</span>
@@ -1169,18 +1169,19 @@ $hours = range($calendarStartHour, $calendarEndHour); // include last hour (e.g.
                                 </section>
                                 <?php
                                 $isStudentDeployed = false;
-                                if (!empty($schedules)) {
-                                    foreach ($schedules as $s) {
-                                        if ($s['status'] === 'deployed') {
-                                            $isStudentDeployed = true;
-                                            break;
-                                        }
-                                    }
+                                $hasAssignedSchedules = false;
+                                $hasDeployableSchedules = false;
+                                foreach ($schedules as $scheduleState) {
+                                    $scheduleStatus = (string) ($scheduleState['status'] ?? '');
+                                    $isStudentDeployed = $isStudentDeployed || $scheduleStatus === 'deployed';
+                                    $hasAssignedSchedules = $hasAssignedSchedules || $scheduleStatus === 'assigned';
+                                    $hasDeployableSchedules = $hasDeployableSchedules || in_array($scheduleStatus, ['assigned', 'accepted'], true);
                                 }
                                 ?>
+                                <?php if ($selectedStudentId > 0): ?>
                                 <div style="display:flex;gap:18px;justify-content:flex-start;align-items:center;margin:18px 0 0 0;">
                                     <?php if ($isStudentDeployed): ?>
-                                        <form method="POST" style="margin:0;">
+                                        <form method="POST" style="margin:0;" onsubmit="return confirm('Undeploy this student? Their assigned schedules will no longer be visible to them.');">
                                             <input type="hidden" name="action" value="undeploy_student">
                                             <input type="hidden" name="student_id" value="<?= (int)$selectedStudentId ?>">
                                             <button type="submit" class="btn-create" style="background:#f59e42;min-width:150px;font-size:15px;box-shadow:0 2px 8px rgba(245,158,66,0.08);">Undeploy Student</button>
@@ -1189,26 +1190,31 @@ $hours = range($calendarStartHour, $calendarEndHour); // include last hour (e.g.
                                             <button type="button" class="btn-small" style="background:#e5e7eb;color:#9ca3af;min-width:150px;font-size:15px;cursor:not-allowed;" disabled>Edit Schedule</button>
                                         <?php endif; ?>
                                     <?php else: ?>
-                                        <form method="POST" style="margin:0;">
+                                        <?php if ($hasAssignedSchedules): ?>
+                                        <form method="POST" style="margin:0;" onsubmit="return confirm('Accept this student\'s proposed schedules?');">
                                             <input type="hidden" name="action" value="accept_schedule">
                                             <input type="hidden" name="student_id" value="<?= (int)$selectedStudentId ?>">
                                             <button type="submit" class="btn-create" style="min-width:150px;font-size:15px;box-shadow:0 2px 8px rgba(21,93,252,0.08);">Accept Schedule</button>
                                         </form>
-                                        <form method="POST" style="margin:0;">
+                                        <?php endif; ?>
+                                        <?php if ($hasDeployableSchedules): ?>
+                                        <form method="POST" style="margin:0;" onsubmit="return confirm('Deploy this student\'s schedules now? The student will be able to view them.');">
                                             <input type="hidden" name="action" value="deploy_student">
                                             <input type="hidden" name="student_id" value="<?= (int)$selectedStudentId ?>">
                                             <button type="submit" class="btn-create" style="background:#00a63e;min-width:150px;font-size:15px;box-shadow:0 2px 8px rgba(0,166,62,0.08);">Deploy Student</button>
                                         </form>
+                                        <?php endif; ?>
                                         <?php if (!empty($schedules)): $firstSchedule = $schedules[0]; ?>
                                             <button type="button" class="btn-small" style="background:#eef2ff;color:#3730a3;min-width:150px;font-size:15px;box-shadow:0 2px 8px rgba(55,48,163,0.08);" onclick="openEditModal(<?= (int)$firstSchedule['student_id'] ?>)">Edit Schedule</button>
                                         <?php else: ?>
-                                            <button type="button" class="btn-small" style="background:#eef2ff;color:#3730a3;min-width:150px;font-size:15px;box-shadow:0 2px 8px rgba(55,48,163,0.08);" onclick="alert('No schedule to edit.')">Edit Schedule</button>
+                                            <button type="button" class="btn-small" style="background:#e5e7eb;color:#9ca3af;min-width:150px;font-size:15px;cursor:not-allowed;" title="Create a schedule before editing" disabled>Edit Schedule</button>
                                         <?php endif; ?>
                                     <?php endif; ?>
                                 </div>
-                                <section class="table-card" style="margin-top:24px;"><table class="schedule-table"><thead><tr><th>Student</th><th>Office</th><th>Day</th><th>Time</th><th>Hours</th><th>Status</th><th>Action</th></tr></thead><tbody><?php if (!$schedules): ?><tr><td colspan="7">No schedules found. Click Auto Generate Schedule.</td></tr><?php endif; ?><?php foreach ($schedules as $schedule): ?><?php $studentName = trim((string) $schedule['first_name'] . ' ' . (string) $schedule['last_name']); ?><tr><td><a href="<?= h(schedule_student_url((int) $schedule['student_id'], $selectedStudentOffice, $showStatus, (string) $schedule['day_of_week'])) ?>" style="color:var(--color-primary);text-decoration:underline;text-underline-offset:3px;"><?= h($studentName) ?></a></td><td><?= h((string) $schedule['office_name']) ?></td><td><?= h(schedule_day_label((string) $schedule['day_of_week'])) ?></td><td><?= h(display_time((string) $schedule['time_start']) . ' – ' . display_time((string) $schedule['time_end'])) ?></td><td><?= h(number_format((float) $schedule['required_hours'], 2)) ?>h</td><td><?= schedule_badge_html((string) $schedule['status']) ?></td><td><?php if ($schedule['status'] === 'deployed'): ?><button type="button" class="btn-small" style="background:#e5e7eb;color:#9ca3af;cursor:not-allowed;" disabled>Edit</button><?php else: ?><button type="button" class="btn-small" onclick="openEditModal(<?= (int)$schedule['student_id'] ?>)">Edit</button><?php endif; ?></td></tr><?php endforeach; ?></tbody></table></section>
+                                <?php endif; ?>
+                                <section class="table-card" style="margin-top:24px;"><table class="schedule-table"><thead><tr><th>Student</th><th>Office</th><th>Day</th><th>Time</th><th>Hours</th><th>Status</th><th>Action</th></tr></thead><tbody><?php if (!$schedules): ?><tr><td colspan="7"><?php echo $selectedStudentId > 0 ? 'No schedules found for this student. Generate schedules from the Pending Applications section.' : 'Select a student from the list to view and manage schedules.'; ?></td></tr><?php endif; ?><?php foreach ($schedules as $schedule): ?><?php $studentName = trim((string) $schedule['first_name'] . ' ' . (string) $schedule['last_name']); ?><tr><td><a href="<?= h(schedule_student_url((int) $schedule['student_id'], $selectedStudentOffice, $showStatus, (string) $schedule['day_of_week'])) ?>" style="color:var(--color-primary);text-decoration:underline;text-underline-offset:3px;"><?= h($studentName) ?></a></td><td><?= h((string) $schedule['office_name']) ?></td><td><?= h(schedule_day_label((string) $schedule['day_of_week'])) ?></td><td><?= h(display_time((string) $schedule['time_start']) . ' – ' . display_time((string) $schedule['time_end'])) ?></td><td><?= h(number_format((float) $schedule['required_hours'], 2)) ?>h</td><td><?= schedule_badge_html((string) $schedule['status']) ?></td><td><?php if ($schedule['status'] === 'deployed'): ?><button type="button" class="btn-small" style="background:#e5e7eb;color:#9ca3af;cursor:not-allowed;" disabled>Edit</button><?php else: ?><button type="button" class="btn-small" onclick="openEditModal(<?= (int)$schedule['student_id'] ?>)">Edit</button><?php endif; ?></td></tr><?php endforeach; ?></tbody></table></section>
                             </div>
-                            <div class="sched-right" style="flex:0 0 360px;max-width:360px;display:flex;flex-direction:column;gap:24px;">
+                            <div class="sched-right">
                     <section class="card" aria-labelledby="pending-heading">
                         <h2 class="card__title" id="pending-heading">Pending Applications</h2>
                         <!-- Preferred schedule shown above calendar -->
@@ -1543,15 +1549,9 @@ function closeAppModal() {
                     id="edit_office"
                     style="width: 100%; padding: 12px 14px; border: 1px solid #d1d5dc; border-radius: 12px; font-size: 15px; color: #111827; outline: none; background: #fff;"
                 >
-                    <option value="ITSO">ITSO</option>
-                    <option value="SDAO">SDAO</option>
-                    <option value="Registrar">Registrar</option>
-                    <option value="Guidance Office">Guidance Office</option>
-                    <option value="Library">Library</option>
-                    <option value="Accounting Office">Accounting Office</option>
-                    <option value="Admissions Office">Admissions Office</option>
-                    <option value="Clinic">Clinic</option>
-                    <option value="Cashier">Cashier</option>
+                    <?php foreach ($officeOptions as $officeOption): ?>
+                    <option value="<?= h($officeOption) ?>"><?= h($officeOption) ?></option>
+                    <?php endforeach; ?>
                 </select>
             </div>
 
@@ -1638,7 +1638,7 @@ function closeAppModal() {
         <h2 style="margin-bottom:8px;">Application Details</h2>
         <div id="appModalBody" style="margin-bottom:12px;color:var(--color-body);"></div>
 
-        <form method="POST" id="appApproveForm">
+        <form method="POST" id="appApproveForm" onsubmit="return confirm('Approve this application and create its schedules?');">
             <input type="hidden" name="action" value="approve_application">
             <input type="hidden" name="application_id" id="appModalId">
             <div style="display:flex;gap:10px;justify-content:flex-end;">
