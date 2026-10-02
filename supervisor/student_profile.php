@@ -261,8 +261,8 @@ $studentName = trim((string) ($student['first_name'] ?? '') . ' ' . (string) ($s
         .tile span{display:block;font-size:13px;color:var(--color-body);margin-top:4px}
         table{width:100%;border-collapse:collapse}
         th,td{padding:10px 12px;border-bottom:1px solid var(--color-border);font-size:14px;text-align:left}
-        th{background:#f9fafb;font-size:13px}
-        .btn{display:inline-flex;align-items:center;justify-content:center;height:38px;padding:0 12px;border-radius:10px;background:#155dfc;color:#fff;text-decoration:none;font-weight:700}
+        .btn{display:inline-flex;align-items:center;justify-content:center;height:38px;padding:0 12px;border-radius:10px;background:#003087;color:#fff;text-decoration:none;font-weight:700;box-shadow:0 2px 4px rgba(0,48,135,.15);transition:background .18s ease}
+        .btn:hover{background:#00205b;color:#fff}
         .muted{color:var(--color-body)}
         .badge{display:inline-flex;align-items:center;height:22px;padding:0 10px;border-radius:9999px;font-size:12px;font-weight:700}
         .badge--present{background:#dcfce7;color:#008236}

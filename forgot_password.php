@@ -94,8 +94,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Forgot Password – SAMS</title>
   <style>
-    body { margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center; font-family:Arial,sans-serif; background:linear-gradient(135deg,#eff6ff,#fff,#fffbeb); }
-    .card { width:min(100%, 460px); background:#fff; border:1px solid #e5e7eb; border-radius:18px; padding:32px; box-shadow:0 20px 45px rgba(0,0,0,.15); }
+    body { margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center; font-family:'Inter',Arial,sans-serif; background:#f8fafc; }
+    .card { width:min(100%, 460px); background:#fff; border:1px solid #e5e7eb; border-radius:18px; padding:32px; box-shadow:0 10px 30px rgba(0,0,0,.08); }
     h1 { margin:0 0 8px; font-size:28px; color:#101828; }
     p { margin:0 0 24px; color:#4b5563; line-height:1.6; }
     label { display:block; margin-bottom:8px; font-weight:700; color:#374151; }

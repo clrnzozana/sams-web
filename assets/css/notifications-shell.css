@@ -24,9 +24,9 @@
 .topbar__notif-btn:hover,
 .topbar__icon-btn[aria-label="Notifications"]:hover,
 .topbar__action-btn[aria-label="Notifications"]:hover {
-  background: #f3f7ff !important;
-  border-color: #bfd3ff !important;
-  color: #155dfc !important;
+  background: #eff4fc !important;
+  border-color: #003087 !important;
+  color: #003087 !important;
   transform: none !important;
 }
 

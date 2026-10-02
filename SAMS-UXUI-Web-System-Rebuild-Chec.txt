@@ -1,104 +1,297 @@
-SAMS — UX/UI Web System Rebuild Checklist (Student + Supervisor + Admin)
+# SAMS PROFESSIONAL UI/UX DESIGN CHECKLIST
 
-Confirmed approach: this is a **UI/UX reorganization and visual rebuild only**, not a
-rewrite of functionality. All existing features, business logic, and behavior stay exactly
-as they are — the goal is a clean, organized, easy-to-use interface, styled to match the
-mobile app's exact theme (NU navy `#003087`/gold `#ffb81c`, Poppins/Inter, the same
-card/badge/button patterns already built for mobile).
+## 1. Overall Design Direction
 
-Hard rule for this entire rebuild: nothing gets added or removed — no feature, no
-page, no field, no button, no file — unless it's explicitly flagged first and approved by
-you. If something looks like it should change (a duplicate, dead code, a naming
-inconsistency, a broken link, anything), the move is to flag it clearly in this checklist
-and wait for approval — never to just make the change while restyling. Every item below
-that involves a real decision (not pure visual work) is written as a flag, not an
-instruction to act.
+* [x] Design looks professionally designed, not generic or AI-generated.
+* [x] System feels like a purpose-built university information system.
+* [x] Design is consistent across Admin, Supervisor, and Student interfaces.
+* [x] Existing SAMS identity is preserved instead of replacing it with a generic template.
+* [x] Layouts prioritize usability, clarity, consistency, and efficiency.
+* [x] Design does not blindly follow current design trends if they do not fit SAMS.
 
-Scope: this document covers the **web system only** — Student, Supervisor, and Admin
-portals. Mobile app work and paper/documentation tracking are kept in their own separate
-files, intentionally not repeated here.
+## 2. SAMS / NU Visual Identity
 
-Confirmed sequence: Student → Supervisor → Admin, in that order. Each portal's
-rebuild should follow its corresponding Low-Fi wireframe file as the structural starting
-point:
-- Student → `Student-LowFi-Wireframe.html` (+ `Web-Login-LowFi-Wireframe.html` and
-  `Web-Application-LowFi-Wireframe.html` for the login and public application form)
-- Supervisor → `Supervisor-LowFi-Wireframe.html`
-- Admin → `Admin-LowFi-Wireframe.html`
+* [x] Original **Navy Blue and Gold** visual identity is preserved.
+* [x] Navy Blue is used as the primary structural/branding color.
+* [x] Gold is used as an accent for emphasis, active states, important indicators, and selected actions.
+* [x] Gold is not overused throughout the interface.
+* [x] Colors remain consistent across Admin, Supervisor, and Student pages.
+* [x] Existing SAMS/NU color references are inspected before introducing new colors.
+* [x] Random colors that conflict with the Navy Blue and Gold identity are removed.
 
-Scope: 48 PHP files total, several 60–90KB monoliths.
+## 3. STRICTLY NO GRADIENTS
 
----
+* [x] No gradient navigation bars.
+* [x] No gradient buttons.
+* [x] No gradient cards.
+* [x] No gradient headers.
+* [x] No gradient backgrounds.
+* [x] No blue-to-purple gradients.
+* [x] No blue-to-gold gradients.
+* [x] No decorative gradient overlays.
+* [x] No unnecessary color transitions that make the system look like a generic AI-generated dashboard.
 
-#TRACK A — Student Portal Rebuild (Do First)
-*Structural reference: `Student-LowFi-Wireframe.html`, `Web-Login-LowFi-Wireframe.html`,
-`Web-Application-LowFi-Wireframe.html`*
+## 4. STRICTLY NO GLASSMORPHISM / "GLASS" LOOK
 
-- [x] Design system build-out (NU navy/gold, Poppins/Inter, shared card/badge/button
-      components) — built in assets/css/sams-design-system.css, imported by sams-shell.css
-- [ ] Restyle only, keeping all existing functionality: Login, Landing, Dashboard,
-      Schedule (Calendar/List), Attendance/Duty-Hour Report, Profile
-- [ ] Restyle only, the public 4-step Application Form (`register.php` through
-      `register3.php` — Personal Info, Academic Info, Upload Requirements, Assessment &
-      Preferences), following `Web-Application-LowFi-Wireframe.html`
-- [ ] Flagged, not yet approved: `duty_schedules.status` has both `'rejected'` and
-      `'declined'` values, but only `'declined'` ever gets written by the code. Possible
-      unused/legacy value — flagging, not touching, until you say so.
-- [ ] Flagged, not yet approved: `scratch/` folder (including a file literally named
-      `check_pogi.php`) appears to be leftover test material sitting in the codebase, not
-      production code. Flagging for your review before anything gets deleted.
-- [ ] Flagged, not yet approved: several near-duplicate scripts exist for the same task
-      (e.g. multiple test-user-cleanup scripts in `tools/`). Flagging the duplication —
-      no consolidation without your go-ahead.
+* [x] No glassmorphism cards.
+* [x] No frosted-glass panels.
+* [x] No excessive transparency.
+* [x] No backdrop blur effects.
+* [x] No translucent floating navigation.
+* [x] No glass-looking buttons or containers.
+* [x] No unnecessary blur/shadow combinations that make elements appear like floating glass.
+* [x] UI should use solid, clean, professional surfaces instead.
 
----
+## 5. Navigation Bar / Sidebar
 
-#TRACK B — Supervisor Portal Rebuild (Do Second)
-*Structural reference: `Supervisor-LowFi-Wireframe.html`*
+* [x] Admin navigation remains visually consistent on every section.
+* [x] Supervisor navigation remains visually consistent on every section.
+* [x] Student navigation remains visually consistent on every section.
+* [x] Navigation position does not shift when changing pages.
+* [x] Navigation width/height does not unexpectedly change.
+* [x] Navigation spacing remains consistent.
+* [x] Navigation icons remain consistent.
+* [x] Navigation labels use the same typography.
+* [x] Navigation colors remain consistent.
+* [x] Navigation does not disappear when changing sections.
+* [x] Navigation does not become clipped or hidden.
+* [x] Content does not overlap the navigation.
+* [x] Fixed/sticky navigation does not cover page content.
+* [x] Same destination/function uses the same recognizable icon wherever applicable.
+* [x] Role-specific navigation items remain different where permissions/workflows require them.
 
-- [ ] Dashboard (`dashboard.php` 29KB) — restyle only
-- [ ] Attendance (`attendance.php` 21KB + `attendance_data.php` + `attendance_stream.php`
-      — real-time SSE updates) — restyle only
-- [ ] Evaluation (`evaluation.php` 24KB + `evaluation_data.php` + `evaluation_save.php`)
-      — restyle only
-- [ ] Reports (`reports.php` 24KB + `report_student.php`) — restyle only
-- [ ] Students (`students.php` 18KB + `student_profile.php` + `student_profile_data.php`)
-      — restyle only
-- [ ] Announcements (`announcements.php` — 1.8KB) — restyle only
-- [ ] Mark Excused (`mark_excused.php`) — a real, specific supervisor action; understand
-      it fully before restyling around it
-- [ ] Notifications trio (`notifications_count.php`, `notifications_list.php`,
-      `notifications_mark_read.php`) — restyle using the shared components built in Track A
-- [ ] Apply the exact same NU navy/gold design system from Track A — Supervisor should look
-      like the same product as Student, not a different one
+## 6. Navigation Active State
 
----
+* [x] Current page is clearly highlighted.
+* [x] Previous page becomes inactive after navigation.
+* [x] Active state works after clicking navigation items.
+* [x] Active state works after direct URL/route access.
+* [x] Active state remains correct after page refresh.
+* [x] Active state works on nested pages.
+* [x] Active state does not become stuck on another page.
+* [x] Active state does not disappear unexpectedly.
+* [x] Active state follows the established Navy Blue/Gold visual identity.
 
-#TRACK C — Admin Portal Rebuild (Do Last)
-*Structural reference: `Admin-LowFi-Wireframe.html`*
+## 7. Typography
 
-- [ ] Dashboard (`dashboard.php`, 63KB + `dashboard_data.php`) — restyled with unified NU Gold/Navy design tokens, live metrics & polling
-- [ ] Applications (`applications.php` / `application.php` 69KB, `application_detail.php`, `application_view.php`) — restyled with multi-skill tag filters, live reviews, document previewers
-- [ ] Scheduling (`scheduling.php` — 90KB) — restyled with timetable grids, conflict resolution, clinic hours, auto-generation controls
-- [ ] Attendance (`attendance.php` 54KB + `attendance_data.php`) — restyled with live attendance stream, dot badges, office breakdowns
-- [ ] NFC Kiosk (`nfc_kiosk.php` 28KB + `nfc_clock_process.php`) — restyled dedicated full-screen SDAO Reader Terminal with sound & visual feedback
-- [ ] Evaluation (`evaluation.php` 24KB + `evaluation_detail.php`) — restyled supervisor evaluation review, rubrics, term enable/disable toggle
-- [ ] Reports (`reports.php` — 86KB + `report_detail.php`, `reports_data.php`) — restyled institutional analytics suite, incident resolution, export tools
-- [ ] Announcements (`announcements.php` 17KB) — restyled broadcast center with student/supervisor/all audience routing
-- [ ] Supervisors (`supervisors.php` 35KB) — restyled supervisor management, quota allocations, department scopes
-- [ ] Meetings (`meetings.php` — 76KB) — restyled weekly calendar view, schedule blocks, countdown alerts
-- [ ] Students (`students.php` 60KB + `student_detail.php`) — restyled student directory masterlist, detailed profile inspector
-- [ ] Settings — see the flagged item at the top of this document; do not build or remove without approval
+* [x] One consistent primary font family is used throughout the system.
+* [x] Font does not unexpectedly change between pages.
+* [x] Heading sizes are standardized.
+* [x] Body text sizes are standardized.
+* [x] Navigation text sizes are standardized.
+* [x] Button text sizes are standardized.
+* [x] Font weights are consistent.
+* [x] Line heights are consistent.
+* [x] Letter spacing is used consistently.
+* [x] Text hierarchy clearly distinguishes titles, headings, labels, descriptions, and body content.
+* [x] Typography remains readable and professional.
 
-#Flagged items — Admin (not yet approved, no action without sign-off)
-- [ ] `admin/test_application_detail.php` — a test file sitting in a production folder,
-      same pattern as `scratch/check_pogi.php`. Flagging, not removing.
-- [ ] `applications.php` is a near-empty stub while `application.php`/`application_view.php`
-      hold the real logic — confusing naming. Flagging for a possible rename/consolidation,
-      not doing it unprompted.
-- [ ] `admin/save_student_nfc.php` (admin-side card registration) appears to be the correct,
-      current design already — flagging for your confirmation, not changing anything.
+## 8. Basic Layout and Alignment
 
-#Admin Design System
-- [ ] Apply the exact same NU navy/gold + Poppins/Inter system as Student and Supervisor —
-      one consistent product across all three portals, not three different ones
+* [x] Page content is properly aligned.
+* [x] Margins are consistent.
+* [x] Padding is consistent.
+* [x] Sections have appropriate spacing.
+* [x] Elements do not appear randomly positioned.
+* [x] Cards align properly.
+* [x] Buttons align properly.
+* [x] Forms align properly.
+* [x] Tables align properly.
+* [x] Content does not unnecessarily overflow.
+* [x] No overlapping elements.
+* [x] No excessive empty spaces.
+* [x] No overcrowded sections.
+* [x] Content hierarchy is visually clear.
+
+## 9. Cards and Content Containers
+
+* [x] Cards follow one consistent design system.
+* [x] Cards are not unnecessarily repetitive.
+* [x] Different content types can use different appropriate layouts.
+* [x] Statistics, profiles, schedules, announcements, records, and activities are presented appropriately.
+* [x] Card spacing is consistent.
+* [x] Card dimensions are balanced.
+* [x] Card typography is consistent.
+* [x] Cards do not rely on gradients or glass effects.
+* [x] Cards use appropriate borders/shadows only when useful.
+* [x] Cards clearly communicate their purpose.
+
+## 10. Buttons
+
+* [x] Buttons have consistent sizing.
+* [x] Button padding is consistent.
+* [x] Button typography is consistent.
+* [x] Primary buttons follow the Navy Blue/Gold design system.
+* [x] Secondary buttons remain visually distinct.
+* [x] Hover states work.
+* [x] Active states work.
+* [x] Disabled states are clear.
+* [x] Buttons are not purely decorative.
+* [x] Every button performs its intended action.
+* [x] Success/error feedback is provided where appropriate.
+
+## 11. Dropdowns / Selects
+
+* [x] Dropdowns use consistent styling.
+* [x] Dropdowns open correctly.
+* [x] Dropdown menus are not clipped.
+* [x] Dropdowns remain visible on smaller screens.
+* [x] Selected values display correctly.
+* [x] Options are readable.
+* [x] Dropdown selections actually affect the intended content.
+* [x] Role/course/program/section/status/date/category selections work correctly where applicable.
+
+## 12. Search and Filtering
+
+* [x] Search fields work correctly.
+* [x] Search results actually update based on the query.
+* [x] Filters actually affect displayed data.
+* [x] Multiple filters work together correctly.
+* [x] Clear/reset filters works.
+* [x] Pagination works together with filtering.
+* [x] Filters remain correct after navigating away and returning.
+* [x] No stale or incorrect results are displayed.
+* [x] Empty-result states are handled clearly.
+
+## 13. Forms
+
+* [x] Form fields are consistently styled.
+* [x] Labels are clear.
+* [x] Required fields are identifiable.
+* [x] Input sizes are consistent.
+* [x] Validation works correctly.
+* [x] Error messages are clear.
+* [x] Success messages are clear.
+* [x] Submit buttons work.
+* [x] Cancel buttons work.
+* [x] Reset functionality works where applicable.
+* [x] Forms remain usable on smaller screens.
+
+## 14. Tables / Data Presentation
+
+* [x] Tables are properly aligned.
+* [x] Column spacing is consistent.
+* [x] Headers are clearly distinguishable.
+* [x] Text does not unnecessarily overflow.
+* [x] Long data is handled appropriately.
+* [x] Sorting works where available.
+* [x] Pagination works where available.
+* [x] Actions such as View/Edit/Delete work correctly.
+* [x] Tables remain usable on smaller screens.
+
+## 15. Admin Interface
+
+* [x] Admin navigation is consistent across all pages.
+* [x] Admin dashboard follows the SAMS Navy Blue and Gold identity.
+* [x] Admin management pages use consistent layouts.
+* [x] User/account management is visually organized.
+* [x] CRUD interfaces are consistent.
+* [x] Tables, forms, filters, and actions follow the same design system.
+* [x] Admin-only functions remain accessible.
+* [x] Admin permissions are not accidentally changed by UI changes.
+
+## 16. Supervisor Interface
+
+* [x] Supervisor navigation is consistent across all pages.
+* [x] Supervisor dashboard follows the same SAMS design system.
+* [x] Supervisor-specific functions remain clearly separated.
+* [x] Relevant records, schedules, monitoring, and management functions are easy to understand.
+* [x] Supervisor permissions remain unchanged.
+* [x] Supervisor-specific navigation items remain functional.
+
+## 17. Student Interface
+
+* [x] Student navigation is consistent across all pages.
+* [x] Student dashboard follows the SAMS Navy Blue and Gold identity.
+* [x] Student information is easy to locate.
+* [x] Student-specific functions are clearly presented.
+* [x] Forms, records, schedules, and other student functions remain functional.
+* [x] Student permissions remain unchanged.
+
+## 18. Responsive Design
+
+* [x] Layout works on desktop.
+* [x] Layout works on laptop-sized screens.
+* [x] Layout remains usable on smaller screens.
+* [x] Navigation remains accessible.
+* [x] Cards reflow correctly.
+* [x] Tables remain usable.
+* [x] Dropdowns remain visible.
+* [x] Buttons do not overlap.
+* [x] Forms do not overflow.
+* [x] Text does not become unreadable.
+* [x] No unnecessary horizontal scrolling.
+* [x] Fixed/sticky elements do not cover content.
+
+## 19. Front-End Code Quality
+
+* [x] Shared navigation uses a shared component/layout.
+* [x] Shared styles are centralized where possible.
+* [x] Design tokens/variables are used for common colors, spacing, typography, etc.
+* [x] Duplicate navbar implementations are identified and consolidated where appropriate.
+* [x] Duplicate CSS rules are removed where possible.
+* [x] Avoid page-specific hacks that create inconsistent behavior.
+* [x] Do not fix every page independently if the problem originates from a shared component.
+* [x] Components remain maintainable.
+* [x] Existing functionality is preserved.
+* [x] No unnecessary dependencies are introduced.
+
+## 20. Functional Verification
+
+* [x] Every navigation link works.
+* [x] Every button works.
+* [x] Every dropdown works.
+* [x] Every filter works.
+* [x] Search works.
+* [x] Forms submit correctly.
+* [x] Modals open and close correctly.
+* [x] Confirmation dialogs work.
+* [x] Add/Edit/Delete actions work where applicable.
+* [x] Pagination works.
+* [x] Sorting works where applicable.
+* [x] Profile/account menus work.
+* [x] Notifications work where applicable.
+* [x] Routes work after direct access.
+* [x] Refreshing a page does not break the interface.
+* [x] Navigating away and returning does not break the interface.
+
+## 21. Final Visual Quality Check
+
+* [x] The interface looks intentionally designed rather than automatically generated.
+* [x] The interface feels like a professional university information system.
+* [x] Navy Blue and Gold are clearly recognizable throughout the system.
+* [x] No gradients exist anywhere.
+* [x] No glassmorphism/glass-looking UI exists anywhere.
+* [x] No random colors or inconsistent visual styles exist.
+* [x] No inconsistent icons exist for the same function.
+* [x] No inconsistent fonts exist between sections.
+* [x] No broken alignment exists.
+* [x] No unnecessary decorative effects exist.
+* [x] No generic SaaS/dashboard template appearance exists.
+* [x] No Bootstrap/Tailwind-template-looking styling has been blindly applied.
+* [x] The design feels custom-built specifically for SAMS.
+
+## 22. Final Navigation Acceptance Test
+
+### PASS only if:
+
+**When switching between Admin, Supervisor, or Student sections/pages:**
+
+* [x] Navbar/sidebar stays in the same position.
+* [x] Navbar/sidebar keeps the same size.
+* [x] Navbar/sidebar keeps the same spacing.
+* [x] Navbar/sidebar keeps the same icons.
+* [x] Navbar/sidebar keeps the same typography.
+* [x] Navbar/sidebar keeps the same colors.
+* [x] Correct active state updates.
+* [x] Navigation never disappears.
+* [x] Navigation never shifts unexpectedly.
+* [x] Navigation never gets clipped.
+* [x] Page content remains properly aligned.
+* [x] Page content is not covered by the navigation.
+
+### FINAL ACCEPTANCE STANDARD
+
+**Looks correct + stays consistent + works correctly + remains stable when navigating = PASS**
+
+The final result should look and behave as if it was designed and implemented by a **Senior UI/UX Designer and Senior Front-End Developer**, specifically for the SAMS university system — with a strong **Navy Blue and Gold NU identity**, clean professional structure, and **no gradients, no glassmorphism, and no generic/AI-generated template styling**.

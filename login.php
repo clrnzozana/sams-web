@@ -170,9 +170,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       --color-page-bg-mid:    #ffffff;
       --color-page-bg-end:    #fffbeb;
 
-      --grad-primary:         linear-gradient(90deg, #003087 0%, #004aab 100%);
-      --grad-primary-134:     linear-gradient(134deg, #003087 0%, #004aab 100%);
-      --grad-page:            linear-gradient(149deg, var(--color-page-bg-start) 0%, var(--color-page-bg-mid) 50%, var(--color-page-bg-end) 100%);
+      --grad-primary:         #003087;
+      --grad-primary-134:     #003087;
+      --grad-page:            #f8fafc;
 
       --shadow-card:          0 25px 50px 0 rgba(0,0,0,.25);
 
@@ -553,8 +553,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       align-items: center;
       justify-content: center;
       padding: 24px;
-      background: rgba(16, 24, 40, .55);
-      backdrop-filter: blur(6px);
+      background: rgba(15, 23, 42, 0.65);
       z-index: 9999;
     }
     .otp-modal--visible { display: flex; }

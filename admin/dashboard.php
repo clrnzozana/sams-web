@@ -148,11 +148,12 @@ function sams_admin_dashboard_attendance_dot(string $status): string
            CSS VARIABLES – Design System
         ============================================= */
         :root {
-            /* Brand */
-            --color-primary:         #155dfc;
-            --color-primary-dark:    #1447e6;
-            --color-purple:          #9810fa;
-            --gradient-brand:        linear-gradient(135deg, #155dfc 0%, #9810fa 100%);
+            /* Brand - STRICTLY NO GRADIENTS */
+            --color-primary:         #003087;
+            --color-primary-dark:    #00205b;
+            --nu-navy:               #003087;
+            --nu-gold:               #ffb81c;
+            --gradient-brand:        #003087;
 
             /* Neutral */
             --color-heading:         #101828;
@@ -189,7 +190,7 @@ function sams_admin_dashboard_attendance_dot(string $status): string
             --shadow-card: 0 1px 3px rgba(0,0,0,.07), 0 1px 2px rgba(0,0,0,.05);
 
             /* Dimensions */
-            --sidebar-width: 256px;
+            --sidebar-width: 264px;
             --topbar-height: 89px;
             --radius-card:   16.4px;
             --radius-nav:    10px;
@@ -398,25 +399,20 @@ function sams_admin_dashboard_attendance_dot(string $status): string
         }
 
         .dashboard::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background:
-                radial-gradient(circle at 18% 8%, rgba(21, 93, 252, 0.08), transparent 0 22%),
-                radial-gradient(circle at 92% 12%, rgba(152, 16, 250, 0.07), transparent 0 20%);
-            pointer-events: none;
-            z-index: -1;
+            display: none;
         }
 
         .hero {
-            background: linear-gradient(135deg, #0f4cd6 0%, #205ee6 54%, #3c7dff 100%);
+            background: #003087;
             color: #fff;
-            border-radius: 22px;
+            border-radius: 20px;
+            border: 1px solid #00205b;
+            border-left: 6px solid #ffb81c;
             padding: 28px;
             display: grid;
             grid-template-columns: minmax(0, 1.35fr) minmax(320px, .85fr);
             gap: 20px;
-            box-shadow: 0 20px 40px rgba(15, 76, 214, 0.18);
+            box-shadow: 0 4px 12px rgba(0, 32, 91, 0.12);
             overflow: hidden;
             position: relative;
             animation: dashboardFadeIn .45s ease both;
@@ -424,27 +420,7 @@ function sams_admin_dashboard_attendance_dot(string $status): string
 
         .hero::before,
         .hero::after {
-            content: '';
-            position: absolute;
-            border-radius: 999px;
-            pointer-events: none;
-            background: rgba(255, 255, 255, 0.12);
-        }
-
-        .hero::before {
-            width: 220px;
-            height: 220px;
-            right: -96px;
-            top: -72px;
-            filter: blur(6px);
-        }
-
-        .hero::after {
-            width: 160px;
-            height: 160px;
-            left: 48%;
-            bottom: -72px;
-            opacity: 0.55;
+            display: none;
         }
 
         .hero__content,
@@ -457,12 +433,14 @@ function sams_admin_dashboard_attendance_dot(string $status): string
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 8px 12px;
+            padding: 8px 14px;
             border-radius: 999px;
-            background: rgba(255, 255, 255, 0.16);
+            background: #00205b;
+            border: 1px solid rgba(255, 184, 28, 0.4);
+            color: #ffb81c;
             font-size: 12px;
             font-weight: 800;
-            letter-spacing: 0.02em;
+            letter-spacing: 0.04em;
             text-transform: uppercase;
         }
 
@@ -471,8 +449,8 @@ function sams_admin_dashboard_attendance_dot(string $status): string
             width: 8px;
             height: 8px;
             border-radius: 999px;
-            background: #9ef0b8;
-            box-shadow: 0 0 0 4px rgba(158, 240, 184, 0.18);
+            background: #ffb81c;
+            box-shadow: 0 0 0 3px rgba(255, 184, 28, 0.25);
         }
 
         .hero h1 {
@@ -499,11 +477,10 @@ function sams_admin_dashboard_attendance_dot(string $status): string
         }
 
         .hero__metric {
-            background: rgba(9, 32, 89, 0.28);
-            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: #00205b;
+            border: 1px solid rgba(255, 255, 255, 0.16);
             border-radius: 16px;
             padding: 14px;
-            backdrop-filter: blur(8px);
         }
 
         .hero__metric-label {
@@ -517,6 +494,7 @@ function sams_admin_dashboard_attendance_dot(string $status): string
             font-size: 28px;
             line-height: 1;
             font-weight: 800;
+            color: #ffb81c;
         }
 
         .hero__actions {
@@ -531,10 +509,10 @@ function sams_admin_dashboard_attendance_dot(string $status): string
             align-items: center;
             justify-content: center;
             min-height: 42px;
-            padding: 0 14px;
-            border-radius: 12px;
+            padding: 0 16px;
+            border-radius: 10px;
             font-size: 14px;
-            font-weight: 800;
+            font-weight: 700;
             border: 1px solid transparent;
             transition: transform .18s ease, background .18s ease, border-color .18s ease, opacity .18s ease;
         }
@@ -544,18 +522,27 @@ function sams_admin_dashboard_attendance_dot(string $status): string
         }
 
         .hero__action--solid {
-            background: #ffffff;
-            color: #0f3fb8;
+            background: #ffb81c;
+            color: #00205b;
+        }
+
+        .hero__action--solid:hover {
+            background: #f0a90e;
         }
 
         .hero__action--ghost {
             color: #fff;
-            border-color: rgba(255, 255, 255, 0.22);
-            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.28);
+            background: #00205b;
+        }
+
+        .hero__action--ghost:hover {
+            background: #00163e;
+            border-color: rgba(255, 255, 255, 0.4);
         }
 
         .hero__snapshot {
-            background: rgba(7, 21, 56, 0.34);
+            background: #00205b;
             border: 1px solid rgba(255, 255, 255, 0.16);
             border-radius: 20px;
             padding: 18px;
@@ -564,7 +551,6 @@ function sams_admin_dashboard_attendance_dot(string $status): string
             flex-direction: column;
             justify-content: space-between;
             gap: 16px;
-            backdrop-filter: blur(10px);
         }
 
         .hero__snapshot-head {
@@ -692,11 +678,11 @@ function sams_admin_dashboard_attendance_dot(string $status): string
         .stat-card__top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; }
         .stat-card__icon-wrap {
             width: 48px; height: 48px;
-            background: linear-gradient(180deg, #eff4ff 0%, #f8fbff 100%);
+            background: #eff4fc;
             border-radius: 14px;
             display: flex; align-items: center; justify-content: center;
-            border: 1px solid #dbe6ff;
-            color: #4a5565;
+            border: 1px solid #dbe6f8;
+            color: #003087;
         }
         .stat-card__icon-wrap svg { width: 24px; height: 24px; }
         .stat-card__trend { font-size: var(--font-sm); font-weight: 400; color: var(--color-green-up); line-height: var(--lh-sm); }
@@ -747,7 +733,7 @@ function sams_admin_dashboard_attendance_dot(string $status): string
             width: 8px;
             height: 8px;
             border-radius: 999px;
-            background: linear-gradient(135deg, #155dfc 0%, #9810fa 100%);
+            background: #ffb81c;
         }
 
         .section-note {

@@ -24,37 +24,48 @@ function h(?string $s): string { return htmlspecialchars((string)$s, ENT_QUOTES,
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Announcements — Supervisor</title>
   <link rel="stylesheet" href="../assets/css/sams-shell.css" />
+  <link rel="stylesheet" href="../assets/css/notifications-shell.css?v=20260926" />
+  <link rel="stylesheet" href="../assets/css/sams-dark-mode.css?v=20260926" />
   <style>
-    body{font-family:Inter,Arial,Helvetica,sans-serif;background:var(--color-bg-app)}
-    .container{max-width:900px;margin:36px auto;padding:0 16px}
-    .supervisor-nav{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 22px}
-    .supervisor-nav a{display:inline-flex;align-items:center;min-height:40px;padding:0 12px;border-radius:10px;color:#364153;font-size:14px;font-weight:600;text-decoration:none}
-    .supervisor-nav a:hover{background:#f3f7ff;color:#0f3fb8}
-    .supervisor-nav a[aria-current="page"]{background:#003087;color:#fff}
-    .ann{background:#fff;border:1px solid var(--color-border);padding:16px;border-radius:10px;margin-bottom:12px}
-    .ann h3{margin:0 0 6px}
-    .ann .meta{color:#6b7280;font-size:13px;margin-bottom:8px}
+    body{font-family:Inter,Arial,Helvetica,sans-serif;background:var(--color-bg-app, #f8fafc)}
+    .container{max-width:960px;margin:24px auto;padding:0 24px}
+    .ann{background:#fff;border:1px solid var(--color-border, #e2e8f0);padding:20px;border-radius:12px;margin-bottom:14px;box-shadow:0 1px 3px rgba(16,24,40,.04)}
+    .ann h3{margin:0 0 6px;color:#0f172a;font-size:18px}
+    .ann .meta{color:#64748b;font-size:13px;margin-bottom:10px}
+    .ann .body{color:#334155;line-height:1.55;font-size:14px}
+    .empty-state{padding:36px;text-align:center;color:#64748b;background:#fff;border:1px dashed #cbd5e1;border-radius:12px}
   </style>
-<link rel="stylesheet" href="../assets/css/sams-dark-mode.css?v=20260926" />
 </head>
 <body>
   <div class="shell">
     <?php $sidebarRole = 'supervisor'; require __DIR__ . '/../includes/sidebar.php'; ?>
     <main class="main">
-      <div class="container">
-    <h1>Announcements</h1>
-    <?php if (empty($announcements)): ?>
-      <p>No announcements at this time.</p>
-    <?php else: ?>
-      <?php foreach ($announcements as $a): ?>
-        <article class="ann">
-          <h3><?php echo h($a['title']); ?></h3>
-          <div class="meta"><?php echo h($a['created_at']); ?> • Audience: <?php echo h($a['audience']); ?></div>
-          <div class="body"><?php echo nl2br(h($a['body'])); ?></div>
-        </article>
-      <?php endforeach; ?>
-    <?php endif; ?>
-      </div>
+      <header class="topbar" role="banner">
+        <div>
+          <div class="topbar__title">Announcements</div>
+          <div class="topbar__sub">Supervisor Portal · Important notices and broadcast updates</div>
+        </div>
+        <div class="topbar__right">
+          <button class="topbar__notif-btn" type="button" aria-label="Notifications">
+            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" fill="#4A5565"/></svg>
+          </button>
+        </div>
+      </header>
+      <section class="page">
+        <div class="container">
+          <?php if (empty($announcements)): ?>
+            <div class="empty-state">No announcements at this time.</div>
+          <?php else: ?>
+            <?php foreach ($announcements as $a): ?>
+              <article class="ann">
+                <h3><?php echo h($a['title']); ?></h3>
+                <div class="meta"><?php echo h($a['created_at']); ?> • Audience: <?php echo h($a['audience']); ?></div>
+                <div class="body"><?php echo nl2br(h($a['body'])); ?></div>
+              </article>
+            <?php endforeach; ?>
+          <?php endif; ?>
+        </div>
+      </section>
     </main>
   </div>
   <script src="../assets/js/admin-notifications.js?v=20260922"></script>

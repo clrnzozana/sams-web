@@ -43,9 +43,9 @@
   width: 264px;
 }
 
-.sidebar--student {
-  background: linear-gradient(180deg, #003087 0%, #0047ab 100%);
-  border-right-color: rgba(0, 32, 91, .28);
+.sidebar {
+  background: #ffffff;
+  border-right: 1px solid var(--color-border, #e2e8f0);
 }
 
 .sidebar .sidebar__brand {
@@ -55,10 +55,7 @@
   min-width: 0;
   padding: 20px 22px;
   border-bottom: 1px solid var(--color-border, #e2e8f0);
-}
-
-.sidebar--student .sidebar__brand {
-  border-bottom-color: rgba(255, 255, 255, .18);
+  background: #ffffff;
 }
 
 .sidebar .sidebar__logo {
@@ -69,31 +66,26 @@
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  background: var(--gradient-brand, linear-gradient(135deg, #003087 0%, #004aab 100%));
-}
-
-.sidebar--student .sidebar__logo {
-  background: rgba(255, 255, 255, .16);
+  background: var(--nu-navy, #003087);
+  box-shadow: 0 2px 4px rgba(0, 48, 135, 0.15);
 }
 
 .sidebar .sidebar__logo-text {
-  color: #ffffff;
+  color: var(--nu-gold, #ffb81c);
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1;
 }
 
 .sidebar .sidebar__app-name {
   color: var(--color-heading, #0f172a);
+  font-weight: 700;
+  font-size: 15px;
 }
 
 .sidebar .sidebar__app-sub {
-  color: var(--color-body, #334155);
-}
-
-.sidebar--student .sidebar__app-name,
-.sidebar--student .sidebar__app-sub {
-  color: #ffffff;
+  color: var(--color-muted, #64748b);
+  font-size: 12px;
 }
 
 .shell > .sidebar .sidebar__nav {
@@ -112,10 +104,7 @@
   flex: 0 0 auto;
   padding: 16px;
   border-top: 1px solid var(--color-border, #e2e8f0);
-}
-
-.sidebar--student .sidebar__footer {
-  border-top-color: rgba(255, 255, 255, .18);
+  background: #ffffff;
 }
 
 .sidebar__brand {
@@ -177,6 +166,99 @@
 .topbar__sub {
   font-size: 14px;
   line-height: 1.4;
+  color: var(--color-muted, #64748b);
+}
+
+.topbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.topbar__notif {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 10px;
+  background: #ffffff;
+  color: var(--neutral-700, #334155);
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, .04);
+  transition: all .15s ease;
+}
+
+.topbar__notif:hover {
+  background: #eff4fc;
+  border-color: #dbe6f8;
+  color: var(--nu-navy, #003087);
+}
+
+.topbar__notif svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.topbar__notif-dot {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border: 2px solid #ffffff;
+  border-radius: 9999px;
+  background: var(--color-danger, #ef4444);
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 12px;
+  text-align: center;
+}
+
+.topbar__user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.topbar__user-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--nu-navy, #003087);
+  color: var(--nu-gold, #ffb81c);
+  font-weight: 700;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 2px solid var(--neutral-100, #f1f5f9);
+}
+
+.topbar__user-meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.topbar__user-name {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--color-heading, #0f172a);
+  line-height: 1.2;
+}
+
+.topbar__user-role {
+  font-size: 11.5px;
+  color: var(--color-muted, #64748b);
+  line-height: 1.2;
 }
 
 .card {
@@ -247,10 +329,6 @@
   text-transform: uppercase;
 }
 
-.sidebar--student .sidebar__section-label {
-  color: rgba(255, 255, 255, .68);
-}
-
 .sidebar .nav__link,
 .sidebar .sidebar__nav-link,
 .sidebar .nav-item {
@@ -275,7 +353,8 @@
 .sidebar .nav__link:hover,
 .sidebar .sidebar__nav-link:hover,
 .sidebar .nav-item:hover {
-  background: #f3f7ff;
+  background: #eff4fc;
+  border-color: #dbe6f8;
   color: var(--nu-navy, #003087);
 }
 
@@ -294,19 +373,6 @@
 .sidebar .nav-item--active:hover {
   background: var(--nu-gold, #ffb81c);
   color: var(--nu-navy-dark, #00205b);
-}
-
-.sidebar--student .nav__link:not(.nav__link--active),
-.sidebar--student .sidebar__nav-link:not(.sidebar__nav-link--active),
-.sidebar--student .nav-item:not(.nav-item--active) {
-  color: rgba(255, 255, 255, .94);
-}
-
-.sidebar--student .nav__link:not(.nav__link--active):hover,
-.sidebar--student .sidebar__nav-link:not(.sidebar__nav-link--active):hover,
-.sidebar--student .nav-item:not(.nav-item--active):hover {
-  background: rgba(255, 255, 255, .12);
-  color: #ffffff;
 }
 
 .sidebar .nav__icon,

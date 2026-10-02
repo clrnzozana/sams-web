@@ -94,7 +94,7 @@ $days = [
             --color-muted: #6a7282;
             --color-border: #d1d5dc;
             --color-white: #ffffff;
-            --color-bg: linear-gradient(135deg, #eff6ff 0%, #ffffff 50%, #fffbeb 100%);
+            --color-bg: #f8fafc;
             --shadow-card: 0 10px 15px rgba(0,0,0,.10), 0 4px 6px rgba(0,0,0,.10);
             --radius-card: 16px;
             --radius-md: 14px;
@@ -137,8 +137,8 @@ $days = [
             border-radius: 16px;
             display: grid;
             place-items: center;
-            color: var(--color-white);
-            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-end) 100%);
+            color: var(--color-gold);
+            background: var(--color-primary);
             box-shadow: var(--shadow-card);
             margin-bottom: 16px;
             font-size: 28px;
@@ -364,8 +364,8 @@ $days = [
         }
 
         .btn {
-            color: #003087;
-            background: linear-gradient(90deg, #ffb81c 0%, #ffa500 100%);
+            color: #00205b;
+            background: #ffb81c;
         }
 
         .btn-secondary {

@@ -290,12 +290,12 @@ if (!empty($studentSchedules)) {
       --color-red-dot:       #fb2c36;
 
       /* Sidebar */
-      --sidebar-w:           288px;
-      --grad-sidebar:        linear-gradient(180deg, #003087 0%, #0047ab 100%);
-      --grad-primary-135:    linear-gradient(135deg, #003087 0%, #0047ab 100%);
-      --grad-primary-126:    linear-gradient(126deg, #003087 0%, #0047ab 100%);
-      --grad-gold:           linear-gradient(135deg, #ffb81c 0%, #ffa500 100%);
-      --grad-page:           linear-gradient(133deg, #eff6ff 0%, #ffffff 50%, #fffbeb 100%);
+      --sidebar-w:           264px;
+      --grad-sidebar:        #003087;
+      --grad-primary-135:    #003087;
+      --grad-primary-126:    #003087;
+      --grad-gold:           #ffb81c;
+      --grad-page:           #f8fafc;
 
       /* Shadows */
       --shadow-sidebar:      0 25px 50px 0 rgba(0,0,0,.25);
@@ -735,8 +735,8 @@ if (!empty($studentSchedules)) {
     }
 
     .upcoming-card {
-      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
-      border: 2px solid var(--color-card-border);
+      background: #ffffff;
+      border: 1px solid var(--color-card-border);
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-card);
       padding: 22px;
@@ -1156,9 +1156,9 @@ if (!empty($studentSchedules)) {
        SCHEDULE GUIDELINES
     ============================================= */
     .guidelines {
-      border: 2px solid var(--color-blue-pale);
+      border: 1px solid var(--color-blue-pale);
       border-radius: var(--radius-lg);
-      background: linear-gradient(168deg, #eff6ff 0%, #eee2ff 100%);
+      background: #f8fafc;
       padding: 34px;
     }
     .guidelines__heading {

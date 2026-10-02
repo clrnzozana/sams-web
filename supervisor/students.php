@@ -152,14 +152,14 @@ function h(?string $value): string
         .shell{display:flex;width:100%;min-height:100vh}
         .sidebar{width:var(--sidebar-width);min-height:100vh;background:var(--color-white);border-right:1px solid var(--color-border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto}
         .sidebar__brand{display:flex;align-items:center;gap:12px;padding:24px 24px 20px;border-bottom:1px solid var(--color-border)}
-        .sidebar__logo{width:40px;height:40px;background:var(--gradient-brand);border-radius:var(--radius-icon);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-        .sidebar__logo-text{font-size:18px;font-weight:700;color:var(--color-white)}
+        .sidebar__logo{width:40px;height:40px;background:var(--color-primary);color:var(--nu-gold);border-radius:var(--radius-icon);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .sidebar__logo-text{font-size:18px;font-weight:700;color:var(--nu-gold)}
         .sidebar__brand-name{font-size:var(--font-base);font-weight:700;color:var(--color-heading)}
         .sidebar__brand-sub{font-size:var(--font-xs);color:var(--color-body)}
         .sidebar__nav{flex:1;padding:16px;display:flex;flex-direction:column;gap:4px;overflow-y:auto}
         .sidebar__nav-link{display:flex;align-items:center;gap:12px;height:48px;padding:0 16px;border-radius:var(--radius-nav);font-size:var(--font-base);color:var(--color-label);transition:background .15s;white-space:nowrap}
-        .sidebar__nav-link:hover{background:var(--color-bg-app)}
-        .sidebar__nav-link--active{background:var(--color-primary);color:#fff}
+        .sidebar__nav-link:hover{background:#eff4fc;color:#003087}
+        .sidebar__nav-link--active{background:var(--nu-gold);color:#00205b;font-weight:700}
         .sidebar__nav-link--active:hover{opacity:.92}
         .sidebar__nav-icon{width:20px;height:20px;flex-shrink:0}
         .sidebar__footer{border-top:1px solid var(--color-border);padding:16px;display:flex;flex-direction:column;gap:4px;flex-shrink:0}
@@ -170,25 +170,25 @@ function h(?string $value): string
         .page{flex:1;padding:36px;display:flex;flex-direction:column;gap:18px}
         .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
         .stat{position:relative;background:#fff;border:1px solid var(--color-border);border-radius:14px;padding:16px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
-        .stat::before{content:'';position:absolute;left:0;top:0;width:100%;height:3px;border-radius:14px 14px 0 0;background:linear-gradient(90deg,#155dfc,#9810fa)}
+        .stat::before{content:'';position:absolute;left:0;top:0;width:100%;height:3px;border-radius:14px 14px 0 0;background:#ffb81c}
         .stat__label{font-size:13px;color:var(--color-muted)}
         .stat__value{margin-top:6px;font-size:34px;font-weight:800;line-height:1;color:var(--color-heading)}
         .card{background:#fff;border:1px solid var(--color-border);border-radius:14px;overflow:hidden}
-        .card__head{padding:16px;border-bottom:1px solid var(--color-border);background:linear-gradient(180deg,#fbfcff 0%,#ffffff 100%)}
+        .card__head{padding:16px;border-bottom:1px solid var(--color-border);background:#ffffff}
         .card__title{font-size:18px;font-weight:700;color:var(--color-heading)}
         .card__meta{margin-top:4px;font-size:13px;color:var(--color-body)}
         .toolbar{display:flex;align-items:center;gap:12px;justify-content:space-between;padding:16px;border-bottom:1px solid var(--color-border);background:#fcfcfd}
         .search{width:100%;max-width:320px;height:40px;border:1px solid var(--color-border);border-radius:10px;padding:0 12px;font-size:14px;transition:border-color .18s ease, box-shadow .18s ease}
-        .search:focus{outline:none;border-color:#9fc0ff;box-shadow:0 0 0 3px rgba(21,93,252,.12)}
+        .search:focus{outline:none;border-color:#003087;box-shadow:0 0 0 3px rgba(0,48,135,.12)}
         table{width:100%;border-collapse:collapse}
         thead th{padding:12px 16px;border-bottom:1px solid var(--color-border);font-size:13px;color:var(--color-heading);text-align:left;background:#f9fafb}
         tbody td{padding:12px 16px;border-bottom:1px solid var(--color-border);font-size:14px;color:var(--color-heading);vertical-align:middle}
         tbody tr:hover td{background:#f8faff}
         tbody tr:last-child td{border-bottom:none}
-        .pill{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:9999px;background:#e8f0ff;color:#155dfc;font-size:12px;font-weight:700}
+        .pill{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:9999px;background:#eff4fc;color:#003087;font-size:12px;font-weight:700}
         .pill--active{background:#ecfdf3;color:#027a48}
-        .btn{display:inline-flex;align-items:center;justify-content:center;height:36px;padding:0 12px;border-radius:10px;background:var(--gradient-brand);color:#fff;font-weight:700;font-size:13px;box-shadow:0 8px 16px rgba(21,93,252,.2)}
-        .btn:hover{opacity:.95;transform:translateY(-1px)}
+        .btn{display:inline-flex;align-items:center;justify-content:center;height:36px;padding:0 12px;border-radius:10px;background:#003087;color:#fff;font-weight:700;font-size:13px;box-shadow:0 2px 4px rgba(0,48,135,.15);text-decoration:none}
+        .btn:hover{background:#00205b;color:#fff;transform:translateY(-1px)}
         .muted{color:var(--color-muted)}
         .empty{padding:24px;text-align:center;color:var(--color-muted)}
         @media (max-width:960px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.page{padding:20px}}
@@ -218,7 +218,7 @@ function h(?string $value): string
         <script src="../assets/js/admin-notifications.js?v=20260922"></script><script src="../assets/js/sams-theme.js?v=20260926"></script>
 
         <section class="page">
-            <?php if ($shuffleFlash !== ''): ?><div class="card" style="padding:14px;font-weight:700;color:#155dfc;"><?php echo h($shuffleFlash); ?></div><?php endif; ?>
+            <?php if ($shuffleFlash !== ''): ?><div class="card" style="padding:14px;font-weight:700;color:#003087;border-left:4px solid #ffb81c;"><?php echo h($shuffleFlash); ?></div><?php endif; ?>
             <div class="stats">
                 <div class="stat"><div class="stat__label">Total Students</div><div class="stat__value"><?php echo (int) $totalStudents; ?></div></div>
                 <div class="stat"><div class="stat__label">Active</div><div class="stat__value"><?php echo (int) $activeStudents; ?></div></div>

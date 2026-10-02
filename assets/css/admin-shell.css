@@ -10,7 +10,7 @@
 .sidebar__header {
   flex-shrink: 0;
   border-bottom: 1px solid #e5e7eb;
-  background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
+  background: #ffffff;
 }
 
 .sidebar {
@@ -39,18 +39,19 @@
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  background: linear-gradient(135deg, #155dfc 0%, #9810fa 100%);
+  background: #003087;
+  color: #ffb81c;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 10px 20px rgba(21, 93, 252, 0.18);
+  box-shadow: 0 2px 4px rgba(0, 48, 135, 0.15);
 }
 
 .sidebar__logo-text {
   font-size: 18px;
-  font-weight: 700;
-  color: #ffffff;
+  font-weight: 800;
+  color: #ffb81c;
   line-height: 1;
 }
 
@@ -112,9 +113,9 @@
 }
 
 .nav__link:hover {
-  background: #f3f7ff;
-  border-color: #dbe6ff;
-  color: #0f3fb8;
+  background: #eff4fc;
+  border-color: #dbe6f8;
+  color: #003087;
   transform: translateX(2px);
 }
 
@@ -154,8 +155,8 @@
   margin-left: auto;
   padding: 2px 8px;
   border-radius: 9999px;
-  background: #dbeafe;
-  color: #155dfc;
+  background: #eff4fc;
+  color: #003087;
   font-size: 12px;
   font-weight: 700;
   line-height: 1;
@@ -232,9 +233,9 @@
 
 .topbar__notif:hover,
 .topbar__notif-btn:hover {
-  background: #f3f7ff !important;
-  border-color: #bfd3ff !important;
-  color: #155dfc !important;
+  background: #eff4fc !important;
+  border-color: #dbe6f8 !important;
+  color: #003087 !important;
 }
 
 .topbar__notif-icon,
@@ -287,13 +288,13 @@
 }
 
 .page :where(.btn-primary, .btn-export, .btn-create, .btn-export-all) {
-  background: #2563eb;
+  background: #003087;
   color: #ffffff;
   border: 1px solid transparent;
 }
 
 .page :where(.btn-primary:hover, .btn-export:hover, .btn-create:hover, .btn-export-all:hover) {
-  background: #1d4ed8;
+  background: #00205b;
 }
 
 .page :where(input[type="text"], input[type="search"], input[type="email"], input[type="password"], input[type="number"], input[type="date"], input[type="time"], select, textarea) {
@@ -304,8 +305,8 @@
 }
 
 .page :where(input[type="text"], input[type="search"], input[type="email"], input[type="password"], input[type="number"], input[type="date"], input[type="time"], select, textarea):focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: #003087;
+  box-shadow: 0 0 0 3px rgba(0, 48, 135, 0.12);
   outline: none;
 }
 
@@ -455,7 +456,7 @@
   .sidebar__nav .nav__link:focus-visible,
   .sidebar__footer .nav__link:focus-visible,
   .sidebar__nav-link:focus-visible {
-    outline: 2px solid #155dfc;
+    outline: 2px solid #003087;
     outline-offset: -2px;
   }
   .topbar {

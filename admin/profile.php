@@ -107,11 +107,11 @@ $h = static fn($value): string => htmlspecialchars((string) $value, ENT_QUOTES, 
         .profile-field { display:flex; flex-direction:column; gap:7px; }
         .profile-field--full { grid-column:1 / -1; }
         .profile-field label { font-size:13px; font-weight:700; color:#364153; }
-        .profile-field input { min-height:42px; padding:0 12px; border:1px solid #d1d5db; border-radius:8px; font:inherit; }
-        .profile-field input:focus { outline:none; border-color:#155dfc; box-shadow:0 0 0 3px rgba(21,93,252,.12); }
+        .profile-field input:focus { outline:none; border-color:#003087; box-shadow:0 0 0 3px rgba(0,48,135,.15); }
         .profile-actions { margin-top:24px; display:flex; justify-content:flex-end; gap:10px; }
         .profile-btn { min-height:42px; padding:0 16px; border:0; border-radius:8px; font-weight:700; cursor:pointer; }
-        .profile-btn--primary { color:#fff; background:#003087; }
+        .profile-btn--primary { color:#fff; background:#003087; transition:background .18s ease; }
+        .profile-btn--primary:hover { background:#00205b; }
         .profile-btn--secondary { color:#364153; background:#f3f4f6; text-decoration:none; display:inline-flex; align-items:center; }
         .profile-alert { padding:12px 14px; border-radius:8px; margin-bottom:18px; font-weight:600; }
         .profile-alert--success { background:#ecfdf3; color:#027a48; }

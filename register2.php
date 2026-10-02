@@ -158,10 +158,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             --color-white:          #ffffff;
             --color-error:          #dc2626;
 
-            --gradient-bg:          linear-gradient(133.69deg, #eff6ff 0%, #ffffff 50%, #fffbeb 100%);
-            --gradient-primary:     linear-gradient(159.33deg, #003087 0%, #0047ab 100%);
-            --gradient-progress:    linear-gradient(90deg, #003087 0%, #ffb81c 100%);
-            --gradient-next-btn:    linear-gradient(90deg, #003087 0%, #0047ab 100%);
+            --gradient-bg:          #f8fafc;
+            --gradient-primary:     #003087;
+            --gradient-progress:    #003087;
+            --gradient-next-btn:    #003087;
 
             --radius-card:          16px;
             --radius-step:          14px;

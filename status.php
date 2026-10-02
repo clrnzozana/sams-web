@@ -76,10 +76,10 @@ if ($status === 'DRAFT') {
             --color-blue-muted:     #bedbff;
             --color-blue-light:     #dbeafe;
 
-            /* Gradients */
-            --gradient-page:    linear-gradient(132deg, #eff6ff 0%, #ffffff 50%, #fffbeb 100%);
-            --gradient-icon:    linear-gradient(135deg, #003087 0%, #0047ab 100%);
-            --gradient-help:    linear-gradient(163.66deg, #003087 0%, #0047ab 100%);
+            /* Solid Surfaces (STRICTLY NO GRADIENTS) */
+            --gradient-page:    #f8fafc;
+            --gradient-icon:    #003087;
+            --gradient-help:    #003087;
 
             /* Radii */
             --radius-card:   16px;
@@ -233,7 +233,7 @@ if ($status === 'DRAFT') {
 
         /* Application details inner card */
         .details-card {
-            background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+            background: #ffffff;
             border: 1px solid rgba(209, 213, 220, 0.85);
             border-radius: var(--radius-inner);
             padding: 24px;

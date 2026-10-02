@@ -207,21 +207,21 @@ function sams_eval_badge_class(float $score): string
       --clr-text-primary: #101828;
       --clr-text-body: #364153;
       --clr-text-muted: #4A5565;
-      --clr-blue: #155DFC;
-      --clr-blue-bg: #DBEAFE;
-      --clr-blue-text: #155DFC;
+      --clr-blue: #003087;
+      --clr-blue-bg: #eff4fc;
+      --clr-blue-text: #003087;
       --clr-green-bg: #DCFCE7;
       --clr-green-text: #008236;
-      --clr-purple-bg: #F3E8FF;
-      --clr-purple-text: #9810FA;
+      --clr-purple-bg: #f8fafc;
+      --clr-purple-text: #475569;
       --clr-orange-bg: #FFEDD4;
       --clr-orange-text: #F54900;
       --clr-yellow-bg: #FEF9C2;
       --clr-yellow-text: #A65F00;
       --clr-status-good-bg: #EEF2FF;
-      --clr-status-good-text: #1E3A8A;
+      --clr-status-good-text: #003087;
       --shadow-sm: 0 1px 3px rgba(0,0,0,.10), 0 1px 2px rgba(0,0,0,.06);
-      --sidebar-width: 256px;
+      --sidebar-width: 264px;
       --topbar-height: 89px;
       --fs-xs: 12px;
       --fs-sm: 14px;
@@ -278,11 +278,11 @@ function sams_eval_badge_class(float $score): string
       width: 40px;
       height: 40px;
       border-radius: var(--radius-sm);
-      background: linear-gradient(135deg, #155DFC 0%, #9810FA 100%);
+      background: #003087;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #fff;
+      color: #ffb81c;
       font-weight: 800;
       flex-shrink: 0;
     }
@@ -340,7 +340,7 @@ function sams_eval_badge_class(float $score): string
     .topbar__user-info { text-align: right; }
     .topbar__user-name { font-size: var(--fs-sm); color: var(--clr-text-primary); }
     .topbar__user-role { font-size: var(--fs-xs); color: var(--clr-text-muted); }
-    .topbar__avatar { width: 36px; height: 36px; border-radius: var(--radius-pill); background: linear-gradient(135deg, #155DFC 0%, #9810FA 100%); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .topbar__avatar { width: 36px; height: 36px; border-radius: var(--radius-pill); background: #003087; color: #ffb81c; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 
     .content {
       padding: 24px 32px 32px;

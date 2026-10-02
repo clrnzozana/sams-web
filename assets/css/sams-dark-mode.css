@@ -195,5 +195,5 @@
   line-height: 1;
 }
 
-.sams-theme-toggle:hover { border-color: #155dfc; }
+.sams-theme-toggle:hover { border-color: #003087; color: #003087; }
 .sams-theme-toggle svg { width: 20px; height: 20px; display: block; }

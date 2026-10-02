@@ -162,7 +162,7 @@ $pageTitle = 'Attendance Monitoring | Supervisor Portal';
         .topbar__title{font-size:var(--font-lg);font-weight:700;color:var(--color-heading)}
         .topbar__sub{font-size:var(--font-sm);color:var(--color-body)}
         .button{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 16px;border-radius:10px;font-weight:700;font-size:var(--font-sm);border:0;cursor:pointer;transition:all .2s ease}
-        .button--primary{background:var(--gradient-brand);color:#fff;box-shadow:0 8px 16px rgba(21,93,252,.2)}
+        .button--primary{background:var(--color-primary);color:#fff;box-shadow:0 2px 4px rgba(0,48,135,.15)}
         .button--primary:hover{background:var(--color-primary-dark)}
         .button--neutral{background:#6b7280;color:#fff}
         .page-content{flex:1;padding:36px;display:flex;flex-direction:column;gap:22px}
@@ -171,7 +171,7 @@ $pageTitle = 'Attendance Monitoring | Supervisor Portal';
         .header-row__subtitle{font-size:var(--font-sm);color:var(--color-body);margin-top:4px}
         .metrics{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
         .metric{position:relative;background:var(--color-white);border:1px solid var(--color-border);border-radius:var(--radius-card);padding:20px;min-height:120px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
-        .metric::before{content:'';position:absolute;left:0;top:0;width:100%;height:4px;border-radius:16px 16px 0 0;background:linear-gradient(90deg,#155dfc,#9810fa)}
+        .metric::before{content:'';position:absolute;left:0;top:0;width:100%;height:4px;border-radius:16px 16px 0 0;background:#ffb81c}
         .metric__label{font-size:var(--font-sm);color:var(--color-body);margin-top:8px}
         .metric__value{font-size:32px;font-weight:800;color:var(--color-heading);line-height:1}
         .card{background:var(--color-white);border:1px solid var(--color-border);border-radius:var(--radius-card);overflow:hidden}
@@ -199,7 +199,7 @@ $pageTitle = 'Attendance Monitoring | Supervisor Portal';
         .empty{padding:24px;text-align:center;color:var(--color-body)}
         .toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
         .select{height:40px;padding:0 12px;border:1px solid var(--color-border);border-radius:8px;background:#fff;font-size:14px;color:var(--color-heading)}
-        .select:focus{outline:none;border-color:#9fc0ff;box-shadow:0 0 0 3px rgba(21,93,252,.12)}
+        .select:focus{outline:none;border-color:#003087;box-shadow:0 0 0 3px rgba(0,48,135,.15)}
         .switch{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--color-body)}
         @media (max-width: 1200px){.metrics{grid-template-columns:repeat(3,minmax(0,1fr))}}
         @media (max-width: 900px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}

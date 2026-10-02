@@ -410,16 +410,16 @@ if (!empty($attendance_data)) {
             --clr-text-muted:    #4A5565;
             --clr-text-dark:     #0A0A0A;
 
-            --clr-blue:          #155DFC;
-            --clr-blue-dark:     #1447E6;
-            --clr-blue-bg:       #DBEAFE;
-            --clr-blue-light:    #DBEAFE;
+            --clr-blue:          #003087;
+            --clr-blue-dark:     #00205b;
+            --clr-blue-bg:       #eff4fc;
+            --clr-blue-light:    #eff4fc;
 
             --clr-green:         #00A63E;
             --clr-green-bg:      #DCFCE7;
 
-            --clr-purple:        #9810FA;
-            --clr-purple-bg:     #F3E8FF;
+            --clr-purple:        #b45309;
+            --clr-purple-bg:     #fff9eb;
 
             --clr-orange:        #F54900;
             --clr-orange-bg:     #FFEDD4;
@@ -430,12 +430,12 @@ if (!empty($attendance_data)) {
 
             --clr-grey-bar:      #4A5565;
 
-            --grad-brand:        linear-gradient(135deg, #155DFC 0%, #9810FA 100%);
-            --grad-blue-panel:   linear-gradient(169.04deg, #155DFC 0%, #1447E6 100%);
+            --grad-brand:        #003087;
+            --grad-blue-panel:   #003087;
 
             --shadow-sm: 0 1px 3px rgba(0,0,0,.10), 0 1px 2px rgba(0,0,0,.10);
 
-            --sidebar-width: 256px;
+            --sidebar-width: 264px;
 
             --fs-xs:   12px;
             --fs-sm:   14px;
@@ -1406,8 +1406,8 @@ if (!empty($attendance_data)) {
                 <div class="stat-card">
                     <div class="stat-card__icon-wrap stat-card__icon-wrap--blue">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="8" r="5" stroke="#155DFC" stroke-width="1.5"/>
-                            <path d="M3 20c0-4 4-7 9-7s9 3 9 7" stroke="#155DFC" stroke-width="1.5" stroke-linecap="round"/>
+                            <circle cx="12" cy="8" r="5" stroke="#003087" stroke-width="1.5"/>
+                            <path d="M3 20c0-4 4-7 9-7s9 3 9 7" stroke="#003087" stroke-width="1.5" stroke-linecap="round"/>
                         </svg>
                     </div>
                     <div class="stat-card__value"><?= (int) $activeStudents ?></div>
@@ -1428,7 +1428,7 @@ if (!empty($attendance_data)) {
                 <div class="stat-card">
                     <div class="stat-card__icon-wrap stat-card__icon-wrap--purple">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3 17l4-7 4 5 3-3 4 3" stroke="#9810FA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M3 17l4-7 4 5 3-3 4 3" stroke="#b45309" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
                     <div class="stat-card__value"><?= number_format($avgRating, 1) ?>/5</div>

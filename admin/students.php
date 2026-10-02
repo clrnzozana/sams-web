@@ -159,11 +159,11 @@ function sams_html(string $value): string
        CSS VARIABLES / DESIGN TOKENS
     ============================================= */
     :root {
-      --color-navy:           #1e3a8a;
-      --color-navy-mid:       #1e40af;
-      --color-blue:           #155dfc;
-      --color-blue-dark:      #1447e6;
-      --color-purple:         #9810fa;
+      --color-navy:           #003087;
+      --color-navy-mid:       #00205b;
+      --color-blue:           #003087;
+      --color-blue-dark:      #00205b;
+      --color-purple:         #475569;
       --color-dark:           #101828;
       --color-body:           #364153;
       --color-muted:          #4a5565;
@@ -179,7 +179,7 @@ function sams_html(string $value): string
       /* Stat card backgrounds */
       --color-stat-blue:      #eff6ff;
       --color-stat-green:     #f0fdf4;
-      --color-stat-purple:    #faf5ff;
+      --color-stat-purple:    #f8fafc;
       --color-stat-orange:    #fff7ed;
 
       /* Status badge colours */
@@ -189,19 +189,19 @@ function sams_html(string $value): string
       --color-inactive-text:  #364153;
 
       /* Office pill */
-      --color-office-bg:      #dbeafe;
-      --color-office-text:    #1447e6;
+      --color-office-bg:      #eff4fc;
+      --color-office-text:    #003087;
 
       /* Applications badge in nav */
-      --color-apps-badge-bg:  #dbeafe;
-      --color-apps-badge-txt: #155dfc;
+      --color-apps-badge-bg:  #eff4fc;
+      --color-apps-badge-txt: #003087;
 
-      --grad-brand:   linear-gradient(135deg, #155dfc 0%, #9810fa 100%);
-      --grad-navy:    linear-gradient(180deg, #1e3a8a 0%, #1e40af 100%);
+      --grad-brand:   #003087;
+      --grad-navy:    #003087;
 
       --shadow-card:  0 1px 3px 0 rgba(0,0,0,.10), 0 1px 2px 0 rgba(0,0,0,.06);
 
-      --sidebar-w:    256px;
+      --sidebar-w:    264px;
       --topbar-h:     89px;
 
       --radius-sm:    4px;
@@ -645,8 +645,7 @@ function sams_html(string $value): string
       align-items: flex-start;
       justify-content: center;
       padding: 56px 24px 24px;
-      background: rgba(16, 24, 40, .62);
-      backdrop-filter: blur(8px);
+      background: rgba(15, 23, 42, 0.65);
       z-index: 9999;
       overflow-y: auto;
     }
@@ -654,11 +653,11 @@ function sams_html(string $value): string
     .student-profile-modal__dialog {
       position: relative;
       width: min(1180px, 100%);
-      background: linear-gradient(136deg, #eff6ff 0%, #ffffff 50%, #fffbeb 100%);
-      border: 1px solid rgba(229, 231, 235, .9);
-      border-radius: 36px 36px 24px 24px;
-      box-shadow: 0 28px 80px rgba(16, 24, 40, .25);
-      padding: 40px 28px 28px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 20px;
+      box-shadow: 0 20px 50px rgba(15, 23, 42, .2);
+      padding: 32px 28px 28px;
     }
     .student-profile-modal__close {
       position: absolute;
@@ -861,18 +860,18 @@ function sams_html(string $value): string
       line-height: 1.5;
       text-align: left;
     }
-    .student-profile-modal__perf-card { background: linear-gradient(135deg, var(--color-navy), #0f4ab5); color: var(--color-white); }
+    .student-profile-modal__perf-card { background: #003087; color: var(--color-white); border: 1px solid #00205b; }
     .student-profile-modal__perf-card .student-profile-modal__section-title,
     .student-profile-modal__perf-card .student-profile-modal__field-label,
     .student-profile-modal__perf-card .student-profile-modal__summary-label,
     .student-profile-modal__perf-card .student-profile-modal__note { color: rgba(255,255,255,.82); }
-    .student-profile-modal__perf-card .student-profile-modal__summary-item { background: rgba(255,255,255,.12); }
+    .student-profile-modal__perf-card .student-profile-modal__summary-item { background: #00205b; }
     .student-profile-modal__perf-card .student-profile-modal__summary-value { color: var(--color-white); }
     .student-profile-modal__achievement {
       margin-top: 16px;
       padding: 14px;
       border-radius: 16px;
-      background: rgba(255,255,255,.12);
+      background: #00205b;
       display: flex;
       gap: 12px;
       align-items: center;

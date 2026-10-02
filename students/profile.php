@@ -276,30 +276,18 @@ $dashboardTitle = $studentName !== '' ? $studentName . ' | Profile' : 'My Profil
             --clr-alert:            #FB2C36;
             --clr-blue-light:       #DBEAFE;
 
-            /* Gradients */
-            --grad-navy-v:          linear-gradient(180deg,
-                                        #003087 0%,#00328B 10%,#00358E 20%,#003792 30%,
-                                        #003995 40%,#003B99 50%,#003E9C 60%,#0040A0 70%,
-                                        #0042A4 80%,#0045A7 90%,#0047AB 100%);
-            --grad-navy-h:          linear-gradient(90deg,
-                                        #003087 0%,#00328B 10%,#00358E 20%,#003792 30%,
-                                        #003995 40%,#003B99 50%,#003E9C 60%,#0040A0 70%,
-                                        #0042A4 80%,#0045A7 90%,#0047AB 100%);
-            --grad-navy-135:        linear-gradient(135deg,
-                                        #003087 0%,#00328B 10%,#00358E 20%,#003792 30%,
-                                        #003995 40%,#003B99 50%,#003E9C 60%,#0040A0 70%,
-                                        #0042A4 80%,#0045A7 90%,#0047AB 100%);
-            --grad-navy-diag:       linear-gradient(155.57deg,
-                                        #003087 0%,#00328B 10%,#00358E 20%,#003792 30%,
-                                        #003995 40%,#003B99 50%,#003E9C 60%,#0040A0 70%,
-                                        #0042A4 80%,#0045A7 90%,#0047AB 100%);
+            /* Solid Surfaces (STRICTLY NO GRADIENTS) */
+            --grad-navy-v:          #003087;
+            --grad-navy-h:          #003087;
+            --grad-navy-135:        #003087;
+            --grad-navy-diag:       #003087;
 
             /* Shadows */
             --shadow-sm:    0 1px 3px rgba(0,0,0,.10), 0 1px 2px rgba(0,0,0,.10);
             --shadow-md:    0 10px 15px rgba(0,0,0,.10), 0 4px 6px rgba(0,0,0,.10);
 
             /* Sidebar */
-            --sidebar-width: 288px;
+            --sidebar-width: 264px;
 
             /* Typography */
             --fs-xs:   12px;
@@ -333,7 +321,7 @@ $dashboardTitle = $studentName !== '' ? $studentName . ' | Profile' : 'My Profil
         html { font-size: 16px; }
         body {
             font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
-            background: linear-gradient(136.4deg, #EFF6FF 0%, #FFFFFF 50%, #FFFBEB 100%);
+            background: #f8fafc;
             min-height: 100vh;
             display: flex;
         }
@@ -740,8 +728,8 @@ $dashboardTitle = $studentName !== '' ? $studentName . ' | Profile' : 'My Profil
             align-items: center;
         }
 
-        .avatar-stat--blue { background: linear-gradient(148.09deg, #EFF6FF 0%, #EEF2FF 100%); }
-        .avatar-stat--gold { background: linear-gradient(148.09deg, #FFFBEB 0%, #FFF7ED 100%); }
+        .avatar-stat--blue { background: #eff4fc; }
+        .avatar-stat--gold { background: #fff9eb; }
 
         .avatar-stat__value {
             font-size: var(--fs-2xl);

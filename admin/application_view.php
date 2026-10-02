@@ -82,7 +82,7 @@ if ($adminName === '') {
             gap: 16px;
             padding: 18px 28px;
             border-bottom: 1px solid var(--border);
-            background: linear-gradient(120deg, #ffffff 0%, #f6f9ff 100%);
+            background: #ffffff;
         }
 
         .topbar__title {

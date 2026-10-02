@@ -262,9 +262,9 @@ function h(?string $value): string
 			--color-input-border: #d1d5dc;
 
 			/* Accent Colors */
-			--color-blue-pale: #bedbff;
-			--color-blue-light: #dbeafe;
-			--color-blue: #155dfc;
+			--color-blue-pale: #eff4fc;
+			--color-blue-light: #eff4fc;
+			--color-blue: #003087;
 			--color-green: #00c950;
 			--color-green-dark: #00a63e;
 			--color-green-light: #dcfce7;
@@ -275,14 +275,14 @@ function h(?string $value): string
 			--color-red-dot: #fb2c36;
 
 			/* Sidebar */
-			--sidebar-w: 288px;
+			--sidebar-w: 264px;
 			--color-sidebar-start: #003087;
 			--color-sidebar-end: #0047ab;
 
-			/* Gradients */
-			--grad-sidebar: linear-gradient(180deg, #003087 0%, #0047ab 100%);
-			--grad-primary-135: linear-gradient(135deg, #003087 0%, #0047ab 100%);
-			--grad-page: linear-gradient(135deg, #eff6ff 0%, #ffffff 50%, #fffbeb 100%);
+			/* Solid Surfaces (STRICTLY NO GRADIENTS) */
+			--grad-sidebar: #003087;
+			--grad-primary-135: #003087;
+			--grad-page: #f8fafc;
 
 			/* Shadows */
 			--shadow-card: 0 10px 15px 0 rgba(0,0,0,.10), 0 4px 6px 0 rgba(0,0,0,.10);

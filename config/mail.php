@@ -9,7 +9,7 @@ function sams_send_schedule_email(string $toEmail, string $toName, string $actio
     $eyebrow = 'SAMS Schedule Update';
     $heading = 'Schedule Update';
     $message = 'Hello ' . htmlspecialchars($toName, ENT_QUOTES, 'UTF-8') . ',<br><br>Your schedule has been updated.';
-    $accent = '#155dfc';
+    $accent = '#003087';
     $ctaLabel = 'View Schedule';
     $ctaUrl = 'http://localhost/samss-main/students/schedule.php';
 
@@ -27,7 +27,7 @@ function sams_send_schedule_email(string $toEmail, string $toName, string $actio
         $subject = 'Your schedule was approved';
         $heading = 'Schedule Approved';
         $message = 'Your schedule has been approved. Please check your account for details.';
-        $accent = '#155dfc';
+        $accent = '#003087';
     } elseif ($action === 'deploy') {
         $subject = 'You have been deployed!';
         $heading = 'Deployment Notice';

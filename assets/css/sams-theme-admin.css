@@ -1,9 +1,13 @@
-/* Admin/Supervisor theme variables to standardize colours and tokens */
+/* Admin/Supervisor theme variables to standardize colours and tokens - STRICTLY NO GRADIENTS */
 :root {
-  --color-primary:         #155dfc;
-  --color-primary-dark:    #1447e6;
-  --color-purple:          #9810fa;
-  --gradient-brand:        linear-gradient(135deg, #155dfc 0%, #9810fa 100%);
+  --color-primary:         #003087;
+  --color-primary-dark:    #00205b;
+  --nu-navy:               #003087;
+  --nu-navy-dark:          #00205b;
+  --nu-gold:               #ffb81c;
+  --color-gold:            #ffb81c;
+  --color-purple:          #5b21b6;
+  --gradient-brand:        #003087;
 
   --color-heading:         #101828;
   --color-body:            #4a5565;
@@ -12,12 +16,12 @@
   --color-border:          #e5e7eb;
   --color-bg-app:          #f9fafb;
   --color-white:           #ffffff;
-  --grad-blue:             linear-gradient(135deg, #155dfc 0%, #1447e6 100%);
-  --grad-purple:           linear-gradient(135deg, #ad46ff 0%, #9810fa 100%);
+  --grad-blue:             #003087;
+  --grad-purple:           #00205b;
 
-  --sidebar-width: 256px;
+  --sidebar-width: 264px;
   --topbar-height: 89px;
-  --radius-card:   16.4px;
+  --radius-card:   16px;
   --radius-nav:    10px;
   --radius-badge:  9999px;
   --radius-icon:   10px;
@@ -26,7 +30,7 @@
 
 /* Small theme adjustments shared by admin and supervisor */
 body { background: var(--color-bg-app); color: var(--color-heading); }
-.sidebar__logo { background: var(--gradient-brand); }
+.sidebar__logo { background: var(--nu-navy); color: var(--nu-gold); }
 
 /* Ensure SVG icons follow the current text color for consistent theming */
 .sidebar__nav-icon, .sidebar__nav-icon * { stroke: currentColor !important; fill: none !important; }
@@ -67,12 +71,12 @@ a { text-decoration: none; color: inherit; }
 .sidebar__logo-text { font-size:18px; font-weight:700; color:var(--color-white); }
 .sidebar__nav { flex:1; min-height:0; padding:16px; display:flex; flex-direction:column; gap:4px; overflow-y:auto; overscroll-behavior:contain; }
 .sidebar__nav-link { display:flex; align-items:center; gap:12px; height:48px; padding:0 14px; border-radius:12px; font-size:var(--font-base); font-weight:600; color:var(--color-label); border:1px solid transparent; transition:background .18s ease, color .18s ease, border-color .18s ease, transform .18s ease, box-shadow .18s ease; white-space:nowrap; }
-.sidebar__nav-link:hover { background:#f3f6ff; border-color:#dbe6ff; color:#0f3fb8; transform:translateY(-1px); }
-.sidebar__nav-link--active { background:var(--color-primary); color:#fff; border-color:transparent; box-shadow:0 8px 18px rgba(21, 93, 252, .24); }
-.sidebar__nav-link--active:hover { opacity:.96; transform:none; }
+.sidebar__nav-link:hover { background:#eff4fc; border-color:#dbe6f8; color:#003087; transform:translateY(-1px); }
+.sidebar__nav-link--active { background:#ffb81c; color:#00205b; border-color:#ffb81c; font-weight:700; box-shadow:0 1px 2px rgba(0, 32, 91, .12); }
+.sidebar__nav-link--active:hover { background:#ffb81c; color:#00205b; transform:none; }
 .sidebar__nav-icon { width:20px; height:20px; flex-shrink:0; opacity:.9; }
 .sidebar__nav-link .sidebar__nav-icon { display:inline-flex; align-items:center; justify-content:center; }
-.sidebar__nav-link--active .sidebar__nav-icon { opacity:1; }
+.sidebar__nav-link--active .sidebar__nav-icon { opacity:1; color:#00205b; }
 .sidebar__footer { border-top:1px solid var(--color-border); padding:16px; display:flex; flex-direction:column; gap:4px; flex-shrink:0; }
 .main { flex:1; min-width:0; display:flex; flex-direction:column; }
 .topbar { background:var(--color-white); border-bottom:1px solid var(--color-border); height:var(--topbar-height); padding:0 32px; display:flex; align-items:center; justify-content:space-between; }

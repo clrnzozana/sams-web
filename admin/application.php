@@ -593,15 +593,15 @@ $pendingApplications = (int) $applicationCounts['pending'];
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      background: #003087;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 13px;
       font-weight: 700;
-      color: #ffffff;
+      color: #ffb81c;
       flex-shrink: 0;
-      box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+      box-shadow: 0 1px 3px rgba(0, 48, 135, 0.15);
     }
     .applicant__name {
       font-weight: 600;
@@ -809,7 +809,7 @@ $pendingApplications = (int) $applicationCounts['pending'];
       width: 100%;
     }
     .detail-item {
-      background: linear-gradient(180deg, #ffffff 0%, #fbfdfe 100%);
+      background: #ffffff;
       border: 1px solid #e5e7eb;
       border-radius: 12px;
       padding: 16px 18px;
@@ -1362,8 +1362,8 @@ $pendingApplications = (int) $applicationCounts['pending'];
               font-size: 13px;
               font-weight: 600;
               color: <?= $isActive ? '#ffffff' : '#4b5563' ?>;
-              background: <?= $isActive ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)' : '#f3f4f6' ?>;
-              border: 1px solid <?= $isActive ? '#2563eb' : '#e5e7eb' ?>;
+              background: <?= $isActive ? '#003087' : '#f3f4f6' ?>;
+              border: 1px solid <?= $isActive ? '#00205b' : '#e5e7eb' ?>;
               border-radius: 9999px;
               text-decoration: none;
               transition: all 0.2s ease;

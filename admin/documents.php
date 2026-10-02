@@ -26,8 +26,8 @@ $department = 'NU Lipa - Student Development and Activities Office';
             --text: #0f172a;
             --muted: #475569;
             --border: #e2e8f0;
-            --accent: #155dfc;
-            --accent-soft: #dbeafe;
+            --accent: #003087;
+            --accent-soft: #eff4fc;
             --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
         }
 
@@ -35,7 +35,7 @@ $department = 'NU Lipa - Student Development and Activities Office';
         body {
             margin: 0;
             font-family: Arial, Helvetica, sans-serif;
-            background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+            background: #f8fafc;
             color: var(--text);
         }
         .retired-shell {

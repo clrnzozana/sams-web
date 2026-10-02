@@ -80,13 +80,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <style>
         * {
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', Arial, sans-serif;
         }
 
         body {
             margin: 0;
             min-height: 100vh;
-            background: linear-gradient(135deg, #eff6ff, #ffffff, #fffbeb);
+            background: #f8fafc;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -98,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             background: white;
             border-radius: 18px;
             padding: 32px;
-            box-shadow: 0 20px 45px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
             border: 1px solid #e5e7eb;
         }
 

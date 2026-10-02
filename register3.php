@@ -373,13 +373,13 @@ $val_skills   = htmlspecialchars($_POST['skills'] ?? '');
             --color-white:          #ffffff;
             --color-placeholder:    rgba(10,10,10,0.5);
             --color-error:          #dc2626;
-            --color-submit-text:    #003087;
+            --color-submit-text:    #00205b;
 
-            --gradient-bg:          linear-gradient(138.29deg, #eff6ff 0%, #ffffff 50%, #fffbeb 100%);
-            --gradient-primary:     linear-gradient(135deg, #003087 0%, #0047ab 100%);
-            --gradient-steps:       linear-gradient(159.33deg, #003087 0%, #0047ab 100%);
-            --gradient-progress:    linear-gradient(90deg, #003087 0%, #ffb81c 100%);
-            --gradient-submit:      linear-gradient(90deg, #ffb81c 0%, #ffa500 100%);
+            --gradient-bg:          #f8fafc;
+            --gradient-primary:     #003087;
+            --gradient-steps:       #003087;
+            --gradient-progress:    #003087;
+            --gradient-submit:      #ffb81c;
 
             --radius-card:  16px;
             --radius-step:  14px;

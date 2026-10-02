@@ -322,14 +322,14 @@ $adminRole = (string) ($currentUser['role'] ?? 'SDAO Head');
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            background: #003087;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #fff;
+            color: #ffb81c;
             flex-shrink: 0;
             font-weight: 700;
-            box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+            box-shadow: 0 1px 3px rgba(0, 48, 135, 0.15);
         }
 
         .btn-primary {

@@ -40,16 +40,16 @@ $currentDateLabel = date('l, F j, Y');
             /* Status colors */
             --clr-green:            #00c950;
             --clr-green-bg:         #dcfce7;
-            --clr-blue:             #155dfc;
-            --clr-blue-bg:          #dbeafe;
+            --clr-blue:             #003087;
+            --clr-blue-bg:          #eff4fc;
             --clr-red:              #fb2c36;
             --clr-red-bg:           #fee2e2;
 
-            /* Gradients */
-            --grad-navy:            linear-gradient(135deg, #003087 0%, #0047ab 100%);
-            --grad-kiosk:           linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            --grad-gold:            linear-gradient(135deg, #ffb81c 0%, #ffa500 100%);
-            --grad-card:            linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            /* Solid Surfaces (STRICTLY NO GRADIENTS) */
+            --grad-navy:            #003087;
+            --grad-kiosk:           #00205b;
+            --grad-gold:            #ffb81c;
+            --grad-card:            #ffffff;
 
             /* Shadows & Border Radii */
             --shadow-kiosk:         0 20px 40px rgba(0, 0, 0, 0.3);
@@ -78,9 +78,8 @@ $currentDateLabel = date('l, F j, Y');
            ============================================================ */
         .kiosk-header {
             height: 80px;
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            background: #00205b;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -195,7 +194,7 @@ $currentDateLabel = date('l, F j, Y');
             width: 170px;
             height: 170px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(0, 48, 135, 0.4) 0%, rgba(15, 23, 42, 0.8) 100%);
+            background: #00205b;
             border: 3px solid var(--clr-gold);
             display: flex;
             align-items: center;
@@ -216,10 +215,7 @@ $currentDateLabel = date('l, F j, Y');
             font-weight: 900;
             letter-spacing: -0.02em;
             margin-bottom: 8px;
-            background: linear-gradient(90deg, #ffffff 0%, #ffd573 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #ffffff;
         }
 
         .scan-prompt p {

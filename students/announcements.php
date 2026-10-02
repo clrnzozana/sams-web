@@ -170,12 +170,18 @@ function escape($s){ return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
   <div class="shell">
     <?php $sidebarRole = 'student'; require __DIR__ . '/../includes/sidebar.php'; ?>
     <main class="main">
-      <div class="announcements-container">
-    <div class="announcements-card">
-      <div class="top">
-        <h1>Announcements</h1>
-        <a class="back" href="dashboard.php">← Back to Dashboard</a>
-      </div>
+      <header class="topbar" role="banner">
+        <div>
+          <div class="topbar__title">Announcements</div>
+          <div class="topbar__sub">National University - Lipa Campus · Important notices and broadcasts</div>
+        </div>
+        <div class="topbar__actions">
+          <a class="back" href="dashboard.php" style="display:inline-flex;align-items:center;padding:8px 14px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;font-weight:600;color:#003087;text-decoration:none;background:#fff;">← Back to Dashboard</a>
+        </div>
+      </header>
+      <section class="page">
+        <div class="announcements-container">
+          <div class="announcements-card">
 
       <div id="anns">
         <?php if (empty($announcements)): ?>
@@ -202,8 +208,9 @@ function escape($s){ return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
           <?php endforeach; ?>
         <?php endif; ?>
       </div>
-    </div>
-      </div>
+          </div>
+        </div>
+      </section>
     </main>
   </div>
 

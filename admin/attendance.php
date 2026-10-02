@@ -181,9 +181,9 @@ $currentDateLabel = date('l, F j, Y');
             --clr-text-dark:      #0A0A0A;
 
             /* Brand / Blue */
-            --clr-blue:           #155DFC;
-            --clr-blue-dark:      #1447E6;
-            --clr-blue-bg:        #DBEAFE;
+            --clr-blue:           #003087;
+            --clr-blue-dark:      #00205b;
+            --clr-blue-bg:        #eff4fc;
 
             /* Green */
             --clr-green:          #008236;
@@ -192,18 +192,18 @@ $currentDateLabel = date('l, F j, Y');
             --clr-green-bg:       #DCFCE7;
             --clr-green-light:    #DCFCE7;
 
-            /* Purple / Orange / Grey */
-            --clr-purple:         #9810FA;
-            --clr-purple-bg:      #F3E8FF;
+            /* Gold / Orange / Grey */
+            --clr-purple:         #b45309;
+            --clr-purple-bg:      #fff9eb;
             --clr-orange:         #F54900;
             --clr-orange-bg:      #FFEDD4;
             --clr-grey-dot:       #99A1AF;
             --clr-grey-bg:        #F3F4F6;
             --clr-blue-dot:       #2B7FFF;
 
-            /* Gradients */
-            --grad-brand:         linear-gradient(135deg, #155DFC 0%, #9810FA 100%);
-            --grad-green-panel:   linear-gradient(155.38deg, #00A63E 0%, #008236 100%);
+            /* Solid surfaces (STRICTLY NO GRADIENTS) */
+            --grad-brand:         #003087;
+            --grad-green-panel:   #008236;
 
             /* Status badge colors */
             --clr-status-completed-bg:   #DCFCE7;
@@ -214,7 +214,7 @@ $currentDateLabel = date('l, F j, Y');
             --clr-status-scheduled-text: #364153;
 
             /* Sidebar */
-            --sidebar-width:      256px;
+            --sidebar-width:      264px;
 
             /* Typography */
             --fs-xs:   12px;
@@ -1072,7 +1072,7 @@ $currentDateLabel = date('l, F j, Y');
                     <div class="stat-card__top">
                         <div class="stat-card__icon-wrap stat-card__icon-wrap--blue" aria-hidden="true">
                             <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M3 17l4-8 4 5 3-3 3 2" stroke="#155DFC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M3 17l4-8 4 5 3-3 3 2" stroke="#003087" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                         </div>
                         <span class="stat-card__pct">Live</span>
@@ -1085,8 +1085,8 @@ $currentDateLabel = date('l, F j, Y');
                     <div class="stat-card__top">
                         <div class="stat-card__icon-wrap stat-card__icon-wrap--purple" aria-hidden="true">
                             <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="10" cy="7" r="4" stroke="#9810FA" stroke-width="1.5"/>
-                                <path d="M2 17c0-3.314 3.582-6 8-6s8 2.686 8 6" stroke="#9810FA" stroke-width="1.5" stroke-linecap="round"/>
+                                <circle cx="10" cy="7" r="4" stroke="#b45309" stroke-width="1.5"/>
+                                <path d="M2 17c0-3.314 3.582-6 8-6s8 2.686 8 6" stroke="#b45309" stroke-width="1.5" stroke-linecap="round"/>
                             </svg>
                         </div>
                         <span class="stat-card__pct">57%</span>

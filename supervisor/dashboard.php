@@ -222,8 +222,9 @@ function h(?string $value): string
         * { box-sizing: border-box; }
         body { margin: 0; font-family: Inter, Arial, sans-serif; background: #f4f6fa; color: var(--color-heading); }
         .hero {
-            background: linear-gradient(125deg, #0f4cd6 0%, #205ee6 58%, #3c7dff 100%);
+            background: #003087;
             border-radius: 18px;
+            border-left: 6px solid #ffb81c;
             padding: 22px;
             color: #fff;
             display: grid;
@@ -232,8 +233,8 @@ function h(?string $value): string
         }
         .hero h1 { margin: 0; font-size: 34px; letter-spacing: -0.02em; }
         .hero p { margin: 8px 0 0; color: #dce9ff; }
-        .hero__badge { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; padding: 8px 12px; border-radius: 999px; background: rgba(255,255,255,.16); font-weight: 700; font-size: 13px; }
-        .hero__next { background: rgba(9, 32, 89, .35); border: 1px solid rgba(255,255,255,.16); border-radius: 14px; padding: 14px; }
+        .hero__badge { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; padding: 8px 12px; border-radius: 999px; background: #00205b; border: 1px solid rgba(255, 184, 28, 0.4); color: #ffb81c; font-weight: 700; font-size: 13px; }
+        .hero__next { background: #00205b; border: 1px solid rgba(255,255,255,.16); border-radius: 14px; padding: 14px; }
         .hero__next-label { font-size: 12px; color: #c8dbff; }
         .hero__next-main { margin-top: 8px; font-weight: 800; font-size: 18px; }
         .hero__next-sub { margin-top: 6px; color: #e2ecff; font-size: 13px; }
@@ -252,8 +253,8 @@ function h(?string $value): string
         .stat__label { color: var(--color-body); font-size: 13px; }
         .stat__value { margin-top: 8px; font-size: 30px; font-weight: 800; line-height: 1; }
         .stat--present .stat__value { color: #008236; }
-        .stat--late .stat__value { color: #155dfc; }
-        .stat--absent .stat__value { color: #f54900; }
+        .stat--late .stat__value { color: #b37b00; }
+        .stat--absent .stat__value { color: #dc2626; }
         .stat--total .stat__value { color: #101828; }
 
         .panel {
@@ -278,20 +279,20 @@ function h(?string $value): string
         .needs-item__actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
         .btn-sm { display: inline-flex; align-items: center; justify-content: center; height: 34px; padding: 0 11px; border: 1px solid var(--color-border); border-radius: 9px; font-size: 12px; font-weight: 700; color: #101828; background: #fff; }
-        .btn-sm--brand { border-color: #155dfc; color: #155dfc; }
+        .btn-sm--brand { border-color: #003087; color: #003087; }
 
         .timeline-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; }
         .day-col { border: 1px solid var(--color-border); border-radius: 12px; padding: 10px; min-height: 130px; background: #fbfdff; }
         .day-col h4 { margin: 0 0 8px; font-size: 13px; color: var(--color-muted); text-transform: uppercase; letter-spacing: .03em; }
         .slot { border-left: 3px solid #dbeafe; background: #f8fbff; border-radius: 8px; padding: 7px 8px; margin-bottom: 7px; }
-        .slot--today { border-left-color: #155dfc; }
-        .slot__time { font-size: 12px; font-weight: 700; color: #1e3a8a; }
+        .slot--today { border-left-color: #003087; }
+        .slot__time { font-size: 12px; font-weight: 700; color: #003087; }
         .slot__name { font-size: 12px; color: #334155; margin-top: 2px; }
 
         .workload { display: grid; gap: 10px; }
         .bar-row { display: grid; grid-template-columns: 82px 1fr 44px; align-items: center; gap: 8px; }
         .bar-track { height: 10px; border-radius: 999px; background: #e7edf8; overflow: hidden; }
-        .bar-fill { height: 100%; background: linear-gradient(90deg, #155dfc 0%, #4f8dff 100%); }
+        .bar-fill { height: 100%; background: #003087; }
 
         .ann-panel .panel__title-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
         .ann-icon {
@@ -306,11 +307,11 @@ function h(?string $value): string
         .ann-icon svg { display: block; width: 56px; height: 56px; }
         .announcements-list { display: grid; gap: 12px; }
         .announcement { border-left: 3px solid transparent; border-radius: 12px; padding: 12px 14px; }
-        .announcement--blue { background: #eaf1ff; border-color: #155dfc; }
+        .announcement--blue { background: #eff4fc; border-color: #003087; }
         .announcement--yellow { background: #fff8e8; border-color: #f59e0b; }
         .announcement--green { background: #ecfbf1; border-color: #00c950; }
         .announcement__time { font-size: 13px; font-weight: 700; }
-        .announcement--blue .announcement__time { color: #155dfc; }
+        .announcement--blue .announcement__time { color: #003087; }
         .announcement--yellow .announcement__time { color: #d97706; }
         .announcement--green .announcement__time { color: #16a34a; }
         .announcement__title { margin-top: 4px; font-weight: 800; font-size: 19px; }

@@ -39,12 +39,12 @@ require_once __DIR__ . '/includes/icon.php';
       --color-steps-bg-start:  #dbeafe;
       --color-steps-bg-end:    #e0e7ff;
 
-      --grad-primary:          linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-end) 100%);
-      --grad-primary-135:      linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-end) 100%);
-      --grad-primary-163:      linear-gradient(163deg, var(--color-primary) 0%, var(--color-primary-end) 100%);
-      --grad-gold:             linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-end) 100%);
-      --grad-hero:             linear-gradient(119deg, var(--color-hero-bg-start) 0%, var(--color-hero-bg-mid) 50%, var(--color-hero-bg-end) 100%);
-      --grad-steps:            linear-gradient(161deg, var(--color-steps-bg-start) 0%, var(--color-steps-bg-end) 100%);
+      --grad-primary:          var(--color-primary);
+      --grad-primary-135:      var(--color-primary);
+      --grad-primary-163:      var(--color-primary);
+      --grad-gold:             var(--color-gold);
+      --grad-hero:             #f8fafc;
+      --grad-steps:            #f1f5f9;
 
       --shadow-card:           0 10px 15px 0 rgba(0,0,0,.10), 0 4px 6px 0 rgba(0,0,0,.10);
       --shadow-hero-card:      0 25px 50px 0 rgba(0,0,0,.25);
@@ -119,9 +119,7 @@ require_once __DIR__ . '/includes/icon.php';
       left: 0;
       width: 100%;
       z-index: 100;
-      background: rgba(255,255,255,.85);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background: #ffffff;
       border-bottom: 1px solid var(--color-border);
       box-shadow: var(--shadow-nav);
     }

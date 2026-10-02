@@ -362,10 +362,10 @@ try {
       --color-input-border:    #d1d5dc;
 
       /* Accent colours */
-      --color-blue-pale:       #bedbff;
-      --color-blue-light:      #dbeafe;
-      --color-blue:            #155dfc;
-      --color-blue-mid:        #2b7fff;
+      --color-blue-pale:       #eff4fc;
+      --color-blue-light:      #eff4fc;
+      --color-blue:            #003087;
+      --color-blue-mid:        #00205b;
       --color-green:           #00c950;
       --color-green-dark:      #00a63e;
       --color-green-light:     #dcfce7;
@@ -373,27 +373,27 @@ try {
       --color-yellow:          #e17100;
       --color-yellow-bg:       #fffbeb;
       --color-yellow-border:   #ffb81c;
-      --color-purple:          #9810fa;
-      --color-purple-mid:      #ad46ff;
-      --color-purple-light:    #f3e8ff;
+      --color-purple:          #003087;
+      --color-purple-mid:      #00205b;
+      --color-purple-light:    #eff4fc;
       --color-red-dot:         #fb2c36;
 
       /* Sidebar */
-      --sidebar-w:             288px;
+      --sidebar-w:             264px;
       --color-sidebar-start:   #003087;
-      --color-sidebar-end:     #0047ab;
+      --color-sidebar-end:     #00205b;
 
-      /* Gradients */
-      --grad-sidebar:          linear-gradient(180deg, #003087 0%, #0047ab 100%);
-      --grad-primary-135:      linear-gradient(135deg, #003087 0%, #0047ab 100%);
-      --grad-gold:             linear-gradient(135deg, #ffb81c 0%, #ffa500 100%);
-      --grad-green:            linear-gradient(135deg, #00c950 0%, #00a63e 100%);
-      --grad-purple:           linear-gradient(135deg, #ad46ff 0%, #9810fa 100%);
-      --grad-page:             linear-gradient(135deg, #eff6ff 0%, #ffffff 50%, #fffbeb 100%);
-      --grad-blue-card:        linear-gradient(141deg, #eff6ff 0%, #dbeafe 100%);
-      --grad-green-card:       linear-gradient(141deg, #f0fdf4 0%, #dcfce7 100%);
-      --grad-purple-card:      linear-gradient(141deg, #faf5ff 0%, #f3e8ff 100%);
-      --grad-tips:             linear-gradient(147deg, #003087 0%, #0047ab 100%);
+      /* Solid Surfaces (STRICTLY NO GRADIENTS) */
+      --grad-sidebar:          #003087;
+      --grad-primary-135:      #003087;
+      --grad-gold:             #ffb81c;
+      --grad-green:            #10b981;
+      --grad-purple:           #00205b;
+      --grad-page:             #f8fafc;
+      --grad-blue-card:        #eff4fc;
+      --grad-green-card:       #ecfdf5;
+      --grad-purple-card:      #f8fafc;
+      --grad-tips:             #003087;
 
       /* Shadows */
       --shadow-card:           0 10px 15px 0 rgba(0,0,0,.10), 0 4px 6px 0 rgba(0,0,0,.10);
@@ -712,11 +712,10 @@ try {
       gap: var(--space-4);
     }
     .overview-panel {
-      background: rgba(255,255,255,.12);
+      background: #00205b;
       border: 1px solid rgba(255,255,255,.16);
       border-radius: var(--radius-lg);
       padding: var(--space-5);
-      backdrop-filter: blur(4px);
     }
     .overview-panel__label {
       font-size: 11px;

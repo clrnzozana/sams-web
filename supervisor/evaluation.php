@@ -224,7 +224,7 @@ if ($activeTerm && $officeName !== '') {
     .logout-btn:hover{background:#fecaca}
     .page{flex:1; padding:36px;}
     .card{position:relative;background:var(--color-white); border:1px solid var(--color-border); border-radius:var(--radius-card); padding:26px; box-shadow:0 1px 2px rgba(16,24,40,.04)}
-    .card::before{content:'';position:absolute;left:0;top:0;width:100%;height:4px;border-radius:16px 16px 0 0;background:linear-gradient(90deg,#155dfc,#9810fa)}
+    .card::before{content:'';position:absolute;left:0;top:0;width:100%;height:4px;border-radius:16px 16px 0 0;background:#ffb81c}
     .eyebrow{font-size:14px;color:var(--color-muted);margin-bottom:4px}
     .card h1{font-size:30px;line-height:1.1;margin-bottom:8px;color:var(--color-heading)}
     .card p{color:var(--color-body);line-height:1.5;max-width:760px}
@@ -237,13 +237,15 @@ if ($activeTerm && $officeName !== '') {
     .field{display:flex;flex-direction:column;gap:6px}
     .field label{font-weight:600;color:var(--color-label);font-size:14px}
     .field select,.field textarea{width:100%;padding:10px 12px;border:1px solid var(--color-border);border-radius:10px;background:#fff;font:inherit;color:var(--color-heading);transition:border-color .18s ease, box-shadow .18s ease}
-    .field select:focus,.field textarea:focus{outline:none;border-color:#9fc0ff;box-shadow:0 0 0 3px rgba(21,93,252,.12)}
+    .field select:focus,.field textarea:focus{outline:none;border-color:#003087;box-shadow:0 0 0 3px rgba(0,48,135,.12)}
     .field textarea{min-height:110px;resize:vertical}
     .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-    .btn{display:inline-flex;align-items:center;justify-content:center;height:42px;padding:0 14px;border-radius:10px;background:var(--color-primary);color:#fff;border:0;cursor:pointer;font-weight:700;text-decoration:none}
-    .btn--primary{background:var(--gradient-brand);color:#fff}
+    .btn{display:inline-flex;align-items:center;justify-content:center;height:42px;padding:0 14px;border-radius:10px;background:#003087;color:#fff;border:0;cursor:pointer;font-weight:700;text-decoration:none;transition:background .18s ease, transform .18s ease}
+    .btn:hover{background:#00205b;color:#fff}
+    .btn--primary{background:#003087;color:#fff;box-shadow:0 2px 4px rgba(0,48,135,.15)}
+    .btn--primary:hover{background:#00205b;color:#fff}
     .btn--secondary{background:#fff;color:var(--color-heading);border:1px solid var(--color-border)}
-    .btn--secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}
+    .btn--secondary:hover{border-color:#003087;color:#003087}
     .flash{padding:12px 14px;border-radius:12px;margin-top:14px;border:1px solid var(--color-border);background:#fff}
     .flash--success{background:#f0fdf4;border-color:#bbf7d0;color:#166534}
     .flash--error{background:#fef2f2;border-color:#fecaca;color:#991b1b}
@@ -253,7 +255,7 @@ if ($activeTerm && $officeName !== '') {
     .student-item__name{font-weight:700;color:var(--color-heading)}
     .student-item__meta{font-size:13px;color:var(--color-body)}
     .guide{margin-top:16px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-    .guide__item{padding:12px;border:1px solid var(--color-border);border-radius:12px;background:#fbfcff;box-shadow:inset 0 3px 0 rgba(21,93,252,.14)}
+    .guide__item{padding:12px;border:1px solid var(--color-border);border-radius:12px;background:#fbfcff;box-shadow:inset 0 3px 0 #003087}
     .guide__title{font-size:13px;font-weight:700;color:var(--color-heading)}
     .guide__text{margin-top:4px;font-size:12px;color:var(--color-body)}
     .notice{margin-top:14px;padding:12px 14px;border-radius:12px;border:1px solid #fcd34d;background:#fffbeb;color:#92400e;font-size:13px}
